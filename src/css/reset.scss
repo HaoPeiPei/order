@@ -1,0 +1,92 @@
+@charset "UTF-8";
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/*使用选择器指定字体*/
+.home h1, .demo > .test {
+  font-family: 'pinghei';
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  font-family: 'Noto Sans CJK SC', 'Noto Sans CJK', 'Source Han Sans', source-han-sans-simplified-c, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  font-size: 62.5%;
+  background: transparent;
+  height: 100%;
+}
+
+body {
+    position: relative;
+    background: #fff;
+    font-family: "Segoe UI","Lucida Grande",Helvetica,Arial,"Microsoft YaHei",FreeSans,Arimo,"Droid Sans","wenquanyi micro hei","Hiragino Sans GB","Hiragino Sans GB W3",FontAwesome,sans-serif;
+    font-weight: 400;
+    color: #333;
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, sumary ,label{
+  margin: 0;
+  padding: 0;
+}
+
+input, select, textarea {
+  border: 0;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+*:not(input),*:not(select),*:not(textArea) {
+  -webkit-user-select: none;
+}
+
+img, a {
+  -webkit-touch-callout: none;
+}
+
+a, a:active, a:hover {
+  text-decoration: none;
+}
+
+a, button, input, textarea {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.clearfix::after{
+    content:"";
+    height:0;
+    line-height:0;
+    display:block;
+    visibility:hidden;
+    clear:both
+}
+
+.clearfix{
+    zoom:1;
+}
+
+.fl{
+  float: left;
+}
+.fr{
+  float: right;
+}
+
+.pl{
+  position: absolute;
+  left: 0;
+}
+.pr{
+  position: absolute;
+  right: 0;
+}
+.text_overflow{
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
