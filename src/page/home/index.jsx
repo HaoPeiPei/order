@@ -1,14 +1,38 @@
 import React from 'react';
 
+import { Modal } from 'antd'
+
 import './index.scss';
 
 class Home extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            channelList: [
+            proChannelList: [
                 {
+                    channelId: 1,
+                    channelName: 'kantuxianhuo',
                     imgSrc: './images/看图订货@2x.png'
+                },
+                {
+                    channelId: 2,
+                    channelName: 'kongtuoxianhuo',
+                    imgSrc: './images/空托现货@2x.png'
+                },
+                {
+                    channelId: 3,
+                    channelName: 'sujinxianhuo',
+                    imgSrc: './images/素金现货@2x.png'
+                },
+                {
+                    channelId: 4,
+                    channelName: 'luoshizhongxin',
+                    imgSrc: './images/裸钻中心@2x.png'
+                },
+                {
+                    channelId: 5,
+                    channelName: 'xianqianxianhuo',
+                    imgSrc: './images/镶嵌现货@2x.png'
                 }
             ]
         }
@@ -25,6 +49,15 @@ class Home extends React.Component{
 
     }
 
+    viewProductList (e) {
+        var targrt = e.currentTarget;
+        var channelId = targrt.getAttribute('data-channelid');
+        var channelName = targrt.getAttribute('data-channelname');
+        window.location.href = "./productList.html?channelName=" + channelName;
+        e.stopPropagation();
+        e.preventDefault();
+    }
+
     render(){
         return (
             <div id="index">
@@ -34,11 +67,11 @@ class Home extends React.Component{
                 <section>
                     <ul className="proChannel_box" id="proChannel_box">
                         {
-                            this.state.channelList.map((channel, index)=>{
+                            this.state.proChannelList.map((proChannel, index)=>{
                                 return(
-                                    <li key={index}>
-                                        <a className="proChannel_btn" href="javascript:;" data-channelId="1" data-channelName="kantudinghuo">
-                                            <img src={require(`${channel.imgSrc}`)} alt="" />
+                                    <li key={proChannel.channelId}>
+                                        <a className="proChannel_btn" href="javascript:;" data-channelid={proChannel.channelId} data-channelname={proChannel.channelName} onClick={(e) =>this.viewProductList(e)}>
+                                            <img src={require(`${proChannel.imgSrc}`)} alt="" />
                                         </a>
                                     </li>
                                 )

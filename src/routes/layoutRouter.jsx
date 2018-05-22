@@ -15,7 +15,7 @@ class LayoutRouter extends React.Component{
                 <React.Fragment>
                     <main id="wrapper">
                         <Switch>
-                            <Route path='/' component={ Home } />
+                            <Route exact path='/' component={ Home } />
                         </Switch>
                     </main>
                 </React.Fragment>
