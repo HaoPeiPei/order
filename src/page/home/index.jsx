@@ -45,34 +45,7 @@ class Home extends React.Component{
                             })
                         }
                     </ul>
-                    {/* <ul className="proChannel_box" id="proChannel_box">
-                        <li>
-                            <a className="proChannel_btn" href="javascript:;" data-channelId="1" data-channelName="kantudinghuo">
-                                <img src={require('./images/看图订货@2x.png')} alt="" />
-                            </a>
-                        </li>
-                        <li>
-                            <a className="proChannel_btn"  href="javascript:;" data-channelId="2" data-channelName="kongtuoxianhuo">
-                                <img src={require('./images/空托现货@2x.png')} alt="" />
-                            </a>
-                        </li>
-                        <li>
-                            <a  className="proChannel_btn" href="javascript:;" data-channelId="3" data-channelName="luozuanzhongxin">
-                                <img src={require('./images/裸钻中心@2x.png')} alt="" />
-                            </a>
-                        </li>
-                        <li>
-                            <a  className="proChannel_btn" href="javascript:;" data-channelId="4" data-channelName="sujinxianhuo">
-                                <img src={require('./images/素金现货@2x.png')} alt="" />
-                            </a>
-                        </li>
-                        <li>
-                            <a  className="proChannel_btn" href="javascript:;" data-channelId="5" data-channelName="xiangqianxianhuo">
-                                <img src={require('./images/镶嵌现货@2x.png')} alt="" />
-                            </a>
-                        </li>
-                            
-                    </ul> */}
+                   
                 </section>
                 <footer>
                     <ul className="channel_box">
