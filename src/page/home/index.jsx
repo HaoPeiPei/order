@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Link } from 'react-router-dom';
 import { Modal } from 'antd'
 
 import './index.scss';
@@ -10,28 +10,28 @@ class Home extends React.Component{
         this.state = {
             proChannelList: [
                 {
+                    channelId: 3,
+                    channelName: 'goldStockList',
+                    imgSrc: './images/素金现货@2x.png'
+                },
+                {
                     channelId: 1,
-                    channelName: 'kantuxianhuo',
+                    channelName: 'outStockCenter',
                     imgSrc: './images/看图订货@2x.png'
                 },
                 {
                     channelId: 2,
-                    channelName: 'kongtuoxianhuo',
+                    channelName: 'KTStock',
                     imgSrc: './images/空托现货@2x.png'
                 },
-                {
-                    channelId: 3,
-                    channelName: 'sujinxianhuo',
-                    imgSrc: './images/素金现货@2x.png'
-                },
-                {
+               /*  {
                     channelId: 4,
                     channelName: 'luoshizhongxin',
                     imgSrc: './images/裸钻中心@2x.png'
-                },
+                }, */
                 {
                     channelId: 5,
-                    channelName: 'xianqianxianhuo',
+                    channelName: 'inlayStock2',
                     imgSrc: './images/镶嵌现货@2x.png'
                 }
             ]
@@ -53,7 +53,7 @@ class Home extends React.Component{
         var targrt = e.currentTarget;
         var channelId = targrt.getAttribute('data-channelid');
         var channelName = targrt.getAttribute('data-channelname');
-        window.location.href = "./productList.html?channelName=" + channelName;
+        this.props.history.push("./productList.html?channelName=" + channelName) 
         e.stopPropagation();
         e.preventDefault();
     }
@@ -70,9 +70,9 @@ class Home extends React.Component{
                             this.state.proChannelList.map((proChannel, index)=>{
                                 return(
                                     <li key={proChannel.channelId}>
-                                        <a className="proChannel_btn" href="javascript:;" data-channelid={proChannel.channelId} data-channelname={proChannel.channelName} onClick={(e) =>this.viewProductList(e)}>
+                                        <Link to={`/product/${proChannel.channelName}`} className="proChannel_btn">
                                             <img src={require(`${proChannel.imgSrc}`)} alt="" />
-                                        </a>
+                                        </Link>
                                     </li>
                                 )
                             })
