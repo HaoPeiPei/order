@@ -1,16 +1,30 @@
 import React from 'react';
 import axios from 'axios';
+import Modal from '../../component/modal/index.jsx'
 
-import './index.scss'
+import './index.scss';
 
- 
+const modalProps = {
+    item: 'create' === 'create' ? {} : {},
+    visible: false,
+    maskClosable: false,
+    title: `${'create' === 'create' ? 'Create User' : 'Update User'}`,
+    wrapClassName: 'vertical-center-modal',
+    onOk (data) {
+        
+    },
+    onCancel () {
+        
+    },
+} 
+
 class Product extends React.Component{
     constructor(props){
         super(props);
         this.state={
             channelName : this.props.match.params.channelName,
             productList : [],
-
+            modalProps : {},
         }
     }
 
@@ -37,6 +51,7 @@ class Product extends React.Component{
         }
 
         this.loadproductList(url);
+
     }
 
     loadproductList(url){
@@ -58,7 +73,13 @@ class Product extends React.Component{
         .catch(err=>{
 
         });
-}
+    }
+
+    showModal(e){
+        
+    } 
+
+    
 
     render(){
         return (
@@ -177,7 +198,7 @@ class Product extends React.Component{
                                     let imgUrl =  product.imgUrl.split('?x-oss-process')[0];
                                     return (
                                         <li className="proItem" key={index}>
-                                            <a className="img" href="javascript:;">
+                                            <a className="img" onClick={(e) => {this.showModal(e)}} href="javascript:;">
                                                 <img src={imgUrl} alt="" />
                                             </a>
                                             <p className="info">
@@ -194,6 +215,7 @@ class Product extends React.Component{
                         
                     </div>
                 </section>
+                <Modal {...modalProps} />
             </div>
         )
     }

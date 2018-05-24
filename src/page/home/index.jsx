@@ -11,7 +11,7 @@ class Home extends React.Component{
             proChannelList: [
                 {
                     channelId: 3,
-                    channelName: 'goldStockList',
+                    channelName: 'goldStock',
                     imgSrc: './images/素金现货@2x.png'
                 },
                 {
