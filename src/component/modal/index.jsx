@@ -31,7 +31,6 @@ const modal= ({
         ...getFieldsValue(),
         key: item.key,
       }
-      data.address = data.address.join(' ')
       onOk(data)
     })
   }
@@ -44,19 +43,9 @@ const modal= ({
   return (
     <Modal {...modalOpts}>
       <Form layout="horizontal">
-        <FormItem label="Name" hasFeedback {...formItemLayout}>
-          {getFieldDecorator('name', {
-            initialValue: item.name,
-            rules: [
-              {
-                required: true,
-              },
-            ],
-          })(<Input />)}
-        </FormItem>
-        <FormItem label="NickName" hasFeedback {...formItemLayout}>
-          {getFieldDecorator('nickName', {
-            initialValue: item.nickName,
+        <FormItem label="标题" hasFeedback {...formItemLayout}>
+          {getFieldDecorator('title', {
+            initialValue: item.title,
             rules: [
               {
                 required: true,
@@ -89,7 +78,7 @@ const modal= ({
             ],
           })(<InputNumber min={18} max={100} />)}
         </FormItem>
-        <FormItem label="Phone" hasFeedback {...formItemLayout}>
+        {/* <FormItem label="Phone" hasFeedback {...formItemLayout}>
           {getFieldDecorator('phone', {
             initialValue: item.phone,
             rules: [
@@ -100,19 +89,7 @@ const modal= ({
               },
             ],
           })(<Input />)}
-        </FormItem>
-        <FormItem label="E-mail" hasFeedback {...formItemLayout}>
-          {getFieldDecorator('email', {
-            initialValue: item.email,
-            rules: [
-              {
-                required: true,
-                pattern: /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/,
-                message: 'The input is not valid E-mail!',
-              },
-            ],
-          })(<Input />)}
-        </FormItem>
+        </FormItem> */}
       </Form>
     </Modal>
   )

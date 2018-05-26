@@ -3,49 +3,38 @@ import axios from 'axios';
 import Modal from '../../component/modal/index.jsx'
 
 import './index.scss';
-
-const modalProps = {
-    item: 'create' === 'create' ? {} : {},
-    visible: false,
-    maskClosable: false,
-    title: `${'create' === 'create' ? 'Create User' : 'Update User'}`,
-    wrapClassName: 'vertical-center-modal',
-    onOk (data) {
-        
-    },
-    onCancel () {
-        
-    },
-} 
+import List from './list/list.jsx';
 
 class Product extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            channelName : this.props.match.params.channelName,
             productList : [],
-            modalProps : {},
+            visible : false,
+            modalType: 'create',
+            currentItem : {}
         }
     }
 
     componentDidMount(){
         let url = '';
-        if(this.state.channelName == 'goldStock'){
+        const channelName = this.props.match.params.channelName;
+        if(channelName == 'goldStock'){
             url = `/Products/GetGoldStockList`
             document.title = '素金现货';
             document.querySelector('#channelTitle').innerHTML = '素金现货'
-        }else if(this.state.channelName == 'outStockCenter'){
+        }else if(channelName == 'outStockCenter'){
             url = `/Products/GetOutStockCenterList`
             document.title = '看图订货';
-        }else if(this.state.channelName == 'KTStock'){
+        }else if(channelName == 'KTStock'){
             url = `/Products/GetKTStock`
             document.title = '空托现货';
-        }/* else if(this.state.channelName == 'GoldStockLists'){
+        }/* else if(channelName == 'GoldStockLists'){
             this.setState({
                 'loadproductListUrl' : '/Products/GetGoldStockList'
             })
-            document.title = '首页';
-        } */else if(this.state.channelName == 'inlayStock2'){
+            document.title = '首裸钻中心';
+        } */else if(channelName == 'inlayStock2'){
             url = `/Products/GetInlay2StockList`
             document.title = '镶嵌现货';
         }
@@ -63,10 +52,9 @@ class Product extends React.Component{
         })
         .then(res=>{
             if (res.data.success) {
-                let productList = res.data.data.rows;
-                console.log(productList)
+                const productList = res.data.data.rows;
                 this.setState({
-                    productList : productList
+                    productList : productList,
                 }) 
             }
         })
@@ -75,13 +63,43 @@ class Product extends React.Component{
         });
     }
 
-    showModal(e){
-        
-    } 
-
-    
-
     render(){
+
+        const listProps = {
+            productList: this.state.productList,
+            handleClick : (item) =>{
+                if(!!item){
+                    this.setState({
+                        visible: true,
+                        currentItem: item,
+                        modalType: 'update'
+                    })
+                }else{
+                    
+                }
+            }
+          }
+        
+        const modalProps = {
+            item: this.state.modalType === 'create' ? {} : this.state.currentItem,
+            visible: this.state.visible,
+            maskClosable: false,
+            title: this.state.modalType === 'create' ? 'Create User' : 'Update User',
+            wrapClassName: 'vertical-center-modal',
+            onOk: (data) =>{
+                this.setState({
+                    visible : false,
+                    modalType : 'create',
+                    currentItem: {}
+                })
+            },
+            onCancel: () => {
+                this.setState({
+                    visible : false,
+                })
+            },
+        }
+
         return (
             <div id="productList">
                 <header>
@@ -192,27 +210,8 @@ class Product extends React.Component{
                                 <ul></ul>
                             </li>
                         </ul>
-                        <ul className="product_list" id="proList">
-                            {
-                                this.state.productList.length > 0 && this.state.productList.map((product, index) => {
-                                    let imgUrl =  product.imgUrl.split('?x-oss-process')[0];
-                                    return (
-                                        <li className="proItem" key={index}>
-                                            <a className="img" onClick={(e) => {this.showModal(e)}} href="javascript:;">
-                                                <img src={imgUrl} alt="" />
-                                            </a>
-                                            <p className="info">
-                                            <span className="product_name">数字女戒</span>
-                                            <a className="collect_btn" href="javascript:;">
-                                                <img src={require('./images/proCollect_icon.jpg')} alt=""/>
-                                            </a> 
-                                            </p>
-                                        </li>
-                                    )
-                                })
-                            }
-                        </ul>
-                        
+                       
+                        <List {...listProps} />
                     </div>
                 </section>
                 <Modal {...modalProps} />

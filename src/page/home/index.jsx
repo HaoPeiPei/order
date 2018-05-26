@@ -49,15 +49,6 @@ class Home extends React.Component{
 
     }
 
-    viewProductList (e) {
-        var targrt = e.currentTarget;
-        var channelId = targrt.getAttribute('data-channelid');
-        var channelName = targrt.getAttribute('data-channelname');
-        this.props.history.push("./productList.html?channelName=" + channelName) 
-        e.stopPropagation();
-        e.preventDefault();
-    }
-
     render(){
         return (
             <div id="index">
