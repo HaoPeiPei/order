@@ -1,0 +1,157 @@
+.managerIndex{
+    width: 1140px;
+    margin: 10px 0 0 0;
+    top: 80px;
+    overflow: auto;
+    .notice{
+      height: 20px;
+      line-height: 20px;
+      img{
+        vertical-align: middle;
+      }
+      .notice_info{
+        vertical-align: middle;
+        margin-left: 5px;
+      }
+    }
+    .personal{
+      margin-top: 10px;
+      width: 1130px;
+      height: 166px;
+      line-height: 166px;
+      color: #fff;
+      position: relative;
+      background: url('../../../assets/images/personal_bg.png') no-repeat;
+      img{
+        display: inline-block;
+        width: 117px;
+        height: 116px;
+        vertical-align: middle;
+      }
+      .personal_info{
+        display: inline-block;
+        line-height: 30px;
+        vertical-align: middle;
+        span{
+          line-height: 30px;
+          font-size: 14px;
+        }
+      }
+      .set_personal_info{
+        display: inline-block;
+        color: #fff;
+        height: 26px;
+        line-height: 26px;
+        padding: 0 5px;
+        top: 50%;
+        margin : -13px 20px 0 0;
+      }
+    }
+    .order_state{
+      li{
+        width: 16.6666%;
+        height: 60px;
+        line-height: 60px;
+        background: #f8f7f7;
+        float: left;
+        text-align: center;
+        a{
+          display: inline-block;
+          height: 40px;
+          line-height: 40px;
+          color: #000;
+          font-weight: bold;
+          img{
+            vertical-align: middle;
+          }
+          span{
+            vertical-align: middle;
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+    .orders_received{
+        margin-top: 40px;
+        .title_wrap{
+          .title{
+            margin-left: 12px;
+            font-weight: bold;
+            vertical-align: middle;
+          }
+          .dayList{
+            margin-left: 20px;
+            display: inline-block;
+            vertical-align: middle;
+            width: 200px;
+            height: 25px;
+            line-height: 25px;
+            border-radius: 6px;
+            a{
+              float: left;
+              width: 25%;
+              height: 25px;
+              line-height: 25px;
+              text-align: center;
+              color: #000;
+              padding: 0;
+              border: 1px solid #e1e0e0;
+              &.active{
+                background: #ff0000;
+                border: 1px solid #ff0000;
+                color: #fff;
+              }              
+            }
+          }
+        }
+        .order_info{
+          margin-top: 15px;
+          border-radius: 6px;
+          height: 55px;
+          line-height: 55px;;
+          background: #f8f7f7;
+          li{
+            width: 25%;
+            float: left;
+            text-align-last: center;
+            .title{
+              color: #7e7e7e;
+              margin-right: 20px;
+            }
+          }
+        }
+        .chart{
+          height: 230px;
+        }
+      }
+      .navbar_footer{
+        border-top: 1px solid #e5e5e5;
+        li{
+          float: left;
+          width: 33.333%;
+          &:nth-child(1){
+            text-align: left
+          }
+          &:nth-child(2){
+            text-align: center
+          }
+          &:nth-child(3){
+            text-align: right
+          }
+          a{
+            display: inline-block;
+            margin: 40px ;
+            padding: 10px;
+            text-align: center;
+            color: #000;
+            font-size: 14px;
+            font-weight: bold;
+            p{
+              margin-top: 10px;
+            }
+          }
+        }
+          
+      }
+  }
+  

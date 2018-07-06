@@ -4,6 +4,7 @@ import { Modal } from 'antd'
 
 import './index.scss';
 
+
 class Home extends React.Component{
     constructor(props){
         super(props);

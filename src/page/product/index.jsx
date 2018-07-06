@@ -1,23 +1,30 @@
 import React from 'react';
 import axios from 'axios';
-import Modal from '../../component/modal/index.jsx'
+import { is, fromJS } from 'immutable';
+import  { connect } from 'react-redux';
+import { getProductData, getGoldTypeData, getCategoryData, getProductDetailData } from '../../store/product/action.js';
+import Filter from './filter/index.jsx';
+import List from './list/list.jsx';
+import Detail from './detail/index.jsx';
 
 import './index.scss';
-import List from './list/list.jsx';
 
-class Product extends React.Component{
+let url = null;
+let queryJson = { "categoryData": [], "goldTypeItemDate": [], "stringParam": "", };
+  
+  class Product extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            productList : [],
             visible : false,
-            modalType: 'create',
-            currentItem : {}
-        }
+            goldTypes: [],
+            categorys: [],
+            productDetailVisible: false,
+            productDetailId: ''
+        };
     }
 
     componentDidMount(){
-        let url = '';
         const channelName = this.props.match.params.channelName;
         if(channelName == 'goldStock'){
             url = `/Products/GetGoldStockList`
@@ -38,68 +45,72 @@ class Product extends React.Component{
             url = `/Products/GetInlay2StockList`
             document.title = '镶嵌现货';
         }
+        //加载商品列表
+        if(!this.props.productData.productList.length){
+            this.props.getProductData(url, queryJson);
+        }
 
-        this.loadproductList(url);
+        //加载商品成色
+        if(!this.props.productData.goldTypeList.length){
+            this.props.getGoldTypeData();
+        }
 
-    }
+        //加载商品品类
+        if(!this.props.productData.categoryList.length){
+            this.props.getCategoryData();
+        }        
 
-    loadproductList(url){
-        const queryJson = { "categoryData": [], "goldTypeItemDate": [], "stringParam": "", };
-        axios.post(url, {
-            "pageNumber":1,
-            "pageSize":20,
-            "queryJson": JSON.stringify(queryJson),
-        })
-        .then(res=>{
-            if (res.data.success) {
-                const productList = res.data.data.rows;
-                this.setState({
-                    productList : productList,
-                }) 
-            }
-        })
-        .catch(err=>{
-
-        });
     }
 
     render(){
-
+       
         const listProps = {
-            productList: this.state.productList,
-            handleClick : (item) =>{
-                if(!!item){
+            productList: this.props.productData.productList,
+            handleClick : (productId) =>{
+                if(!!productId){
                     this.setState({
-                        visible: true,
-                        currentItem: item,
-                        modalType: 'update'
+                        productDetailVisible: true,
+                        productDetailId: productId
                     })
-                }else{
-                    
-                }
+                }                                                    
             }
-          }
+        }
         
-        const modalProps = {
-            item: this.state.modalType === 'create' ? {} : this.state.currentItem,
-            visible: this.state.visible,
+        const detailProps = {
+            productDetailId: this.state.productDetailId,
+            visible: this.state.productDetailVisible,
             maskClosable: false,
-            title: this.state.modalType === 'create' ? 'Create User' : 'Update User',
+            footer:null,
             wrapClassName: 'vertical-center-modal',
-            onOk: (data) =>{
-                this.setState({
-                    visible : false,
-                    modalType : 'create',
-                    currentItem: {}
-                })
-            },
             onCancel: () => {
                 this.setState({
-                    visible : false,
+                    productDetailVisible : false,
                 })
             },
         }
 
+
+        const filterProps = {
+            filter: {
+                goldTypes: {
+                    title: '商品成色',
+                    dates: this.props.productData.goldTypeList, 
+                    value: 'goldTypeId' ,
+                    text: 'goldTypeItemName',  
+                    name: 'goldTypeItemDate'                  
+                },
+                categorys: {
+                    title: '商品品类',
+                    dates: this.props.productData.categoryList, 
+                    value: 'categoryId' ,
+                    text: 'categoryName',
+                    name: 'categoryData'  
+                },
+            },
+            onFilterChange:  (value)=> {
+                this.props.getProductData(url, value);
+            },
+        }
         return (
             <div id="productList">
                 <header>
@@ -132,92 +143,24 @@ class Product extends React.Component{
                     </div>
                 </header>
                 <section>
-                    <ul className="search_left">
-                        <li>
-                            <a href="javascript:;">
-                                <img src={require('./images/18K-黄金黄@2x.png')} alt="" />
-                            </a>
-                        </li>
-                        
-                    </ul>
-                    <div className="main_right">
-                        <ul className="search_box">
-                            <li>
-                                <span className="title">工厂：</span>
-                                <div>
-                                    <a  href="javascript:;">JL</a>
-                                    <a className="active" href="javascript:;">FDF</a>
-                                    <a href="javascript:;">PJ</a>
-                                    <a href="javascript:;">DBS</a>
-                                    <a href="javascript:;">JJP</a>
-                                    <a href="javascript:;">ADK</a>
-                                    <a href="javascript:;">BF</a>
-                                    <a href="javascript:;">YH</a>      
-                                    <a href="javascript:;">LJ</a>      
-                                    <a href="javascript:;">DC</a>      
-                                    <a href="javascript:;">RQ</a>      
-                                    <a href="javascript:;">SF</a>      
-                                </div>
-                            </li>
-                            <li>
-                                <span className="title">品类：</span>
-                                <div>
-                                    <a className="active" href="javascript:;">戒指</a>
-                                    <a  href="javascript:;">项链</a>
-                                    <a href="javascript:;">手链</a>
-                                    <a href="javascript:;">吊坠</a>
-                                    <a href="javascript:;">耳饰</a>
-                                    <a href="javascript:;">手链</a>
-                                    <a href="javascript:;">脚链</a>
-                                </div>
-                            </li>
-                            <li>
-                                <span className="title">标签：</span>
-                                <div>
-                                    <a className="active" href="javascript:;">JL</a>
-                                    <a  href="javascript:;">FDF</a>
-                                    <a href="javascript:;">PJ</a>
-                                    <a href="javascript:;">DBS</a>
-                                    <a href="javascript:;">JJP</a>
-                                    <a href="javascript:;">ADK</a>
-                                    <a href="javascript:;">BF</a>
-                                    <a href="javascript:;">YH</a>      
-                                    <a href="javascript:;">LJ</a>      
-                                    <a href="javascript:;">DC</a>      
-                                    <a href="javascript:;">RQ</a>      
-                                    <a href="javascript:;">SF</a>      
-                                </div>
-                            </li>
-                            <li>
-                                <span className="title">工艺：</span>
-                                <div>
-                                    <a className="active" href="javascript:;">JL</a>
-                                    <a  href="javascript:;">FDF</a>
-                                    <a href="javascript:;">PJ</a>
-                                    <a href="javascript:;">DBS</a>
-                                    <a href="javascript:;">JJP</a>
-                                    <a href="javascript:;">ADK</a>
-                                    <a href="javascript:;">BF</a>
-                                    <a href="javascript:;">YH</a>      
-                                    <a href="javascript:;">LJ</a>      
-                                    <a href="javascript:;">DC</a>      
-                                    <a href="javascript:;">RQ</a>      
-                                    <a href="javascript:;">SF</a>      
-                                </div>
-                            </li>
-                            <li>
-                                <span className="title">更多：</span>
-                                <ul></ul>
-                            </li>
-                        </ul>
-                       
+                    <div className="main_right">                                                                        
+                        <Filter {...filterProps} />
                         <List {...listProps} />
                     </div>
                 </section>
-                <Modal {...modalProps} />
+                { this.state.productDetailVisible && <Detail {...detailProps} /> }
             </div>
         )
     }
 }
 
-export default Product;
+export default connect(
+    state => ({
+        productData: state.productData,
+    }),{
+        getProductData,
+        getGoldTypeData,
+        getCategoryData,
+        getProductDetailData
+    }
+)(Product);

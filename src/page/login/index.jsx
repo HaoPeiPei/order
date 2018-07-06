@@ -17,7 +17,7 @@ class Login extends React.Component{
     onInputChange(e){
         let inputValue = e.target.value,
             inputName  = e.target.name;
-        this.setState({
+        this.setState({         
             [inputName] : inputValue
         })
     }
@@ -42,12 +42,18 @@ class Login extends React.Component{
             this.formMessage('请输入验证码。');
             return false;
         }
-        axios.post('/Login/CheckLogin',{
-            username: username, 
-            password: password,
-            verifycode: verifycode
+
+        //let url = "Login/CheckLogin"
+        let url = "/Login/Inte201?type=2&verifycode=" + verifycode;
+        axios.post(url,{
+            //username: username, 
+            userName: username, 
+            //password: password,
+            userPass: password,
+           // verifycode: verifycode
         })
         .then(res=>{
+            debugger
             if(res.data.success){
                 this.props.history.push('/');
             }

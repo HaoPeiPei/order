@@ -1,0 +1,124 @@
+.orderIndex{
+    width: 1140px;
+    top: 80px;
+    overflow: auto;
+    padding: 10px 10px 0px 10px;
+    .order_state{
+      height: 40px;
+      border-bottom: 1px solid #eaeaea;
+      li{
+        width: 20%;
+        height: 40px;
+        line-height: 40px;
+        float: left;
+          a{
+            display: inline-block;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            color: #000;
+            font-size: 14px;
+            font-weight: bold;
+            &:focus{
+                text-decoration: none;
+            }
+            &:active{
+                text-decoration: none;
+            }
+            &.active{
+              border-bottom: 2px solid #ff0072;
+            }
+          }
+      }
+    } 
+    .order_detail{
+      width: 100%;
+      margin-top: 30px;
+      padding-bottom: 60px;
+      li{
+        width: 100%;
+        border: 1px solid #e9e8e8;
+        padding: 0 15px;
+        position: relative;
+        margin-bottom: 20px;
+        .title{
+          height: 45px;
+          line-height: 45px;
+          font-size: 14px;
+          font-weight: normal;
+          .state{
+            float: right;
+            color: #ff0000;
+          }
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            tbody {
+                tr {
+                    height: 120px;
+                    &:nth-child(even) {
+                        background: #fafafa;
+                    }
+                    td {
+                        position: relative;
+                        text-align: center;
+                        img {
+                            max-width: 100px;
+                            vertical-align: middle;
+                        }
+                        &.info{
+                            position: relative;
+                            text-align: left;
+                            padding-left: 25px;
+                            font-size: 16px;
+                            p {
+                                line-height: 25px;
+                                span{
+                                    margin-right: 15px;
+                                }
+                            }
+                            .price {
+                                position: absolute;
+                                top: 20px;
+                                right: 20px;
+                                color: #ff0071;
+                                font-size: 16px;
+                            }
+                        }
+                        
+                    }
+                }
+            }
+        }
+        .footer{
+            height: 45px;
+            line-height: 45px;
+            width: 100%;
+            .price{
+                font-size: 16px;
+                color: #ff0071;
+            }
+            .btn{
+                display: inline-block;
+                height: 24px;
+                line-height: 24px;
+                padding: 0  8px;
+                font-size: 13px;
+                margin: 10px 15px 0 0;
+                border-radius: 12px;
+                background: #ff0072;
+                color: #fff;
+            }
+        }
+      }
+    }
+    .stu_paging{
+        width: 970px;
+        transform: translate(-50%,0);
+        left: 50%;
+        //padding-left: 230px;
+        bottom: 0;
+        margin-left: 110px;
+    }
+  }

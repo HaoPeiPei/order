@@ -1,0 +1,31 @@
+.ant-layout-sider {
+  transition: all 0.3s;
+  flex: 0 0 200px;
+  max-width: 200px;
+  min-width: 200px;
+  width: 200px;
+
+  .ant-menu-root {
+    height: calc(100vh - 144px);
+    overflow-x: hidden;
+    border-right: none;
+
+    &::-webkit-scrollbar-thumb {
+      background-color: transparent;
+    }
+
+    &:hover {
+      &::-webkit-scrollbar-thumb {
+        background-color: rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+  .ant-menu {
+    .ant-menu-item,
+    .ant-menu-submenu-title {
+      overflow: hidden;
+      white-space: normal;
+    }
+  }
+}
