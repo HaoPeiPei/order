@@ -6,7 +6,7 @@ import Sider from './sider/index.jsx';
 
 import './index.scss'
 
-class Manager extends React.Component{
+class Member extends React.Component{
     constructor(props){
         super(props);
     }
@@ -16,7 +16,9 @@ class Manager extends React.Component{
                 <PageTitle />
                 <div className='main'>
                     <Sider />
-                    { this.props.children }
+                    <div className="main_content"> 
+                        { this.props.children }
+                    </div>
                 </div>
             </div>
             
@@ -24,4 +26,4 @@ class Manager extends React.Component{
     }
 }
 
-export default Manager;
+export default Member;

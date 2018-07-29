@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import navTop from '../component/navTop/index.jsx';
 import Home from '../page/home/index.jsx';
 import Product from '../page/product/index.jsx';
-import Manager from '../page/manager/index.jsx';
+import Manager from '../page/member/index.jsx';
 import '../css/font/iconfont.css';
 import '../css/reset.scss';
 import '../css/theme.css';
@@ -21,7 +21,7 @@ class LayoutRouter extends React.Component{
                         <Switch>
                             <Route exact path='/' component={ Home } />
                             <Route path='/product/:channelName' component={ Product } />
-                            <Route path='/manager' component={ Manager } />
+                            <Route path='/member' component={ Manager } />
                         </Switch>
                     </main>
                 </React.Fragment>

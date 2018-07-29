@@ -5,7 +5,6 @@ export const getOrderList = (url, data) => {
     return dispatch =>
         axios.post(url,data)
         .then(res=>{
-            debugger
             if (res.status == 200 && res.data.length  > 0) {
                 dispatch({
                     type: order.GETORDERLIST,

@@ -4,10 +4,12 @@ import {Route, Switch, BrowserRouter as Router } from 'react-router-dom';
 import navTop from '../component/navTop/index.jsx';
 import Home from '../page/home/index.jsx';
 import Product from '../page/product/index.jsx';
-import Manager from '../page/manager/index.jsx';
+import Member from '../page/member/index.jsx';
 
-import ManagerIndex from '../page/manager/index/index.jsx';
-import Order from '../page/manager/order/index.jsx';
+import ManagerIndex from '../page/member/index/index.jsx';
+import OrderIndex from '../page/order/index/index.jsx';
+import Info from '../page/member/info/index.jsx';
+import Members from '../page/member/members/index.jsx';
 import '../css/font/iconfont.css';
 import '../css/reset.scss';
 import '../css/theme.scss';
@@ -21,12 +23,14 @@ class Routes extends React.Component{
                     <Route exact path='/' component={ Home } />
                     <Route exact path="/login"  component={Login} />
                     <Route path='/product/:channelName' component={ Product } />
-                    <Manager>
+                    <Member>
                         <Switch>
-                            <Route exact path="/member/index" component={ ManagerIndex } />
-                            <Route path="/order/index" component={ Order } />
+                            <Route path="/member/index" component={ ManagerIndex } />
+                            <Route path="/order/index" component={ OrderIndex } />
+                            <Route path="/member/info" component={ Info } />
+                            <Route path="/member/members" component={ Members } />
                         </Switch>
-                    </Manager>
+                    </Member>
                 </Switch>
             </Router>
         )

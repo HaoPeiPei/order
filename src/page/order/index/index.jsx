@@ -5,7 +5,7 @@ import { getOrderList } from '../../../store/manager/active.js';
 import './index.scss';
 
 
-class Order extends React.Component{
+class OrderIndex extends React.Component{
     constructor(props){
         super(props);
         this.state = {
@@ -92,4 +92,4 @@ export default connect(
     }),{
         getOrderList
     }
-)(Order);
+)(OrderIndex);

@@ -9,7 +9,7 @@ class ManagerIndex extends React.Component{
 
     render(){
         return (
-            <div className="main_right pr managerIndex">
+            <div className="managerIndex">
                 <p className="notice">
                     <img src="../Content/images/notice_icom.png" alt="" />
                     <span className="notice_info">最新消息：受广大客户要求，新系统上线所有配货补货模块里面的工费满1000减500</span>
