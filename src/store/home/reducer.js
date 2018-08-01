@@ -1,11 +1,11 @@
 import * as home from './active-type.js';
 
 let defaultState = {
-    sideBarList: []
+    brandData: {}
 }
 export const homeData = (state = defaultState, action)=>{
     switch(action.type){
-        case home.GETSIDEBAR:
+        case home.GETBRAND:
             return {...state, ...action }
         default:
          return state

@@ -1,2 +1,2 @@
-//获取菜单栏数据
-export const GETSIDEBAR = 'GETSIDEBAR';
+//获取商品频道
+export const GETBRAND = 'GETBRAND';

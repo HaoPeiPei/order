@@ -1,14 +1,14 @@
 import axios from 'axios';
 import * as home from './active-type.js';
 
-export const getSideBarData = () => {
+export const getBrand = () => {
     return dispatch =>{
-        axios.get('/Content/data/sidebar.json?m_time=' + Date.now())
+        axios.get(`/Home/GetBrand`)
         .then(res => {
-            if (res.status == 200 && res.data.length  > 0) {
+            if (res.status == 200 && res.data.success) {
                 dispatch({
-                    type: home.GETSIDEBAR,
-                    sideBarList: res.data,
+                    type: home.GETBRAND,
+                    brandData: res.data.data,
                 })
             }
         })

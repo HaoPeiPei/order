@@ -1,14 +1,11 @@
 import axios from 'axios';
 import * as product from './action-type.js';
 
-export const getProductData = (url, queryJson) => {
+export const getProductData = (queryJson) => {
     return dispatch =>
-        axios.post(url, {
-            "pageNumber":1,
-            "pageSize":20,
-            "queryJson": JSON.stringify(queryJson),
-        })
+        axios.post(`/Product/GetProductList`, queryJson)
         .then(res=>{
+            debugger
             if (res.data.success) {
                 dispatch({
                     type: product.GETPRODUCT,

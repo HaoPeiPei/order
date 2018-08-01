@@ -17,7 +17,7 @@
       box-shadow: none;
       text-align: center;
       .logo{
-        width: 122px;
+        height: 100px;
       }
     }
     section{
@@ -51,16 +51,16 @@
       bottom: 17%;
       left: 50%;
       transform: translate(-50%,0);
-      .channel_box{
+      .memberChnanel_list{
         width: 940px;
         margin: 10px auto 0;
         overflow: hidden;
         position: relative;
-        li{
+        .memberChnanel_item{
           float: left;
           height: 100px;
           background: #eeeeee;
-          width: 32%;
+          width: 49%;
           margin-right: 2%;
           border-radius: 10px;
           &:last-child{

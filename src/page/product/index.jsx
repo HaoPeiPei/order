@@ -2,6 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { is, fromJS } from 'immutable';
 import  { connect } from 'react-redux';
+import { jQuery } from 'jquery'
+
 import { getProductData, getGoldTypeData, getCategoryData, getProductDetailData } from '../../store/product/action.js';
 import Filter from './filter/index.jsx';
 import List from './list/list.jsx';
@@ -9,10 +11,7 @@ import Detail from './detail/index.jsx';
 
 import './index.scss';
 
-let url = null;
-let queryJson = { "categoryData": [], "goldTypeItemDate": [], "stringParam": "", };
-  
-  class Product extends React.Component{
+class Product extends React.Component{
     constructor(props){
         super(props);
         this.state={
@@ -20,34 +19,97 @@ let queryJson = { "categoryData": [], "goldTypeItemDate": [], "stringParam": "",
             goldTypes: [],
             categorys: [],
             productDetailVisible: false,
-            productDetailId: ''
+            productDetailId: '',
+            channelId: '',
+            pageNumber: 1,
+            pageSize: 20
+
         };
     }
 
+    
+    //获取通用商品数据请求参数
+    getProductParam = () => {
+        debugger
+        const factoryId = jQuery.map(jQuery('input[name="factory"]:checked'), function (item, index) {
+            return jQuery(item).val();
+        });
+
+        const categoryId = jQuery.map(jQuery('input[name="category"]:checked'), function (item, index) {
+            return jQuery(item).val();
+        });
+
+        const goldTypeItemId = jQuery.map(jQuery('input[name="goldTypeItem"]:checked'), function (item, index) {
+            return jQuery(item).val();
+        });
+
+        const tag = jQuery.map(jQuery('.other input:checked, .other select'), function (item, index) {
+            if (!!jQuery(item).val()) {
+                var TagId = jQuery(item).parents('.item').find('.title').attr('data-TagId');
+                var TagItemId = jQuery(item).val();
+                return {
+                    "TagId": TagId,
+                    "TagItemId": TagItemId
+                }
+            }
+        });
+
+        var newMark = jQuery('input[name="newMark"]:checked').length > 0 ? 1 : 0;
+
+        var fineMark = jQuery('input[name="fineMark"]:checked').length > 0 ? 1 : 0;
+
+        var searchString = jQuery('#searchStr').val();
+
+        var postParam = {
+            "ChannelId": this.state.channelId,
+            "FactoryId": factoryId,
+            "CategoryId": categoryId,
+            "GoldTypeItemId": goldTypeItemId,
+            "Tag": tag,
+            "NewMark": newMark,
+            "FineMark": fineMark,
+            "SearchString": searchString,
+        }
+        return postParam;
+    }
+
+    
     componentDidMount(){
         const channelName = this.props.match.params.channelName;
-        if(channelName == 'goldStock'){
-            url = `/Products/GetGoldStockList`
+        if(channelName == 'Gold'){
+            this.setState({
+                channelId: `53ebef4e-1038-407b-88e8-09d230e2dd52`
+            })
             document.title = '素金现货';
             document.querySelector('#channelTitle').innerHTML = '素金现货'
-        }else if(channelName == 'outStockCenter'){
-            url = `/Products/GetOutStockCenterList`
-            document.title = '看图订货';
-        }else if(channelName == 'KTStock'){
-            url = `/Products/GetKTStock`
-            document.title = '空托现货';
-        }/* else if(channelName == 'GoldStockLists'){
+        }else if(channelName == 'OutStock'){
             this.setState({
-                'loadproductListUrl' : '/Products/GetGoldStockList'
+                channelId: `8045c89a-c242-4fad-b077-5e65ce78e94b`
             })
-            document.title = '首裸钻中心';
-        } */else if(channelName == 'inlayStock2'){
-            url = `/Products/GetInlay2StockList`
-            document.title = '镶嵌现货';
+            document.title = '看图订货';
+            document.querySelector('#channelTitle').innerHTML = '看图订货'
+        }else if(channelName == 'Inlay1'){
+            this.setState({
+                channelId: `f0ca235d-5539-4e31-b256-2a2e0cf4bf7f`
+            })
+            document.title = '镶嵌现货Ⅰ';
+            document.querySelector('#channelTitle').innerHTML = '镶嵌现货Ⅰ'
+        }else if(channelName == 'Inlay2'){
+            this.setState({
+                channelId: `0e77c6ca-4a31-404f-b5ad-18882a2f15d0`
+            })
+            document.title = '镶嵌现货Ⅱ';
+            document.querySelector('#channelTitle').innerHTML = '镶嵌现货Ⅱ'
         }
         //加载商品列表
         if(!this.props.productData.productList.length){
-            this.props.getProductData(url, queryJson);
+            this.props.getProductData({
+                "sort": "CreateDate",
+                "order": "desc",
+                "pageNumber": this.state.pageNumber,
+                "pageSize": this.state.pageSize,
+                "queryJson": JSON.stringify(this.getProductParam())
+            });
         }
 
         //加载商品成色
@@ -61,6 +123,7 @@ let queryJson = { "categoryData": [], "goldTypeItemDate": [], "stringParam": "",
         }        
 
     }
+
 
     render(){
        
@@ -108,7 +171,7 @@ let queryJson = { "categoryData": [], "goldTypeItemDate": [], "stringParam": "",
                 },
             },
             onFilterChange:  (value)=> {
-                this.props.getProductData(url, value);
+                this.props.getProductData(value);
             },
         }
         return (

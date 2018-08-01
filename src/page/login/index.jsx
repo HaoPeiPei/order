@@ -43,17 +43,12 @@ class Login extends React.Component{
             return false;
         }
 
-        //let url = "Login/CheckLogin"
-        let url = "/Login/Inte201?type=2&verifycode=" + verifycode;
-        axios.post(url,{
-            //username: username, 
-            userName: username, 
-            //password: password,
-            userPass: password,
-           // verifycode: verifycode
+        axios.post("Login/CheckLogin", {
+            username: username, 
+            password: password,
+           verifycode: verifycode
         })
         .then(res=>{
-            debugger
             if(res.data.success){
                 this.props.history.push('/');
             }
