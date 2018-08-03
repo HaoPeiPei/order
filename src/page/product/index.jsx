@@ -7,9 +7,7 @@ import $ from 'jquery';
 
 import { getProductData, getGoldTypeData, getCategoryData, getProductDetailData } from '../../store/product/action.js';
 import Filter from './filter/index.jsx';
-//import List from './list/list.jsx';
 import Detail from './detail/index.jsx';
-import Gold from './detail/gold/index.jsx';
 
 import './index.scss';
 
@@ -21,16 +19,19 @@ class Product extends React.Component{
         let modalName = '';
         if(channelName == 'Gold'){
             channelId = `53ebef4e-1038-407b-88e8-09d230e2dd52`;
-            channelName = '素金现货';
+            channelName = `素金现货`;
             modalName = `Gold`;
         }else if(channelName == 'OutStock'){
             channelId = `8045c89a-c242-4fad-b077-5e65ce78e94b`;
+            channelName = `看图上货`;
             modalName = `OutStock`;
         }else if(channelName == 'Inlay1'){
             channelId = `f0ca235d-5539-4e31-b256-2a2e0cf4bf7f`;
+            channelName = `镶嵌现货Ⅰ`;
             modalName = `Inlay1`;
         }else if(channelName == 'Inlay2'){
             channelId = `0e77c6ca-4a31-404f-b5ad-18882a2f15d0`;
+            channelName = `镶嵌现货Ⅱ`;
             modalName = `Inlay2`;
         }
         this.state = {
@@ -44,16 +45,16 @@ class Product extends React.Component{
                 modalName: modalName,
                 productId: '',
                 visible: false,
+                footer: null,
                 onCancel: () => {
                     this.setState({
-                        visible : false,
-                })
+                        detailProps: Object.assign({}, this.state.detailProps, { visible: false })
+                    })
                 },
             }
         };
     }
 
-    
     //获取通用商品数据请求参数
     getProductParam = () => {
         const factoryId = $.map($('input[name="factory"]:checked'), function (item, index) {
@@ -146,15 +147,13 @@ class Product extends React.Component{
         document.querySelector('#channelTitle').innerHTML = this.state.channelName;
 
         //加载商品列表
-        if(!this.props.productData.productList.length){
-            this.props.getProductData({
-                "sort": "CreateDate",
-                "order": "desc",
-                "pageNumber": this.state.pageNumber,
-                "pageSize": this.state.pageSize,
-                "queryJson": JSON.stringify(this.getProductParam())
-            });
-        }
+        this.props.getProductData({
+            "sort": "CreateDate",
+            "order": "desc",
+            "pageNumber": this.state.pageNumber,
+            "pageSize": this.state.pageSize,
+            "queryJson": JSON.stringify(this.getProductParam())
+        });
 
         //加载商品成色
         /* if(!this.props.productData.goldTypeList.length){
@@ -191,14 +190,6 @@ class Product extends React.Component{
             onFilterChange:  (value)=> {
                 this.props.getProductData(value);
             },
-        }
-
-        const modal = ()=>{
-            if(this.state.detailProps.modalName == 'Gold'){
-                return (
-                    <Gold {...this.state.detailProps} />    
-                )
-            }
         }
 
         return (
@@ -270,7 +261,9 @@ class Product extends React.Component{
                         </div>
                     </div>
                 </section>
-                { this.state.detailProps.visible && modal()  }
+                { 
+                    <Detail {...this.state.detailProps} />
+                }
             </div>
         )
     }

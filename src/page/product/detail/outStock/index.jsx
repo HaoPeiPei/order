@@ -5,7 +5,7 @@ import ImageGallery from 'react-image-gallery';
 import { getProductDetailData } from '../../../../store/product/action.js';
 import "react-image-gallery/styles/scss/image-gallery.scss";
 
-class Gold extends React.Component{
+class OutStock extends React.Component{
     constructor(props){
         super(props)
         this.state = {
@@ -113,4 +113,4 @@ export default connect(
     {
         getProductDetailData
     }
-)(Gold);
+)(OutStock);
