@@ -9,7 +9,7 @@ class Gold extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            productDetail: props.productDetail
+            productDetail: this.props.productDetail || {}
         }
     }
 
@@ -18,11 +18,11 @@ class Gold extends React.Component{
         this.props.getProductDetailData(this.props.productId);
     }
 
-    componentWillReceiveProps(nextProps) {
+  /*   componentWillReceiveProps(nextProps) {
         this.setState({
             productDetail: nextProps.productDetail
         });
-    }
+    } */
 
     inputChange =(e) =>{
         let inputName  = e.target.name;

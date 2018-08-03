@@ -39,6 +39,8 @@ class Product extends React.Component{
             categorys: [],
             channelId: channelId,
             channelName: channelName,
+            productList: this.props.productList || [],
+            total: this.props.total || 0,
             pageNumber: 1,
             pageSize: 20,
             detailProps: {
@@ -167,7 +169,9 @@ class Product extends React.Component{
 
     }
 
-
+    componentWillUnmount(){
+        console.log('a');
+    }
     render(){
 
         const filterProps = {
