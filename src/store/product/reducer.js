@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 
 let defauleState = {
     productList : [],
+    total: 0,
     goldTypeList : [],
     categoryList : [],
     productDetail: {}

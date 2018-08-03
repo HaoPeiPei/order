@@ -5,11 +5,11 @@ export const getProductData = (queryJson) => {
     return dispatch =>
         axios.post(`/Product/GetProductList`, queryJson)
         .then(res=>{
-            debugger
             if (res.data.success) {
                 dispatch({
                     type: product.GETPRODUCT,
-                    productList: res.data.data.rows,
+                    productList: res.data.data.data,
+                    total: res.data.data.recordCount
                 })
             }
         })
@@ -50,16 +50,16 @@ export const getCategoryData = () => {
         });
 }
 
-export const getProductDetailData = (id) => {
+export const getProductDetailData = (productId) => {
     return   dispatch=>
-        axios.post('/Products/GetGoldStockForm',{
-            keyValue: id
+        axios.post('/Product/GetProduct',{
+            ProductId: productId
         })
         .then(res=>{
             if (res.status == 200 && res.data.success) {
                 dispatch({
                     type: product.GETPRODUCTDETAIL,
-                    productDetail: res.data.data.product,
+                    productDetail: res.data.data,
                 });          
                 
             };

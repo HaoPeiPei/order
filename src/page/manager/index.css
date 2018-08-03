@@ -1,0 +1,256 @@
+.managerChana_nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 90px;
+  width: 240px;
+  background: #f8f7f7;
+  min-height: 100vh;
+}
+
+.managerChana_nav > li {
+  margin-left: 55px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.managerChana_nav > li::before {
+  content: '\02022';
+  color: #000;
+  font-size: 20px;
+}
+
+.managerChana_nav > li.active::before {
+  color: #ff0000;
+}
+
+.managerChana_nav > li.active a {
+  color: #ff0000;
+}
+
+.managerChana_nav > li > a {
+  display: inline-block;
+  line-height: 40px;
+  color: #000;
+  padding: 0 8px;
+  margin: 2px 0;
+}
+
+> .managerChana_nav > li:not(.order) {
+  height: 60px;
+  line-height: 60px;
+}
+
+> .managerChana_nav > li:not(.order) a {
+  line-height: 40px;
+  color: #000;
+  padding: 0 8px;
+}
+
+.managerChana_nav > li .order_state li {
+  margin-left: 15px;
+  height: 40px;
+  line-height: 40px;
+  list-style: none;
+  font-size: 12px;
+}
+
+.managerChana_nav > li .order_state li.active {
+  color: #ff0000;
+}
+
+.managerChana_nav > li .order_state li.active a {
+  color: #ff0000;
+}
+
+.managerChana_nav > li .order_state li a {
+  display: inline-block;
+  width: 118px;
+  color: #000;
+  padding: 8px;
+}
+
+#manager section {
+  padding-top: 65px;
+  width: 1380px;
+  margin: 0 auto;
+  position: relative;
+}
+
+#manager section .main_right {
+  width: 1130px;
+  margin: 10px 0 0 0;
+}
+
+#manager section .main_right .notice {
+  height: 20px;
+  line-height: 20px;
+}
+
+#manager section .main_right .notice img {
+  vertical-align: middle;
+}
+
+#manager section .main_right .notice .notice_info {
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+#manager section .main_right .personal {
+  margin-top: 10px;
+  width: 1130px;
+  height: 166px;
+  line-height: 166px;
+  color: #fff;
+  position: relative;
+  background: url("./images/personal_bg.png") no-repeat;
+}
+
+#manager section .main_right .personal img {
+  display: inline-block;
+  width: 117px;
+  height: 116px;
+  vertical-align: middle;
+}
+
+#manager section .main_right .personal .personal_info {
+  display: inline-block;
+  line-height: 30px;
+  vertical-align: middle;
+}
+
+#manager section .main_right .personal .personal_info span {
+  line-height: 30px;
+  font-size: 14px;
+}
+
+#manager section .main_right .personal .set_personal_info {
+  display: inline-block;
+  color: #fff;
+  height: 26px;
+  line-height: 26px;
+  padding: 0 5px;
+  top: 50%;
+  margin: -13px 20px 0 0;
+}
+
+#manager section .main_right .order_state li {
+  width: 16.6666%;
+  height: 60px;
+  line-height: 60px;
+  background: #f8f7f7;
+  float: left;
+  text-align: center;
+}
+
+#manager section .main_right .order_state li a {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  color: #000;
+  font-weight: bold;
+}
+
+#manager section .main_right .order_state li a img {
+  vertical-align: middle;
+}
+
+#manager section .main_right .order_state li a span {
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+#manager section .orders_received {
+  margin-top: 40px;
+}
+
+#manager section .orders_received .title_wrap .title {
+  margin-left: 12px;
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+#manager section .orders_received .title_wrap .dayList {
+  margin-left: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 200px;
+  height: 25px;
+  line-height: 25px;
+  border-radius: 6px;
+}
+
+#manager section .orders_received .title_wrap .dayList a {
+  float: left;
+  width: 25%;
+  height: 25px;
+  line-height: 25px;
+  text-align: center;
+  color: #000;
+  padding: 0;
+  border: 1px solid #e1e0e0;
+}
+
+#manager section .orders_received .title_wrap .dayList a.active {
+  background: #ff0000;
+  border: 1px solid #ff0000;
+  color: #fff;
+}
+
+#manager section .orders_received .order_info {
+  margin-top: 15px;
+  border-radius: 6px;
+  height: 55px;
+  line-height: 55px;
+  background: #f8f7f7;
+}
+
+#manager section .orders_received .order_info li {
+  width: 25%;
+  float: left;
+  text-align-last: center;
+}
+
+#manager section .orders_received .order_info li .title {
+  color: #7e7e7e;
+  margin-right: 20px;
+}
+
+#manager section .orders_received .chart {
+  height: 230px;
+}
+
+#manager section .navbar_footer {
+  border-top: 1px solid #e5e5e5;
+}
+
+#manager section .navbar_footer li {
+  float: left;
+  width: 33.333%;
+}
+
+#manager section .navbar_footer li:nth-child(1) {
+  text-align: left;
+}
+
+#manager section .navbar_footer li:nth-child(2) {
+  text-align: center;
+}
+
+#manager section .navbar_footer li:nth-child(3) {
+  text-align: right;
+}
+
+#manager section .navbar_footer li a {
+  display: inline-block;
+  margin: 40px;
+  padding: 10px;
+  text-align: center;
+  color: #000;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+#manager section .navbar_footer li a p {
+  margin-top: 10px;
+}
