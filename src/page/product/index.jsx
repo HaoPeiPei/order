@@ -39,6 +39,8 @@ class Product extends React.Component{
             categorys: [],
             channelId: channelId,
             channelName: channelName,
+            productList: this.props.productData.productList || [],
+            total: this.props.productData.total || 0,
             pageNumber: 1,
             pageSize: 20,
             detailProps: {
@@ -141,6 +143,19 @@ class Product extends React.Component{
             )
         });
     }
+    componentWillMount(){
+        this.setState({
+            productList: [],
+            total:0
+        })
+     }
+
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            productList: nextProps.productData.productList,
+            total: nextProps.productData.total,
+        })
+    }
     
     componentDidMount(){
         document.title = this.state.channelName;
@@ -192,6 +207,8 @@ class Product extends React.Component{
             },
         }
 
+        const productList = this.state.productList;
+        const total = this.state.total;
         return (
             <div id="productList">
                 <header>
@@ -227,42 +244,50 @@ class Product extends React.Component{
                     <div className="main_right">                                                                        
                         <Filter {...filterProps} />
                         <div className="product_list">
-                            <List
-                                itemLayout="vertical"
-                                size="large"
-                                pagination={false}
-                                dataSource={this.props.productData.productList}
-                                renderItem={item => (
-                                <List.Item
-                                    key={item.ProductId}
-                                >
-                                    <List.Item.Meta
-                                    title={
-                                        <a className="showProductDetailBtn" href='javascript:;' data-productId={item.ProductId} onClick={this.showProductDetail}>
-                                            <img src={item.ImgUrl} alt=""/>
-                                        </a>
-                                    }
-                                    description={item.Title}
+                        {
+                            productList.length >0 ? 
+                                <List
+                                    itemLayout="vertical"
+                                    size="large"
+                                    pagination={false}
+                                    dataSource={productList}
+                                    renderItem={item => (
+                                    <List.Item
+                                        key={item.ProductId}
+                                    >
+                                        <List.Item.Meta
+                                        title={
+                                            <a className="showProductDetailBtn" href='javascript:;' data-productId={item.ProductId} onClick={this.showProductDetail}>
+                                                <img src={item.ImgUrl} alt=""/>
+                                            </a>
+                                        }
+                                        description={item.Title}
+                                        />
+                                        {item.content}
+                                    </List.Item>
+                                    )}
+                                /> 
+                                : null
+                        }
+                            {
+                                total >0 ? 
+                                    <Pagination 
+                                        total={this.props.productData.total} 
+                                        pageSize={this.state.pageSize} 
+                                        current={this.state.pageNumber}
+                                        showSizeChanger 
+                                        showQuickJumper 
+                                        pageSizeOptions={['20','30','50','100']}
+                                        onChange={this.onPageNumberChange}
+                                        onShowSizeChange={this.onPageSizeChange}
                                     />
-                                    {item.content}
-                                </List.Item>
-                                )}
-                            />
-                            <Pagination 
-                                total={this.props.productData.total} 
-                                pageSize={this.state.pageSize} 
-                                current={this.state.pageNumber}
-                                showSizeChanger 
-                                showQuickJumper 
-                                pageSizeOptions={['20','30','50','100']}
-                                onChange={this.onPageNumberChange}
-                                onShowSizeChange={this.onPageSizeChange}
-                            />
+                                    : null
+                            }
                         </div>
                     </div>
                 </section>
                 { 
-                    <Detail {...this.state.detailProps} />
+                   this.state.detailProps.visible && <Detail {...this.state.detailProps}/>
                 }
             </div>
         )

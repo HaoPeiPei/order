@@ -13,16 +13,22 @@ class Gold extends React.Component{
         }
     }
 
+    componentWillMount(){
+       this.setState({
+            productDetail: {}
+       })
+    }
+
     componentDidMount(){
-        //加载商品品类
+        //加载商品详情
         this.props.getProductDetailData(this.props.productId);
     }
 
-  /*   componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps(nextProps){
         this.setState({
             productDetail: nextProps.productDetail
-        });
-    } */
+        })
+    }
 
     inputChange =(e) =>{
         let inputName  = e.target.name;

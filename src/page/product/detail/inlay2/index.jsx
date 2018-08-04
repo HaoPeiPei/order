@@ -13,17 +13,22 @@ class Inlay2 extends React.Component{
         }
     }
 
-    componentDidMount(){
-        //加载商品品类
-        this.props.getProductDetailData(this.props.productId);
-    }
-
-    componentWillReceiveProps(nextProps) {
+    componentWillMount(){
         this.setState({
-            productDetail: nextProps.productDetail
-        });
-    }
-
+             productDetail: {}
+        })
+     }
+ 
+     componentDidMount(){
+         //加载商品详情
+         this.props.getProductDetailData(this.props.productId);
+     }
+ 
+     componentWillReceiveProps(nextProps){
+         this.setState({
+             productDetail: nextProps.productDetail
+         })
+     }
     inputChange =(e) =>{
         let inputName  = e.target.name;
         let inputValue = parseInt(e.target.value);

@@ -259,6 +259,10 @@ module.exports = {
     // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
     // You can remove this if you don't use Moment.js:
     new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: "common",//和上面配置的入口对应
+      filename: "commonFun.js"//导出的文件的名称
+    })
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
