@@ -1,12 +1,13 @@
 import React from 'react';
-import { List, Pagination } from 'antd';
+import  { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { is, fromJS } from 'immutable';
-import  { connect } from 'react-redux';
 import $ from 'jquery';
 
 import { getProductData, getGoldTypeData, getCategoryData, getProductDetailData } from '../../store/product/action.js';
 import Filter from './filter/index.jsx';
+import _List from './list/index.jsx';
 import Detail from './detail/index.jsx';
 
 import './index.scss';
@@ -14,37 +15,25 @@ import './index.scss';
 class Product extends React.Component{
     constructor(props){
         super(props);
-        let channelName = this.props.match.params.channelName;
-        let channelId = '';
-        let modalName = '';
-        if(channelName == 'Gold'){
-            channelId = `53ebef4e-1038-407b-88e8-09d230e2dd52`;
-            channelName = `素金现货`;
-            modalName = `Gold`;
-        }else if(channelName == 'OutStock'){
-            channelId = `8045c89a-c242-4fad-b077-5e65ce78e94b`;
-            channelName = `看图上货`;
-            modalName = `OutStock`;
-        }else if(channelName == 'Inlay1'){
-            channelId = `f0ca235d-5539-4e31-b256-2a2e0cf4bf7f`;
-            channelName = `镶嵌现货Ⅰ`;
-            modalName = `Inlay1`;
-        }else if(channelName == 'Inlay2'){
-            channelId = `0e77c6ca-4a31-404f-b5ad-18882a2f15d0`;
-            channelName = `镶嵌现货Ⅱ`;
-            modalName = `Inlay2`;
-        }
+        const channelName_EN = this.props.match.params.channelName;
+        const {channelId, channelName_ZH} = this.getChannel(channelName_EN);
+        const filter = this.getProductParam();
         this.state = {
             goldTypes: [],
             categorys: [],
             channelId: channelId,
-            channelName: channelName,
-            productList: this.props.productData.productList || [],
-            total: this.props.productData.total || 0,
-            pageNumber: 1,
-            pageSize: 20,
+            channelName: channelName_ZH,
+            filter: {
+                queryJson: JSON.stringify(
+                    Object.assign({},filter,{
+                        channelId: channelId
+                    })
+                ),
+                sort: 'CreateDate',
+                order: 'desc',
+            },
             detailProps: {
-                modalName: modalName,
+                modalName: channelName_EN,
                 productId: '',
                 visible: false,
                 footer: null,
@@ -55,6 +44,31 @@ class Product extends React.Component{
                 },
             }
         };
+        
+        
+    }
+
+    //根据channelName_EN,获取频道信息
+    getChannel = (channelName_EN) =>{
+        let channelId = '';
+        let channelName_ZH = '';
+        if(channelName_EN == 'Gold'){
+            channelId = `53ebef4e-1038-407b-88e8-09d230e2dd52`;
+            channelName_ZH = `素金现货`;
+        }else if(channelName_EN == 'OutStock'){
+            channelId = `8045c89a-c242-4fad-b077-5e65ce78e94b`;
+            channelName_ZH = `看图上货`;
+        }else if(channelName_EN == 'Inlay1'){
+            channelId = `f0ca235d-5539-4e31-b256-2a2e0cf4bf7f`;
+            channelName_ZH = `镶嵌现货Ⅰ`;
+        }else if(channelName_EN == 'Inlay2'){
+            channelId = `0e77c6ca-4a31-404f-b5ad-18882a2f15d0`;
+            channelName_ZH = `镶嵌现货Ⅱ`;
+        }
+        return {
+            channelName_ZH: channelName_ZH,
+            channelId: channelId, 
+        }
     }
 
     //获取通用商品数据请求参数
@@ -73,8 +87,8 @@ class Product extends React.Component{
 
         const tag = $.map($('.other input:checked, .other select'), function (item, index) {
             if (!!$(item).val()) {
-                var TagId = $(item).parents('.item').find('.title').attr('data-TagId');
-                var TagItemId = $(item).val();
+                const TagId = $(item).parents('.item').find('.title').attr('data-TagId');
+                const TagItemId = $(item).val();
                 return {
                     "TagId": TagId,
                     "TagItemId": TagItemId
@@ -82,23 +96,21 @@ class Product extends React.Component{
             }
         });
 
-        var newMark = $('input[name="newMark"]:checked').length > 0 ? 1 : 0;
+        const newMark = $('input[name="newMark"]:checked').length > 0 ? 1 : 0;
 
-        var fineMark = $('input[name="fineMark"]:checked').length > 0 ? 1 : 0;
+        const fineMark = $('input[name="fineMark"]:checked').length > 0 ? 1 : 0;
 
-        var searchString = $('#searchStr').val();
-
-        var postParam = {
-            "ChannelId": this.state.channelId,
-            "FactoryId": factoryId,
-            "CategoryId": categoryId,
-            "GoldTypeItemId": goldTypeItemId,
-            "Tag": tag,
-            "NewMark": newMark,
-            "FineMark": fineMark,
-            "SearchString": searchString,
+        const searchString = $('#searchStr').val();
+        
+        return {
+            FactoryId: factoryId,
+            CategoryId: categoryId,
+            GoldTypeItemId: goldTypeItemId,
+            Tag: tag,
+            NewMark: newMark,
+            FineMark: fineMark,
+            SearchString: searchString,
         }
-        return postParam;
     }
 
     //分页跳转
@@ -143,32 +155,10 @@ class Product extends React.Component{
             )
         });
     }
-    componentWillMount(){
-        this.setState({
-            productList: [],
-            total:0
-        })
-     }
-
-    componentWillReceiveProps(nextProps){
-        this.setState({
-            productList: nextProps.productData.productList,
-            total: nextProps.productData.total,
-        })
-    }
-    
     componentDidMount(){
         document.title = this.state.channelName;
         document.querySelector('#channelTitle').innerHTML = this.state.channelName;
-
-        //加载商品列表
-        this.props.getProductData({
-            "sort": "CreateDate",
-            "order": "desc",
-            "pageNumber": this.state.pageNumber,
-            "pageSize": this.state.pageSize,
-            "queryJson": JSON.stringify(this.getProductParam())
-        });
+        
 
         //加载商品成色
         /* if(!this.props.productData.goldTypeList.length){
@@ -207,17 +197,17 @@ class Product extends React.Component{
             },
         }
 
-        const productList = this.state.productList;
-        const total = this.state.total;
+    
+
         return (
             <div id="productList">
                 <header>
                     <div className="navbar">
                         <img className="headerLogo_bg" src={require('./images/headerLogo_bg.png')} alt="" />
                         <span className="title" id="channelTitle">素金现货</span>
-                        <a className="logo" href="/">
+                        <Link to="/" className="logo">
                             <img src={require('./images/proList_logo.png')} alt="" />
-                        </a>
+                        </Link>
                         <ul className="navbar_right">
                             <li>
                                 <a href="javascript:;">清空搜索条件</a>
@@ -243,47 +233,7 @@ class Product extends React.Component{
                 <section>
                     <div className="main_right">                                                                        
                         <Filter {...filterProps} />
-                        <div className="product_list">
-                        {
-                            productList.length >0 ? 
-                                <List
-                                    itemLayout="vertical"
-                                    size="large"
-                                    pagination={false}
-                                    dataSource={productList}
-                                    renderItem={item => (
-                                    <List.Item
-                                        key={item.ProductId}
-                                    >
-                                        <List.Item.Meta
-                                        title={
-                                            <a className="showProductDetailBtn" href='javascript:;' data-productId={item.ProductId} onClick={this.showProductDetail}>
-                                                <img src={item.ImgUrl} alt=""/>
-                                            </a>
-                                        }
-                                        description={item.Title}
-                                        />
-                                        {item.content}
-                                    </List.Item>
-                                    )}
-                                /> 
-                                : null
-                        }
-                            {
-                                total >0 ? 
-                                    <Pagination 
-                                        total={this.props.productData.total} 
-                                        pageSize={this.state.pageSize} 
-                                        current={this.state.pageNumber}
-                                        showSizeChanger 
-                                        showQuickJumper 
-                                        pageSizeOptions={['20','30','50','100']}
-                                        onChange={this.onPageNumberChange}
-                                        onShowSizeChange={this.onPageSizeChange}
-                                    />
-                                    : null
-                            }
-                        </div>
+                        <_List filter={this.state.filter} />
                     </div>
                 </section>
                 { 
@@ -293,7 +243,6 @@ class Product extends React.Component{
         )
     }
 }
-
 export default connect(
     state => ({
         productData: state.productData,
