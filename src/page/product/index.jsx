@@ -32,6 +32,30 @@ class Product extends React.Component{
                 sort: 'CreateDate',
                 order: 'desc',
             },
+            listProps: {
+                filter: {
+                    queryJson: JSON.stringify(
+                        Object.assign({},filter,{
+                            channelId: channelId
+                        })
+                    ),
+                    sort: 'CreateDate',
+                    order: 'desc',
+                },
+                showProductDetail: (productId)=>{
+                    this.setState({
+                        detailProps: Object.assign(
+                            {},
+                            this.state.detailProps, 
+                            { 
+                                visible: true, 
+                                productId: productId, 
+                            }
+                        )
+                    });
+                }
+            },
+
             detailProps: {
                 modalName: channelName_EN,
                 productId: '',
@@ -44,8 +68,6 @@ class Product extends React.Component{
                 },
             }
         };
-        
-        
     }
 
     //根据channelName_EN,获取频道信息
@@ -142,19 +164,6 @@ class Product extends React.Component{
         });
     }
 
-    showProductDetail=(e)=>{
-        const productId = e.target.parentNode.getAttribute('data-productId');
-        this.setState({
-            detailProps: Object.assign(
-                {},
-                this.state.detailProps, 
-                { 
-                    visible: true, 
-                    productId: productId, 
-                }
-            )
-        });
-    }
     componentDidMount(){
         document.title = this.state.channelName;
         document.querySelector('#channelTitle').innerHTML = this.state.channelName;
@@ -174,31 +183,7 @@ class Product extends React.Component{
 
 
     render(){
-
-        const filterProps = {
-            filter: {
-                goldTypes: {
-                    title: '商品成色',
-                    dates: this.props.productData.goldTypeList, 
-                    value: 'goldTypeId' ,
-                    text: 'goldTypeItemName',  
-                    name: 'goldTypeItemDate'                  
-                },
-                categorys: {
-                    title: '商品品类',
-                    dates: this.props.productData.categoryList, 
-                    value: 'categoryId' ,
-                    text: 'categoryName',
-                    name: 'categoryData'  
-                },
-            },
-            onFilterChange:  (value)=> {
-                this.props.getProductData(value);
-            },
-        }
-
     
-
         return (
             <div id="productList">
                 <header>
@@ -232,8 +217,8 @@ class Product extends React.Component{
                 </header>
                 <section>
                     <div className="main_right">                                                                        
-                        <Filter {...filterProps} />
-                        <_List filter={this.state.filter} />
+                        {/* <Filter {...filterProps} /> */}
+                        <_List {...this.state.listProps} />
                     </div>
                 </section>
                 { 

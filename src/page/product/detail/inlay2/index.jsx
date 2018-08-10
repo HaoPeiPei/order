@@ -9,26 +9,27 @@ class Inlay2 extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            productDetail: props.productDetail
+            productDetail: this.props.productDetail || {}
         }
     }
 
     componentWillMount(){
+       this.setState({
+            productDetail: {}
+       })
+    }
+
+    componentDidMount(){
+        //加载商品详情
+        this.props.getProductDetailData(this.props.productId);
+    }
+
+    componentWillReceiveProps(nextProps){
         this.setState({
-             productDetail: {}
+            productDetail: nextProps.productDetail
         })
-     }
- 
-     componentDidMount(){
-         //加载商品详情
-         this.props.getProductDetailData(this.props.productId);
-     }
- 
-     componentWillReceiveProps(nextProps){
-         this.setState({
-             productDetail: nextProps.productDetail
-         })
-     }
+    }
+
     inputChange =(e) =>{
         let inputName  = e.target.name;
         let inputValue = parseInt(e.target.value);

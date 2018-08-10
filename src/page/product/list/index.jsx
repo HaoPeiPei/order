@@ -38,6 +38,11 @@ class _List extends React.Component{
             total: nextProps.productData.total,
         })
     }
+
+    showProductDetail=(e)=>{
+        const productId = e.target.parentNode.getAttribute('data-productId');
+        this.props.showProductDetail(productId);
+    }
     
 
     //分页跳转

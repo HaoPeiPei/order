@@ -1,15 +1,17 @@
 import React from 'react';
 import { Form, Input, InputNumber, Radio, Modal, Cascader, Checkbox } from 'antd';
 import  { connect } from 'react-redux';
-import ImageGallery from 'react-image-gallery';
+import axios from 'axios';
 import { getProductDetailData } from '../../../../store/product/action.js';
-import "react-image-gallery/styles/scss/image-gallery.scss";
+
+import GoldCanvas from '../../../../component/canvas/index.jsx';
 
 class Gold extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-            productDetail: this.props.productDetail || {}
+            productDetail: this.props.productDetail || {},
+            imgItem: []
         }
     }
 
@@ -30,6 +32,10 @@ class Gold extends React.Component{
         })
     }
 
+    drawImgItem = () => {
+        
+    }
+
     inputChange =(e) =>{
         let inputName  = e.target.name;
         let inputValue = parseInt(e.target.value);
@@ -46,20 +52,13 @@ class Gold extends React.Component{
     render(){
         const productDetail = this.state.productDetail;
         let images = productDetail.ImageAlbums || [];
-        images = images.map((img,index) =>{
-            return {
-                original: img.OriginalPath,
-                thumbnail: img.ThumbPath,
-            }
-        })
-      
-        
+        let productImg = images.length >0 ? <GoldCanvas backgroundImg={images[0]["OriginalPath"]} />: ``;
         return (
             <Modal {...this.props} 
                 className="deatal_common"
             >
                 <div className="datail_left" >
-                    <ImageGallery items={ images }/>
+                    {productImg}
                 </div>
                 <div className="datail_right">
                     <div className="info_top">
