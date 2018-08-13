@@ -81,7 +81,7 @@ class Login extends React.Component{
                         </div>
                         <div className="form_group password_box">
                             <i className="iconfont icon-password"></i>
-                            <input type="text" 
+                            <input type="password" 
                                 name="password" 
                                 placeholder="请输入密码" 
                                 onKeyUp ={(e) => {this.onInputKeyUp(e)}}

@@ -11,8 +11,42 @@ class Gold extends React.Component{
         super(props)
         this.state = {
             productDetail: this.props.productDetail || {},
-            imgItem: []
+            imgList: []
+
         }
+    }
+
+    renderImgItem = (imgData) =>{
+        this.setState({
+            imgList: [...this.state.imgList, imgData]
+        })
+        /* $('.cartTip').hide();
+            $('.reset_btn').show();
+            $('#imgInfo_list li').removeClass('active');
+            var $li = $('<li class="imgInfo_item active clearfix" data-id="' + imgData['sid'] + '">' +
+                     '<div class="img_wrap"><img class="img" src="' + imgData['imgSrc'] + '" /></div>' +
+                     '<div class="input_wrap">' +
+                     '<div class="weight_range">' +
+                     '<div class="start_wrap">' +
+                     '<input data-title="克重" class="weightA" type="number" isvalid="yes" checkexpession="Num" value="' + imgData['weightA'] + '"/>' +
+                     '<span class="unit">g</span>' +
+                     '</div>' +
+                     '<span class="line">-</span>' +
+                     '<div class="end_wrap">' +
+                     '<input data-title="克重" type="number" isvalid="yes" checkexpession="Num" class="weightB" value="' + imgData['weightB'] + '" />' +
+                     '<span class="unit">g</span>' +
+                     '</div>' +
+                     '</div>' +
+                     '<div class="num_wrap">' +
+                     '<i class="iconfont icon-jian"></i>' +
+                     '<input data-title="数量" type="number" isvalid="yes" checkexpession="Num" value="1"  class="quantity"/>' +
+                     '<i class="iconfont icon-jia"></i>' +
+                     '</div>' +
+                     '</div>' +
+                     '<a href="javascript:;" class="btn btn-xs btn-danger remove_btn">×</a>' +
+                     '</li>');
+
+            $('#imgInfo_list').append($li); */
     }
 
     componentWillMount(){
@@ -52,55 +86,39 @@ class Gold extends React.Component{
     render(){
         const productDetail = this.state.productDetail;
         let images = productDetail.ImageAlbums || [];
-        let productImg = images.length >0 ? <GoldCanvas backgroundImg={images[0]["OriginalPath"]} />: ``;
+        let productImg = images.length >0 ? <GoldCanvas renderImgItem={this.renderImgItem} backgroundImg={images[0]["OriginalPath"]} />: ``;
+        let imgList = this.state.imgList.length >0 
+            ? <ul id="imgInfo_list" className="imgInfo_list">
+                {this.state.imgList.map(function(item, index){
+                    return `<li key=${item['sid']} class="imgInfo_item active clearfix" data-id=${item['sid']}>
+                                <div class="img_wrap"><img class="img" src=${item['imgSrc']} /></div>
+                            </li>`
+                })}
+                <a href="javascript:;" className="reset_btn">清空</a>
+            </ul>
+            :  <img className="cartTip" src={require(`../../../../assets/images/cartTip_icon.png`)} alt="" />
         return (
             <Modal {...this.props} 
-                className="deatal_common"
+                className="detail goldDetail"
             >
-                <div className="datail_left" >
+                <div className="detail_left" >
                     {productImg}
                 </div>
-                <div className="datail_right">
-                    <div className="info_top">
-                        <h2 className="title">{ productDetail.title }</h2>
-                        <p><span className="goodsNo">款号：{ productDetail['GoodsNo'] } </span><span>类别：{ productDetail['CategoryName'] }</span></p>
-                        <p>库存：<span>{ productDetail['stockQuantity'] }件</span></p>
-                    </div>
-                    <div className="info_mid">
-                        <div className="amountWeight">
-                            <span className="title">参考克重</span>{ productDetail.amountWeight }
-                        </div>
-                        <div className="texture">
-                            <span className="title">产品材质</span>{ productDetail.texture }
-                        </div>
-                        <div className="weight">
-                            <span className="title">下单重量</span>
-                            <div className="weight_box">
-                                <input type="text" id="goldWeight" name="goldWeight" className="goldWeight" value={ productDetail['goldWeight'] || ''} onChange={ this.inputChange }/>
-                                <span>g - </span>
-                                <input type="text" id="goldWeightB" name="goldWeightB" className="goldWeightB" value={ productDetail['goldWeightB'] || ''} onChange={ this.inputChange }/>
-                                <span>g</span>
-                            </div>
-                        </div>
-                        <div className="quantity_wrap">
-                            <span className="title">数&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;量</span>
-                            <div className="quantity_box">
-                                <i className="iconfont icon-jian"></i>
-                                <input type="text" className="quantity" name="quantity" value='1' onChange={ this.inputChange }/>
-                                <i className="iconfont icon-jia"></i>
-                            </div>
-                        </div>
-                        <div className="measure_wrap">
-                            <span className="title">尺&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;寸</span>
-                            <input type="text" id="measure"  className="measure" placeholder="指圈号或链长" />
+                <div className="detail_right">
+                    <div className="product_title">
+                        <h2 className="goodTitle">{productDetail['Title']}</h2>
+                        <div>
+                            <span className="goodsNo">款号：{productDetail['GoodsNo']} </span>
+                            <span>类别：{productDetail['CategoryName']}</span>
                         </div>
                     </div>
-                    <div className="info_fot">
-                        <div className="desc_wrap">
-                            <span className="title">备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注</span>
-                            <textarea name="desc" id="desc" className="desc"></textarea>
-                        </div>
+                    <div className="imgInfo_list_wrap">
+                        {/* <ul id="imgInfo_list" className="imgInfo_list">
+                            <a href="javascript:;" className="reset_btn">清空</a>
+                        </ul> */}
+                        {imgList}
                     </div>
+                    
                     <a className="addCart_btn" onClick={ this.onSubmit }>
                         <img src="../Content/images/addCart_icon.png" alt="" />
                         <span>下单</span>

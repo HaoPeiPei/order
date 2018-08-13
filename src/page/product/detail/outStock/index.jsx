@@ -56,12 +56,12 @@ class OutStock extends React.Component{
         
         return (
             <Modal {...this.props} 
-                className="deatal_common"
+                className="detail"
             >
-                <div className="datail_left" >
+                <div className="detail_left" >
                     <ImageGallery items={ images }/>
                 </div>
-                <div className="datail_right">
+                <div className="detail_right">
                     <div className="info_top">
                         <h2 className="title">{ productDetail.title }</h2>
                         <p><span className="goodsNo">款号：{ productDetail['GoodsNo'] } </span><span>类别：{ productDetail['CategoryName'] }</span></p>
