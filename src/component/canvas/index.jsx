@@ -5,7 +5,6 @@ import $ from 'jquery';
 class GoldCanvas extends React.Component{
     constructor(props){
         super(props);
-        debugger
         this.state = {
             width: 500,
             height: 500,
@@ -18,74 +17,96 @@ class GoldCanvas extends React.Component{
             imgWidth: 1000,
             imgHeight: 1000,
             img: this.loadImg(),
-            allImgItem: [],
-            renderImgItem: (imgData) => {
-                this.props.renderImgItem(imgData);
-            }
+            imgList: this.props.imgList,
         }
     }
-
+    
     loadImg = () => {
         let img = new Image();
         img.src = '/Product/MakeImg?imgUrl=' + this.props.backgroundImg;
         img.width = 1000;
         img.height = 1000;
-        if (1000 > img.width) {
-            this.setState({
-                imgScale: img.width / 1000,
-            })
-        };
         return img;
     }
 
     initCanvas = () =>{
         let _this = this;
+        _this.state.img.onload = function(){
+            if (_this.state.imgWidth > _this.state.width) {
+                _this.setState({
+                    imgScale: _this.state.imgWidth / _this.state.width,
+                })
+            };
+            _this.drawRects(_this.state.imgList);
+        }
+    }
+
+    drawRects = (imgList) => {
         let ele = document.getElementById("ele")
         let ctx = ele.getContext("2d");
-        _this.state.img.onload = function(){
-            ctx.clearRect( 0, 0, _this.state.width, _this.state.height);
+        ctx.clearRect( 0, 0, this.state.width, this.state.height);
+        ctx.beginPath();
+        ctx.drawImage(this.state.img, 0, 0, this.state.width, this.state.height);
+        ctx.closePath();
+        ctx.save();
+        for (let i = 0; i < imgList.length; i++) {
             ctx.beginPath();
-            ctx.drawImage(_this.state.img, 0, 0, _this.state.width, _this.state.height);
+            ctx.strokeStyle = "#4bf209";
+            ctx.rect(imgList[i]["sx"], imgList[i]["sy"], imgList[i]["sWidth"], imgList[i]["sHeight"]);
             ctx.closePath();
-            ctx.save();
+            ctx.stroke();
         }
     }
 
     //裁剪图片并返回图片
-    cutCanvasToImg = (img, imgScaleX, imgScaleY, imgScaleWidth, imgScaleHeight) => {
-        var $oCanvas = $('<canvas class="oCanvas" style="max-width:100px;"></canvas>');
-        var oCtx = $oCanvas[0].getContext("2d");
-        var imgWidth = imgScaleWidth * this.state.imgScale;
-        var imgHeight = imgScaleHeight * this.state.imgScale;
-        var imgX = imgScaleX * this.state.imgScale;
-        var imgY = imgScaleY * this.state.imgScale;
+    cutCanvasToImg = (img, currentX, currentY, moveWidth, moveHeight) => {
+        let $oCanvas = $('<canvas class="oCanvas" style="max-width:100px;"></canvas>');
+        let oCtx = $oCanvas[0].getContext("2d");
+        let imgWidth = moveWidth * this.state.imgScale;
+        let imgHeight = moveHeight * this.state.imgScale;
+        let imgX = currentX * this.state.imgScale;
+        let imgY = currentY * this.state.imgScale;
         $oCanvas[0].x = imgX;
         $oCanvas[0].y = imgY;
         $oCanvas[0].width = imgWidth;
         $oCanvas[0].height = imgHeight;
         oCtx.drawImage(img, imgX, imgY, imgWidth, imgHeight, 0, 0, imgWidth, imgHeight);
         oCtx.scale((1 / this.state.imgScale), (1 / this.state.imgScale));
-        var newImg = new Image();
+        let newImg = new Image();
         newImg.src = $oCanvas[0].toDataURL('image/jpeg');
         newImg.rx = imgX;
         newImg.ry = imgY;
         newImg.width = imgWidth;
         newImg.height = imgHeight;
-        newImg.sx = imgScaleX;
-        newImg.sy = imgScaleY;
-        newImg.sWidth = imgScaleWidth;
-        newImg.sHeight = imgScaleHeight;
-        var sid = new Date().getTime()
+        newImg.sx = currentX;
+        newImg.sy = currentY;
+        newImg.sWidth = moveWidth;
+        newImg.sHeight = moveHeight;
+        let sid = new Date().getTime()
         newImg.sname = sid + ".jpg";
         newImg.sid = sid;
-        this.setState({
-            allImgItem: [...this.state.allImgItem,newImg]
-        });
         return newImg;
+    }
+
+    addImgItem = (imgData) =>{
+        this.setState({
+            imgList: [...this.state.imgList, imgData]
+        })
+    }
+
+    removeImgItem = (e) => {
+        let sid = e.target.getAttribute('data-sid');
+        this.setState({
+            imgList: this.state.imgList.filter(v => v.sid != sid)
+        })
     }
 
     componentDidMount(){
         this.initCanvas();
+    }
+
+    componentWillReceiveProps(nextProps){
+        this.drawRects(nextProps.imgList)
     }
     
     onmousedown = (e) => {
@@ -99,7 +120,6 @@ class GoldCanvas extends React.Component{
             currentX: e.clientX - document.querySelector('.detail').offsetLeft -document.querySelector('canvas').offsetLeft,
             currentY: e.clientY -document.querySelector('.detail').offsetTop - document.querySelector('canvas').offsetTop,
         });
-        
     }
 
     onmousemove = (e) => {
@@ -113,31 +133,20 @@ class GoldCanvas extends React.Component{
                 moveWidth: moveWidth,
                 moveHeight: moveHeight,
             });
-            let ele = document.getElementById("ele");
+            let ele = document.getElementById("ele")
             let ctx = ele.getContext("2d");
-            ctx.clearRect( 0, 0, this.state.width, this.state.height);
-            ctx.beginPath();
             ctx.drawImage(this.state.img, 0, 0, this.state.width, this.state.height);
-            ctx.closePath();
-            ctx.save();
-            let images = this.state.allImgItem;
-            for (let i = 0; i < images.length; i++) {
-                ctx.beginPath();
-                ctx.strokeStyle = "#4bf209";
-                ctx.rect(images[i]["sx"], images[i]["sy"], images[i]["sWidth"], images[i]["sHeight"]);
-                ctx.closePath();
-                ctx.stroke();
-            }
             ctx.beginPath();
             ctx.strokeStyle = "#ff0000";
-            ctx.rect(this.state.currentX, this.state.currentY, moveWidth, moveHeight);
+            ctx.rect(this.state.currentX, this.state.currentY, this.state.moveWidth, this.state.moveHeight);
             ctx.closePath();
             ctx.stroke();
         }
     }
+
     onmouseup = (e) => {
         let event=e||window.event;
-        let images = this.state.allImgItem;
+        let images = this.state.imgList;
         let ele = document.getElementById("ele");
         let ctx = ele.getContext("2d");
         event.preventDefault();
@@ -177,24 +186,60 @@ class GoldCanvas extends React.Component{
             return
         } else {
             let imgData = this.cutCanvasToImg(this.state.img, this.state.currentX, this.state.currentY, this.state.moveWidth, this.state.moveHeight); //裁剪图片
-            this.state.renderImgItem(imgData);
+            this.addImgItem(imgData);
         }
         this.setState({
             flag: false
         });
-       
     }
 
     render(){
+        let _this = this;
+        let imgList = this.state.imgList.length >0 
+            ? <ul id="imgInfo_list" className="imgInfo_list">
+                {this.state.imgList.map(function(item, index){
+                    return <li key={item['sid']} className="imgInfo_item active clearfix">
+                                <div className="img_wrap"><img className="img" src={item['src']} /></div>
+                                <div className="input_wrap">
+                                    <div className="weight_range">
+                                        <div className="start_wrap">
+                                            <input className="weightA" data-title="克重"  type="number" defaultValue={1} />
+                                            <span className="unit">g</span>
+                                        </div>
+                                        <span className="line">-</span>
+                                        <div className="end_wrap">
+                                            <input className="weightB" data-title="克重" type="number" defaultValue={1} />
+                                            <span className="unit">g</span>
+                                        </div>
+                                    </div>
+                                    <div className="num_wrap">
+                                        <i className="iconfont icon-jian"></i>
+                                        <input className="quantity" data-title="数量" type="number"  defaultValue={1}  />
+                                        <i className="iconfont icon-jia"></i>
+                                    </div>
+                                </div>
+                                <div data-sid={item['sid']} onClick={_this.removeImgItem}  className="btn btn-xs remove_btn">×</div>
+                            </li>
+                })}
+                <a href="javascript:;" className="reset_btn">清空</a>
+            </ul>
+            :  <img className="cartTip" src={require('../../assets/images/cartTip_icon.png')} alt="" />
+
         return(
-            <canvas 
-                id="ele"
-                width={this.state.width} 
-                height={this.state.height} 
-                onMouseDown={this.onmousedown} 
-                onMouseMove={this.onmousemove} 
-                onMouseUp={this.onmouseup} 
-            />
+            <div>
+                <canvas 
+                    id="ele"
+                    className = "detail_left"
+                    width={this.state.width} 
+                    height={this.state.height} 
+                    onMouseDown={this.onmousedown} 
+                    onMouseMove={this.onmousemove} 
+                    onMouseUp={this.onmouseup} 
+                />
+                <div className="imgInfo_list_wrap">
+                    {imgList}
+                </div>
+            </div>
         )
     }
 }

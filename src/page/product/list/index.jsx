@@ -40,7 +40,7 @@ class _List extends React.Component{
     }
 
     showProductDetail=(e)=>{
-        const productId = e.target.parentNode.getAttribute('data-productId');
+        const productId = e.target.parentNode.getAttribute('data-productid');
         this.props.showProductDetail(productId);
     }
     
@@ -89,7 +89,7 @@ class _List extends React.Component{
                             >
                                 <List.Item.Meta
                                 title={
-                                    <span className="showProductDetailBtn"  data-productId={item.ProductId} onClick={this.showProductDetail}>
+                                    <span className="showProductDetailBtn"  data-productid={item.ProductId} onClick={this.showProductDetail}>
                                         <img src={item.ImgUrl} alt=""/>
                                     </span>
                                 }

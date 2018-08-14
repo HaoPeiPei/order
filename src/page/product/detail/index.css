@@ -41,12 +41,14 @@
 .detail .ant-modal-body {
   overflow: hidden;
   margin: 0 auto;
+  position: relative;
 }
 
 .detail .ant-modal-body .detail_left {
   width: 59%;
   height: 100%;
   float: left;
+  min-height: 567px;
 }
 
 .detail .ant-modal-body .detail_left .gallery-top {
@@ -586,52 +588,46 @@
   position: relative;
 }
 
-.goldDetail .detail_right {
-  padding: 0;
-  position: relative;
-}
-
-.goldDetail .detail_right .product_title {
-  padding: 0 15px;
-}
-
-.goldDetail .detail_right .imgInfo_list_wrap {
+.goldDetail .imgInfo_list_wrap {
+  position: absolute;
+  top: 65px;
+  width: 41%;
+  right: 0;
   height: 460px;
   margin: 0;
-  padding: 0 15px;
+  padding: 0;
   overflow-x: hidden;
-  position: relative;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list {
-  padding: 0;
+.goldDetail .imgInfo_list_wrap .imgInfo_list {
+  padding: 1px 0;
   margin: 0;
   min-height: 460px;
   position: relative;
-  padding-bottom: 50px;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item {
-  margin-top: 10px;
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item {
+  margin: 5px 0;
   width: 100%;
   height: 80px;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item:last-child {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item:last-child {
   margin-bottom: 10px;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .img_wrap {
-  width: 80px;
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .img_wrap {
+  width: 25%;
   height: 80px;
   line-height: 80px;
-  margin-right: 10px;
+  overflow: hidden;
+  margin-right: 2%;
   float: left;
   border-radius: 3px;
   text-align: center;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .img_wrap img {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .img_wrap img {
   display: inline-block;
   max-width: 100%;
   max-height: 100%;
@@ -639,21 +635,21 @@
   border: 1px solid transparent;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap {
-  width: 200px;
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap {
+  width: 60%;
   height: 80px;
   float: left;
-  margin-right: 10px;
+  margin-right: 3%;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .weight_range {
-  width: 200px;
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .weight_range {
+  width: 100%;
   height: 32px;
   margin-bottom: 10px;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .start_wrap {
-  width: 90px;
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .start_wrap {
+  width: 45%;
   height: 32px;
   line-height: 32px;
   background: #f5f5f5;
@@ -663,7 +659,7 @@
   float: left;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .start_wrap input {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .start_wrap input {
   width: 100%;
   height: 32px;
   background: #f5f5f5;
@@ -671,7 +667,7 @@
   outline: none;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .unit {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .unit {
   display: inline-block;
   width: 20px;
   text-align: center;
@@ -680,17 +676,17 @@
   top: 0;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .line {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .line {
   float: left;
-  width: 20px;
+  width: 10%;
   height: 32px;
   line-height: 32px;
   text-align: center;
   background: #fff;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .end_wrap {
-  width: 90px;
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .end_wrap {
+  width: 45%;
   height: 34px;
   line-height: 34px;
   background: #f5f5f5;
@@ -700,7 +696,7 @@
   float: left;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .end_wrap input {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .end_wrap input {
   width: 100%;
   height: 34px;
   background: #f5f5f5;
@@ -708,14 +704,14 @@
   outline: none;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .num_wrap {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .num_wrap {
   background: #f5f5f5;
   border-radius: 3px;
   position: relative;
   padding: 0 34px;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .num_wrap i {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .num_wrap i {
   width: 24px;
   height: 24px;
   border-radius: 12px;
@@ -725,24 +721,24 @@
   font-size: 20px;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .num_wrap i::before {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .num_wrap i::before {
   background-size: 20px;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .num_wrap i:hover {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .num_wrap i:hover {
   cursor: pointer;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .num_wrap .icon-jian {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .num_wrap .icon-jian {
   left: 5px;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .num_wrap .icon-jia {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .num_wrap .icon-jia {
   right: 5px;
   background-size: 30px;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .num_wrap input {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .input_wrap .num_wrap input {
   width: 100%;
   background: #f5f5f5;
   height: 34px;
@@ -750,8 +746,8 @@
   outline: none;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item .remove_btn {
-  width: 25px;
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item .remove_btn {
+  width: 8%;
   height: 80px;
   line-height: 70px;
   text-align: center;
@@ -762,31 +758,31 @@
   background: #fff;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item.active .start_wrap {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item.active .start_wrap {
   background: #ffe5e6;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item.active .start_wrap input {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item.active .start_wrap input {
   background: #ffe5e6;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item.active .end_wrap {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item.active .end_wrap {
   background: #ffe5e6;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item.active .end_wrap input {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item.active .end_wrap input {
   background: #ffe5e6;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item.active .num_wrap {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item.active .num_wrap {
   background: #ffe5e6;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .imgInfo_list .imgInfo_item.active .num_wrap input {
+.goldDetail .imgInfo_list_wrap .imgInfo_list .imgInfo_item.active .num_wrap input {
   background: #ffe5e6;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .reset_btn {
+.goldDetail .imgInfo_list_wrap .reset_btn {
   display: none;
   position: absolute;
   bottom: 20px;
@@ -798,15 +794,24 @@
   line-height: 30px;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .reset_btn:hover {
+.goldDetail .imgInfo_list_wrap .reset_btn:hover {
   color: #000;
 }
 
-.goldDetail .detail_right .imgInfo_list_wrap .cartTip {
+.goldDetail .imgInfo_list_wrap .cartTip {
   position: absolute;
   width: 80%;
   top: 25%;
   left: 10%;
+}
+
+.goldDetail .detail_right {
+  padding: 0;
+  position: relative;
+}
+
+.goldDetail .detail_right .product_title {
+  padding: 0 15px;
 }
 
 .goldDetail .detail_right .addCart_btn {

@@ -12,43 +12,8 @@ class Gold extends React.Component{
         this.state = {
             productDetail: this.props.productDetail || {},
             imgList: []
-
         }
     }
-
-    renderImgItem = (imgData) =>{
-        this.setState({
-            imgList: [...this.state.imgList, imgData]
-        })
-        /* $('.cartTip').hide();
-            $('.reset_btn').show();
-            $('#imgInfo_list li').removeClass('active');
-            var $li = $('<li class="imgInfo_item active clearfix" data-id="' + imgData['sid'] + '">' +
-                     '<div class="img_wrap"><img class="img" src="' + imgData['imgSrc'] + '" /></div>' +
-                     '<div class="input_wrap">' +
-                     '<div class="weight_range">' +
-                     '<div class="start_wrap">' +
-                     '<input data-title="克重" class="weightA" type="number" isvalid="yes" checkexpession="Num" value="' + imgData['weightA'] + '"/>' +
-                     '<span class="unit">g</span>' +
-                     '</div>' +
-                     '<span class="line">-</span>' +
-                     '<div class="end_wrap">' +
-                     '<input data-title="克重" type="number" isvalid="yes" checkexpession="Num" class="weightB" value="' + imgData['weightB'] + '" />' +
-                     '<span class="unit">g</span>' +
-                     '</div>' +
-                     '</div>' +
-                     '<div class="num_wrap">' +
-                     '<i class="iconfont icon-jian"></i>' +
-                     '<input data-title="数量" type="number" isvalid="yes" checkexpession="Num" value="1"  class="quantity"/>' +
-                     '<i class="iconfont icon-jia"></i>' +
-                     '</div>' +
-                     '</div>' +
-                     '<a href="javascript:;" class="btn btn-xs btn-danger remove_btn">×</a>' +
-                     '</li>');
-
-            $('#imgInfo_list').append($li); */
-    }
-
     componentWillMount(){
        this.setState({
             productDetail: {}
@@ -66,10 +31,6 @@ class Gold extends React.Component{
         })
     }
 
-    drawImgItem = () => {
-        
-    }
-
     inputChange =(e) =>{
         let inputName  = e.target.name;
         let inputValue = parseInt(e.target.value);
@@ -82,28 +43,15 @@ class Gold extends React.Component{
         this.props.onCancel()       
     }
 
-
     render(){
         const productDetail = this.state.productDetail;
         let images = productDetail.ImageAlbums || [];
-        let productImg = images.length >0 ? <GoldCanvas renderImgItem={this.renderImgItem} backgroundImg={images[0]["OriginalPath"]} />: ``;
-        let imgList = this.state.imgList.length >0 
-            ? <ul id="imgInfo_list" className="imgInfo_list">
-                {this.state.imgList.map(function(item, index){
-                    return `<li key=${item['sid']} class="imgInfo_item active clearfix" data-id=${item['sid']}>
-                                <div class="img_wrap"><img class="img" src=${item['imgSrc']} /></div>
-                            </li>`
-                })}
-                <a href="javascript:;" className="reset_btn">清空</a>
-            </ul>
-            :  <img className="cartTip" src={require(`../../../../assets/images/cartTip_icon.png`)} alt="" />
+        let productImg = images.length >0 ? <GoldCanvas addImgItem={this.addImgItem} imgList={this.state.imgList} backgroundImg={images[0]["OriginalPath"]} />: ``;
         return (
             <Modal {...this.props} 
                 className="detail goldDetail"
             >
-                <div className="detail_left" >
-                    {productImg}
-                </div>
+                {productImg}
                 <div className="detail_right">
                     <div className="product_title">
                         <h2 className="goodTitle">{productDetail['Title']}</h2>
@@ -112,13 +60,6 @@ class Gold extends React.Component{
                             <span>类别：{productDetail['CategoryName']}</span>
                         </div>
                     </div>
-                    <div className="imgInfo_list_wrap">
-                        {/* <ul id="imgInfo_list" className="imgInfo_list">
-                            <a href="javascript:;" className="reset_btn">清空</a>
-                        </ul> */}
-                        {imgList}
-                    </div>
-                    
                     <a className="addCart_btn" onClick={ this.onSubmit }>
                         <img src="../Content/images/addCart_icon.png" alt="" />
                         <span>下单</span>
