@@ -3,7 +3,7 @@ import * as order from './active-type.js';
 
 export const getOrderList = (url, data) => {
     return dispatch =>
-        axios.post(url,data)
+        axios.get(url,data)
         .then(res=>{
             if (res.status == 200 && res.data.length  > 0) {
                 dispatch({

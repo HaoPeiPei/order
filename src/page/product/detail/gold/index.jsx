@@ -217,10 +217,11 @@ class Gold extends React.Component{
     }
 
     removeImgItem = (e) => {
+        let _this = this;
         let sid = e.target.getAttribute('data-sid');
         let imgList = this.state.imgList.filter(v => v.sid != sid);
         let activeSid = imgList.length >0 ? imgList[imgList.length-1]['sid'] : '';
-        this.setState({
+        _this.setState({
             imgList: imgList,
             activeSid: activeSid
         },() =>{

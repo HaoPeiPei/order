@@ -74,16 +74,16 @@ class Home extends React.Component{
                 <footer>
                     <ul className="memberChnanel_list">
                         <li className="memberChnanel_item">
-                            <a href="/Cart/Index">
+                            <Link to="/cart/index">
                                 <img src={require('./images/home_cart_n@2x.png')} alt="" />
                                 <p>购物车</p>
-                            </a>
+                            </Link>
                         </li>
                         <li className="memberChnanel_item">
-                            <a href="/Member/Index">
+                            <Link to="/member/index">
                                 <img src={require('./images/home_member_n@2x.png')} alt="" />
                                 <p>管理</p>
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </footer>

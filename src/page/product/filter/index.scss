@@ -3,12 +3,16 @@
     margin: 0 ;
     .ant-form-item-label{
         float: left;
-        margin:0 0 0 10px;
+        margin:0 10px 0 10px;
+    }
+    .ant-checkbox-group{
+        display: block;
+        overflow: hidden;
     }
     .ant-checkbox-wrapper{
         position: relative;
         float: left;
-        margin: 8px 5px 8px 0;
+        margin: 4px 5px 4px 0;
         .ant-checkbox{
             position: absolute;
             left: -999em;

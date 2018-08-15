@@ -12,6 +12,7 @@ import '../css/theme.scss';
 const asyncHome = Loadable({loader: () => import('../page/home/index.jsx'), loading: Loading});
 const asyncLogin = Loadable({loader: () => import('../page/login/index.jsx'), loading: Loading});
 const asyncProduct = Loadable({loader: () => import('../page/product/index.jsx'), loading: Loading})
+const asyncCart = Loadable({loader: () => import('../page/cart/index.jsx'), loading: Loading})
 const asyncManagerIndex = Loadable({loader: () => import('../page/member/index/index.jsx'), loading: Loading});
 const asyncOrderIndex = Loadable({loader: () => import('../page/order/index/index.jsx'), loading: Loading});
 const asyncInfo = Loadable({loader: () => import('../page/member/info/index.jsx'), loading: Loading});
@@ -26,6 +27,7 @@ class Routes extends React.Component{
                     <Route exact path='/' component={asyncHome}  />
                     <Route exact path="/login"  component={asyncLogin} />
                     <Route path='/product/:channelName' component={ asyncProduct } />
+                    <Route path='/cart/index' component={ asyncCart } />
                     <Member>
                         <Switch>
                             <Route path="/member/index" component={ asyncManagerIndex } />
