@@ -7,6 +7,7 @@ class Gold extends React.Component{
         this.state = {
             productDetail: this.props.productDetail || {},
             imgList: [],
+            activeSid: '',
             img: {},
             canvas: {
                 width: 500,
@@ -24,7 +25,6 @@ class Gold extends React.Component{
     }
 
     loadImg = () => {
-        debugger
         let img = new Image();
         img.src = '/Product/MakeImg?imgUrl=' + this.state.productDetail['ImgUrl'];
         img.width = 1000;
@@ -55,13 +55,38 @@ class Gold extends React.Component{
         }
     }
 
+    drawRects = (imgList, activeSid) => {
+        let ele = document.getElementById("ele")
+        let ctx = ele.getContext("2d");
+        ctx.clearRect( 0, 0, this.state.canvas['width'], this.state.canvas['height']);
+        ctx.beginPath();
+        ctx.drawImage(this.state.img, 0, 0, this.state.canvas['width'], this.state.canvas['height']);
+        ctx.closePath();
+        ctx.save();
+        for (let i = 0; i < imgList.length; i++) {
+            ctx.beginPath();
+            if(activeSid == imgList[i]['sid'] ){
+                ctx.strokeStyle = "#ff0000";
+            }else{
+                ctx.strokeStyle = "#4bf209";
+            }
+            ctx.rect(imgList[i]["sx"], imgList[i]["sy"], imgList[i]["sWidth"], imgList[i]["sHeight"]);
+            ctx.closePath();
+            ctx.stroke();
+            ctx.save();
+        } 
+        ctx.stroke();
+    }
+
     componentWillReceiveProps(nextProps){
         if(!this.state.productDetail['ImgSrc']){
             this.initCanvas(nextProps.productDetail['ImgUrl']);
         }
-        this.setState({
-            productDetail: nextProps.productDetail
-        })
+        if(JSON.stringify(this.state.productDetail) != JSON.stringify(nextProps.productDetail)){
+            this.setState({
+                productDetail: nextProps.productDetail
+            })
+        }
     }
 
     onmousedown = (e) => {
@@ -84,33 +109,22 @@ class Gold extends React.Component{
         event.preventDefault();
         event.stopPropagation();
         if(this.state.rect['flag']){
-            let width = e.clientX - document.querySelector('.detail').offsetLeft -document.querySelector('canvas').offsetLeft - this.state.rect['x'];
-            let height = e.clientY -document.querySelector('.detail').offsetTop - document.querySelector('canvas').offsetTop - this.state.rect['y'];
+            let width = (e.clientX - document.querySelector('.detail').offsetLeft -document.querySelector('canvas').offsetLeft) - this.state.rect['x'];
+            let height = (e.clientY -document.querySelector('.detail').offsetTop - document.querySelector('canvas').offsetTop) - this.state.rect['y'];
+            let x = this.state.rect['x'];
+            let y = this.state.rect['y'];
             this.setState({
                 rect: Object.assign({}, this.state.rect, {
                     width: width,
                     height: height,
                 })
             });
+            this.drawRects(this.state.imgList);
             let ele = document.getElementById("ele")
             let ctx = ele.getContext("2d");
-            ctx.clearRect( 0, 0, this.state.canvas['width'], this.state.canvas['height']);
-            ctx.beginPath();
-            ctx.drawImage(this.state.img, 0, 0, this.state.canvas['width'], this.state.canvas['height']);
-            ctx.closePath();
-            ctx.save();
-            let imgList = this.state.imgList;
-            for (let i = 0; i < imgList.length; i++) {
-                ctx.beginPath();
-                ctx.strokeStyle = "#4bf209";
-                ctx.rect(imgList[i]["sx"], imgList[i]["sy"], imgList[i]["sWidth"], imgList[i]["sHeight"]);
-                ctx.closePath();
-                ctx.stroke();
-                ctx.save();
-            } 
             ctx.beginPath();
             ctx.strokeStyle = "#ff0000";
-            ctx.rect(this.state.rect['x'], this.state.rect['y'], this.state.rect['width'], this.state.rect['height']);
+            ctx.rect(x, y, width, height);
             ctx.closePath();
             ctx.save();
             ctx.stroke();
@@ -124,18 +138,28 @@ class Gold extends React.Component{
         let ctx = ele.getContext("2d");
         event.preventDefault();
         event.stopPropagation();
-        let x = 0;
-        let y = 0;
-        let width = 0;
-        let height = 0;
         if (!this.state.rect['flag']) {
             return;
         }
-        if (this.state.rect['width'] < 50 || this.state.rect['height'] < 50) {
-            return
+        let width = this.state.rect['width'];
+        let height = this.state.rect['height'];
+        let x = this.state.rect['x'];
+        let y = this.state.rect['y'];
+        let activeSid = '';
+        if (width < 0) {
+            x = x + width;
+            width = Math.abs(width);
+        }
+        if (height < 0) {
+            y = y + height;
+            height = Math.abs(height);
+        }
+        if (width < 50 || height < 50) {
+            this.drawRects();
         } else {
-            let imgData = this.cutCanvasToImg(this.state.img, this.state.rect['x'], this.state.rect['y'], this.state.rect['width'], this.state.rect['height']); //裁剪图片
+            let imgData = this.cutCanvasToImg(this.state.img, x, y, width, height); //裁剪图片
             this.addImgItem(imgData);
+            activeSid = imgData['sid']
         }
         this.setState({
             rect: Object.assign({}, this.state.rect, {
@@ -144,7 +168,8 @@ class Gold extends React.Component{
                 width: 0,
                 height: 0,
                 flag :false
-            })
+            }),
+            activeSid: activeSid
         });
     }
 
@@ -182,10 +207,24 @@ class Gold extends React.Component{
         })
     }
 
+    activeItem = (e) => {
+        let activeSid = e.currentTarget.getAttribute('data-sid');
+        let imgList = this.state.imgList;
+        this.setState({
+            activeSid: activeSid
+        })
+        this.drawRects(imgList, activeSid);
+    }
+
     removeImgItem = (e) => {
         let sid = e.target.getAttribute('data-sid');
+        let imgList = this.state.imgList.filter(v => v.sid != sid);
+        let activeSid = imgList.length >0 ? imgList[imgList.length-1]['sid'] : '';
         this.setState({
-            imgList: this.state.imgList.filter(v => v.sid != sid)
+            imgList: imgList,
+            activeSid: activeSid
+        },() =>{
+            this.drawRects(imgList, activeSid);
         });
     }
 
@@ -207,7 +246,7 @@ class Gold extends React.Component{
 
     render(){
         const productDetail = this.state.productDetail;
-        let images = productDetail.ImageAlbums || [];
+        let imgList = this.state.imgList || [];
         let _this = this;
         return (
             <Modal {...this.props} 
@@ -233,10 +272,15 @@ class Gold extends React.Component{
                     </div>
                     <div className="imgInfo_list_wrap">
                         {
-                            this.state.imgList.length >0 
-                            ? <ul id="imgInfo_list" className="imgInfo_list">
-                                {this.state.imgList.map(function(item, index){
-                                    return <li key={item['sid']} className="imgInfo_item active clearfix">
+                            imgList.length >0 
+                            ? <ul id="imgInfo_list" className="imgInfo_list">     
+                                {
+                                    imgList.map(function(item, index){
+                                    let activeName = 'imgInfo_item clearfix';
+                                    if(item['sid'] == _this.state.activeSid){
+                                        activeName = 'imgInfo_item active clearfix'
+                                    }
+                                    return <li key={item['sid']} data-sid={item['sid']} className={activeName} onClick={_this.activeItem}>
                                                 <div className="img_wrap"><img className="img" src={item['src']} /></div>
                                                 <div className="input_wrap">
                                                     <div className="weight_range">

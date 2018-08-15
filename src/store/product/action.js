@@ -18,30 +18,14 @@ export const getProductData = (queryJson) => {
         })
 }
 
-export const getGoldTypeData = () => {
+export const getProductSearch = (queryJson) => {
     return dispatch =>
-        axios.get('/BaseParam/GetGoldType')
+        axios.post('/Product/GetProductSearch', queryJson)
         .then(res=>{
-            if (res.status == 200 && res.data.length  > 0) {
+            if (res.data.success) {
                 dispatch({
-                    type: product.GETGOLDTYPE,
-                    goldTypeList: res.data,
-                })
-            }
-        })
-        .catch(err=>{
-            console.log(err);
-        });
-}
-
-export const getCategoryData = () => {
-    return dispatch =>
-        axios.get('/BaseParam/GetCategory')
-        .then(res=>{
-            if (res.status == 200 && res.data.length  > 0) {
-                dispatch({
-                    type: product.GETCATEGORY,
-                    categoryList: res.data,
+                    type: product.GETPRODUCTSEARCH,
+                    productSearchList: res.data.data,
                 })
             }
         })

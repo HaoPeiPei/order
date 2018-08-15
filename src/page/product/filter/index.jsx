@@ -1,78 +1,102 @@
 import React from 'react';
 import { Form, Button, Row, Col, Input, Switch, Radio, Checkbox } from 'antd';
-
-
+import  { connect } from 'react-redux';
+import { getProductSearch } from '../../../store/product/action.js';
 import './index.scss';
-
 const FormItem = Form.Item;
 const RadioGroup = Radio.Group;
 const CheckboxGroup = Checkbox.Group;
 
-const params = {};
-
-const Filter = ({
-    filter,
-    form: {
-        getFieldDecorator,
-        validateFields,
-        getFieldsValue,
-    },
-    onFilterChange,
-}) => {
-
-    const handleChange = (e) => {
-        var name = e.currentTarget.getAttribute('name');
-        var doms = window.jQuery('input[name='+name+']');
-        var values = window.jQuery.map(doms,function(item){
-            if(item.checked){
-                return item.value
-            }
-        });
-        params[name] = values;
-        onFilterChange(values)
+class Filter extends React.Component{
+    constructor(props){
+        super(props)
+        this.state={
+            productSearchList: this.props.productData.productSearchList
+        } 
     }
 
-    const onChange = () => {
-        setTimeout(function(){
-            let fields =  getFieldsValue();
-            onFilterChange(fields);
-        },0)
+    componentDidMount(){
+        
     }
 
-    const { goldTypes, categorys } = filter;
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            productSearchList: nextProps.productData.productSearchList,
+        })
+    }
 
-    return (
-        <Form layout="horizontal">
-            <FormItem label="商品成色：" >
-                {getFieldDecorator('goldTypeItemDate', {  
-                })(
-                    <CheckboxGroup onChange={onChange}>
-                        { 
-                            goldTypes.dates.map((goldType,index) =>{
-                                return (
-                                    <Checkbox key={goldType['goldTypeItemId']} value={goldType['goldTypeItemId']}>{goldType['goldTypeItemName']}</Checkbox> 
-                                )
-                            }) 
-                        }
-                    </CheckboxGroup>
-                )}
-            </FormItem>
-            <FormItem label="商品品类：" >
-                {getFieldDecorator('categoryData', {  
-                })(
-                    <CheckboxGroup onChange={onChange}>
-                        { 
-                            categorys.dates.map((category,index) =>{
-                                return (
-                                    <Checkbox key={category['categoryId']} value={category['categoryId']}>{category['categoryName']}</Checkbox> 
-                                )
-                            }) 
-                        }
-                    </CheckboxGroup>
-                )}
-            </FormItem>        
-        </Form>
-    )
+    onChange = () => {
+        let _this = this;
+        setTimeout(() => {
+            let queryJson =  this.props.form.getFieldsValue();
+            queryJson = Object.assign({}, queryJson, {
+                NewMark: queryJson['NewMark'] ? 1 : 0,
+                FineMark: queryJson['FineMark'] ? 1 : 0,
+            })
+            this.props.onFilterChange(queryJson);
+        }, 0);
+    }
+
+    render(){
+        const {getFieldDecorator, validateFields} = this.props.form;
+        const productSearchList = this.state.productSearchList;
+        const Factory = productSearchList['Factory'] || [];
+        const Category = productSearchList['Category'] || [];
+        return (
+            <Form layout="horizontal">
+                <FormItem label="筛选：" >
+                    {getFieldDecorator('FineMark', {  
+                        onChange: this.onChange
+                    })(
+                        <Checkbox>精品</Checkbox>                              
+                    )}
+                    {getFieldDecorator('NewMark', {  
+                        onChange: this.onChange
+                    })(
+                        <Checkbox>新品</Checkbox>                              
+                    )}
+                </FormItem>
+                <FormItem label="工厂：" >
+                    {getFieldDecorator('Factory', { 
+                        onChange: this.onChange 
+                    })(
+                        <CheckboxGroup >
+                            { 
+                               Factory.map((item,index) =>{
+                                    return (
+                                        <Checkbox key={item['FactoryId']} checked={item['IsCheck']} value={item['FactoryId']}>{item['FullName']}</Checkbox> 
+                                    )
+                                }) 
+                            }
+                        </CheckboxGroup>
+                    )}
+                </FormItem>
+                <FormItem label="品类：" >
+                    {getFieldDecorator('Category', {  
+                        onChange: this.onChange 
+                    })(
+                        <CheckboxGroup>
+                            { 
+                                Category.map((item,index) =>{
+                                    return (
+                                        <Checkbox key={item['CategoryId']} checked={item['IsCheck']} value={item['CategoryId']}>{item['CategoryName']}</Checkbox> 
+                                    )
+                                }) 
+                            }
+                        </CheckboxGroup>
+                    )}
+                </FormItem>        
+            </Form>
+        )
+    }
 }
 
-export default Form.create()(Filter);
+
+
+export default connect(
+    state => ({
+        productData: state.productData,
+    }),{
+        getProductSearch
+    }
+)(Form.create()(Filter));

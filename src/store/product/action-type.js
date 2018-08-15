@@ -1,11 +1,8 @@
-//获取商品数据
+//获取通用商品数据
 export const GETPRODUCT = 'GETPRODUCT';
 
-//获取商品成色
-export const GETGOLDTYPE = 'GETGOLDTYPE';
+//获取通用商品查询条件
+export const GETPRODUCTSEARCH = 'GETPRODUCTSEARCH';
 
-//获取商品品类
-export const GETCATEGORY = 'GETCATEGORY';
-
-//获取商品详细
+//获取通用商品详细
 export const GETPRODUCTDETAIL = 'GETPRODUCTDETAIL';

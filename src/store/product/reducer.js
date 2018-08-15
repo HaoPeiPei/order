@@ -4,19 +4,15 @@ import Immutable from 'immutable';
 let defauleState = {
     productList : [],
     total: 0,
-    goldTypeList : [],
-    categoryList : [],
+    productSearchList : [],
     productDetail: {}
-
 }
 
 export const productData = (state = defauleState , action) => {
     switch(action.type){
         case product.GETPRODUCT:
             return { ...state, ...action }
-        case product.GETGOLDTYPE:
-            return { ...state, ...action }
-        case product.GETCATEGORY:
+        case product.GETPRODUCTSEARCH:
             return { ...state, ...action }
         case product.GETPRODUCTDETAIL:
             return { ...state, ...action }

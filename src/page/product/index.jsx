@@ -1,11 +1,10 @@
 import React from 'react';
 import  { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { is, fromJS } from 'immutable';
+import { Pagination } from 'antd';
 import $ from 'jquery';
 
-import { getProductData, getGoldTypeData, getCategoryData, getProductDetailData } from '../../store/product/action.js';
+import { getProductData, getProductSearch } from '../../store/product/action.js';
 import Filter from './filter/index.jsx';
 import _List from './list/index.jsx';
 import Detail from './detail/index.jsx';
@@ -17,30 +16,52 @@ class Product extends React.Component{
         super(props);
         const channelName_EN = this.props.match.params.channelName;
         const {channelId, channelName_ZH} = this.getChannel(channelName_EN);
-        const filter = this.getProductParam();
+        const productParam = this.getProductParam();
         this.state = {
             goldTypes: [],
             categorys: [],
             channelId: channelId,
             channelName: channelName_ZH,
-            filter: {
+            productParam: {
                 queryJson: JSON.stringify(
-                    Object.assign({},filter,{
+                    Object.assign({}, productParam, {
                         channelId: channelId
                     })
                 ),
                 sort: 'CreateDate',
                 order: 'desc',
             },
-            listProps: {
-                filter: {
-                    queryJson: JSON.stringify(
-                        Object.assign({},filter,{
-                            channelId: channelId
+            filterProps: {
+                productSearchList: props.productData.productSearchList ||[],
+                onFilterChange: (queryJson) => {
+                    queryJson = Object.assign({}, JSON.parse(this.state.productParam.queryJson), queryJson)
+                    this.setState({
+                        productParam: Object.assign({}, this.state.productParam,{
+                            ...this.state.listProps.pagination,
+                            queryJson: JSON.stringify(queryJson)
                         })
-                    ),
-                    sort: 'CreateDate',
-                    order: 'desc',
+                    },()=>{
+                        this.props.getProductData(this.state.productParam);
+                        this.props.getProductSearch(this.state.productParam);
+                    })
+                }
+            },
+            listProps: {
+                productList: props.productData.productList ||[],
+                pagination: {
+                    pageNumber: 1,
+                    pageSize: 20,
+                    total: props.productData.total || 0,
+                },
+                onPageChange: (page) => {
+                    this.setState({
+                        productParam: Object.assign({}, this.state.productParam, page),
+                        listProps: {
+                            pagination: Object.assign({}, this.state.listProps.pagination, page)
+                        } 
+                    },()=>{
+                        this.props.getProductData(this.state.productParam);
+                    })
                 },
                 showProductDetail: (productId)=>{
                     this.setState({
@@ -55,7 +76,6 @@ class Product extends React.Component{
                     });
                 }
             },
-
             detailProps: {
                 modalName: channelName_EN,
                 productId: '',
@@ -135,52 +155,34 @@ class Product extends React.Component{
         }
     }
 
-    //分页跳转
-    onPageNumberChange = (pageNumber) => {
+    onFilterChange = (filter) => {
         this.setState({
-            pageNumber: pageNumber,
-        });
-        this.props.getProductData({
-            "sort": "CreateDate",
-            "order": "desc",
-            "pageNumber": this.state.pageNumber,
-            "pageSize": this.state.pageSize,
-            "queryJson": JSON.stringify(this.getProductParam())
-        });
-    }
-
-    //改变分页大小
-    onPageSizeChange= (pageNumber,pageSize)=>{
-        this.setState({
-            pageNumber: pageNumber,
-            pageSize: pageSize,
-        });
-        this.props.getProductData({
-            "sort": "CreateDate",
-            "order": "desc",
-            "pageNumber": this.state.pageNumber,
-            "pageSize": this.state.pageSize,
-            "queryJson": JSON.stringify(this.getProductParam())
-        });
+            productParam: {
+                queryJson: JSON.stringify(
+                    Object.assign({}, JSON.parse(this.state.productParam.queryJson), filter)
+                )
+            }
+        })
     }
 
     componentDidMount(){
-        document.title = this.state.channelName;
+        document.title = this.state.channelName; 
         document.querySelector('#channelTitle').innerHTML = this.state.channelName;
-        
-
-        //加载商品成色
-        /* if(!this.props.productData.goldTypeList.length){
-            this.props.getGoldTypeData();
-        } */
-
-        //加载商品品类
-        /* if(!this.props.productData.categoryList.length){
-            this.props.getCategoryData();
-        }     */    
-
+        let productParam = Object.assign({}, this.state.productParam, {
+            pageNumber: 1,
+            pageSize: 20,
+        })
+        this.props.getProductData(productParam);
+        this.props.getProductSearch(productParam);
     }
 
+    componentWillReceiveProps(nextProps){
+        this.setState({
+            productList: nextProps.productData.productList,
+            total: nextProps.productData.total,
+            productSearchList: nextProps.productData.productSearchList
+        })
+    }
 
     render(){
     
@@ -217,7 +219,7 @@ class Product extends React.Component{
                 </header>
                 <section>
                     <div className="main_right">                                                                        
-                        {/* <Filter {...filterProps} /> */}
+                        <Filter {...this.state.filterProps}/>
                         <_List {...this.state.listProps} />
                     </div>
                 </section>
@@ -233,8 +235,6 @@ export default connect(
         productData: state.productData,
     }),{
         getProductData,
-        getGoldTypeData,
-        getCategoryData,
-        getProductDetailData
+        getProductSearch
     }
 )(Product);
