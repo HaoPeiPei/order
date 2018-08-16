@@ -1,4 +1,5 @@
 import cloneDeep from 'lodash.clonedeep';
+import { message } from 'antd';
 
 
 /**
@@ -45,4 +46,9 @@ export function arrayToTree(array, id = 'id', pid = 'pid', children = 'children'
         }
     })
     return result
+}
+
+export function checkArray(options){
+    var t = !0;
+    return(void 0 == options || "" == options || "null" == options || "undefined" == options) && (t = !1, message.error("您没有选中任何项,请您选中后再操作。")), t
 }

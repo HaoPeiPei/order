@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as cart from './active-type.js';
 
-export const getCartList = (url, data) => {
+export const getCartList = () => {
     return dispatch =>
         axios.get(`/Cart/GetListCart`)
             .then(res=>{
@@ -15,4 +15,14 @@ export const getCartList = (url, data) => {
             .catch(err=>{
                 console.log(err);
             });
+}
+
+export const removeCart = ({data, callBack}) => {
+    axios.post(`/Cart/BatchDeleteCart`, data)
+        .then(res=>{
+            callBack && callBack(res.data);
+        })
+        .catch(err=>{
+            console.log(err);
+        });
 }

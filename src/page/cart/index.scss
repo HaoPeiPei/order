@@ -44,6 +44,7 @@
             padding: 0 0 0 20px;
             background: #efefef;
             font-size: 16px;
+            margin: 0;
             .info_left{
               height: 35px;
               line-height: 35px;
@@ -249,14 +250,29 @@
                     content: "\e69e";
                   }
               }
+              & ~ .text{
+                display: inline-block;
+                font-size: 14px;
+                width: 50px;
+                vertical-align: middle;
+                margin: 0 0 0 10px;
+                &::before{
+                  content: '全选'
+                }
+              }
               &:checked{
                 & +i{
                   &::before{
                     color: #ff0000;
                     content: "\e71e";
                   }
+                }
+                & ~ .text{
+                  &::before{
+                    content: '全不选'
+                  }
+                }
               }
-            }
           }
           span{
             margin: 0 0 0 10px;
@@ -267,6 +283,9 @@
           color: #898989;
           text-decoration: none;
           margin: 0 0 0 40px;
+          .text{
+            vertical-align: middle;
+          }
         }
         .addCart_btn{
           display: inline-block;
