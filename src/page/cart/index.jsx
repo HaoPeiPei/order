@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import { message, Modal } from 'antd';
 import { getCartList, removeCart } from '../../store/cart/active.js';
-import { checkArray } from'../../utils/index.js';
+import { checkArray, remove, save } from'../../utils/index.js';
 import './index.scss';
 
 const confirm = Modal.confirm;
@@ -25,10 +25,6 @@ class Cart extends React.Component{
 
     componentDidMount(){
         this.props.getCartList();
-    }
-
-    editCart = () =>{
-
     }
 
     checkAll = (e) =>{
@@ -97,35 +93,90 @@ class Cart extends React.Component{
         }, 0);
     }
 
-    removeAll = () => {
-        let _this = this;
+    quantityRemove = (e) => {
+        e.stopPropagation();
+        let target = e.currentTarget;
+        let $quantity = $(target).next('.quantity');
+        let value = parseInt($quantity.val()) - 1;
+        $quantity.val(value);
+        this.editCart(e)
+    }
+
+    quantityAdd = (e) => {
+        e.stopPropagation();
+        let target = e.currentTarget;
+        let $quantity = $(target).prev('.quantity');
+        let value = parseInt($quantity.val()) + 1;
+        $quantity.val(value);
+        this.editCart(e)
+    }
+
+    editCart = (e) =>{
+        e.stopPropagation();
+        let target = e.currentTarget;
+        let $tr = $(target).parents('tr');
+        let cartId = $tr.attr('data-cartid');
+        let $message = $tr.find('input[name="message"]');
+        let $quantity = $tr.find('input[name="quantity"]');
+
+        let postDate = {
+            "CartId": cartId,
+            "cart": {
+                "Message": $message.val(),
+                "Quantity": $quantity.val()
+            }
+        };
+        save({
+            url: `/Cart/EditCart`,
+            data: postDate,
+            callBack: (data) => {
+                if (data.success) {
+                    message.success('修改成功');
+                } else {
+                    message.error('修改失败');
+                }
+            }
+        })
+    }
+
+    removeAll = (e) => {
+        e.stopPropagation();
         let selected = $('#cartList').find('input[type="checkbox"]:not(.checkAll):checked').parents('tr');
         let cartIds = $.map(selected, function (item, index) {
             return $(item).attr('data-cartid');
         });
-        checkArray(cartIds) && confirm({
-            title: '信息',
-            okText: '确认',
-            content: '注：您确定要删除吗？该操作将无法恢复。',
-            okType: 'danger',
-            cancelText: '取消',
-            onOk() {
-                removeCart(
-                    {
-                        data: {'cartIds': cartIds},
-                        callBack: (data) => {
-                            if (data.success) {
-                                message.success(data.Message || '删除成功');
-                                debugger
-                                _this.props.getCartList();
-                            } else {
-                                message.error(data.Message || '删除失败');
-                            }
-                        }
-                    }
-                )
+        checkArray(cartIds) &&  remove({
+            utl: `/Cart/BatchDeleteCart`,
+            data: {'cartIds': cartIds},
+            callBack: (data) => {
+                if (data.success) {
+                    message.success(data.Message || '删除成功');
+                    debugger
+                    this.props.getCartList();
+                } else {
+                    message.error(data.Message || '删除失败');
+                }
             }
-        });
+        });  
+    }
+
+    removeSingle = (e) => {
+        e.stopPropagation();
+        let cartId = e.currentTarget.getAttribute('data-cartid');
+        remove({
+            url: '/Cart/DeleteCart',
+            data: {
+                "CartId": cartId
+            },
+            callBack: (data) => {
+                if (data.success) {
+                    message.success(data.Message || '删除成功');
+                    this.props.getCartList()
+                } else {
+                    message.error(data.Message || '删除失败');
+                }
+            }
+        })
     }
 
     //计算购物车数量
@@ -213,14 +264,14 @@ class Cart extends React.Component{
                                                                             <td style={{paddingTop: 10, textAlign:'left'}}>
                                                                                 <p><span>{cart.Title}</span>&nbsp;&nbsp;{!cart.GoodsNo ? '' : <span>（款号：{cart.GoodsNo}）</span>}</p>
                                                                                 <p><span>{cart.Parameter}</span></p>
-                                                                                <p className="desc_box">备注：<input className="desc" type="text" value={cart.Message == null ? '' : cart.Message} onChange={()=>{}}/></p>
+                                                                                <p className="desc_box">备注：<input className="desc" type="text" name="message" defaultValue={cart.Message == null ? '' : cart.Message} onBlur={_this.editCart}/></p>
                                                                             </td>
                                                                             {
                                                                                 !(item['ChannelId'] == Inlay2 || item['ChannelId'] == Stone || item['ChannelId'] == Ring) 
                                                                                     ?   (cart['Price'] 
                                                                                             ? <td valign="middle" style={{width:285, color:'#ff0000'}}>￥
                                                                                                 <span className="price">{cart['Price']}</span>
-                                                                                                <input type="hidden" value={cart['Quantity']} onChange={()=>{}} />
+                                                                                                <input type="hidden" defaultValue={cart['Quantity']} />
                                                                                                 </td> 
                                                                                             : null)
                                                                                     :   null
@@ -230,15 +281,15 @@ class Cart extends React.Component{
                                                                                 !(item['ChannelId'] == Inlay2 || item['ChannelId'] == Stone || item['ChannelId'] == Ring)  
                                                                                     ?   <td style={{width:285}}>
                                                                                             <div className="quantity_box">
-                                                                                                <i className="iconfont icon-jian" onClick={()=>{}}></i>
-                                                                                                <input type="number" className="quantity" name="quantity" value={cart['Quantity']} onChange={()=>{}}/>
-                                                                                                <i className="iconfont icon-jia" onClick={()=>{}}></i>
+                                                                                                <i className="iconfont icon-jian" onClick={_this.quantityRemove}></i>
+                                                                                                <input type="number" className="quantity" name="quantity" defaultValue={cart['Quantity']} onBlur={_this.editCart}/>
+                                                                                                <i className="iconfont icon-jia" onClick={_this.quantityAdd}></i>
                                                                                             </div>
                                                                                         </td>                                                                                    
                                                                                     : null 
                                                                             }
                                                                             <td>
-                                                                                <a href="javascript:;" data-cartid={cart['CartId']} className="remove_btn btn btn-xs  btn-danger" >删除</a>
+                                                                                <a href="javascript:;" onClick={_this.removeSingle} data-cartid={cart['CartId']} className="remove_btn btn btn-xs  btn-danger" >删除</a>
                                                                                 {item['ChannelId'] != Stone || item['ChannelId'] != Ring ? <a href="javascript:;" data-cartid={cart['CartId']} data-productid={cart['ProductId']} data-channelid={item['ChannelId']} className="view_btn btn btn-xs  btn-success" >查看详情</a> : null}
                                                                             </td>
                                                                         </tr>

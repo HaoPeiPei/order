@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash.clonedeep';
-import { message } from 'antd';
-
+import { message, Modal } from 'antd';
+import axios from 'axios';
 
 /**
  * 数组内查询
@@ -51,4 +51,33 @@ export function arrayToTree(array, id = 'id', pid = 'pid', children = 'children'
 export function checkArray(options){
     var t = !0;
     return(void 0 == options || "" == options || "null" == options || "undefined" == options) && (t = !1, message.error("您没有选中任何项,请您选中后再操作。")), t
+}
+
+export const remove = ({url, data, callBack}) => {
+    Modal.confirm({
+        title: '信息',
+        okText: '确认',
+        content: '注：您确定要删除吗？该操作将无法恢复。',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk() {
+            axios.post(url, data)
+                .then(res=>{
+                    callBack && callBack(res.data);
+                })
+                .catch(err=>{
+                    console.log(err);
+                });
+        }
+    })
+}
+
+export const save = ({url, data, callBack}) => {
+    axios.post(url, data)
+        .then(res=>{
+            callBack && callBack(res.data);
+        })
+        .catch(err=>{
+            console.log(err);
+        });
 }
