@@ -1,14 +1,14 @@
 import axios from 'axios';
 import * as order from './active-type.js';
 
-export const getOrderList = (url, data) => {
+export const getOrderList = (data) => {
     return dispatch =>
-        axios.get(url,data)
+        axios.post(`/Cart/GetListCart`, data)
         .then(res=>{
-            if (res.status == 200 && res.data.length  > 0) {
+            if (res.status == 200 && res.data.success) {
                 dispatch({
                     type: order.GETORDERLIST,
-                    categoryList: res.data,
+                    orderList: res.data.data,
                 })
             }
         })

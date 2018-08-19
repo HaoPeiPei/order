@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import { message, Modal } from 'antd';
+import ProductImg from '../../component/productImg/index.jsx';
 import { getCartList, removeCart } from '../../store/cart/active.js';
-import { checkArray, remove, save } from'../../utils/index.js';
+import { checkArray, remove, save, request } from'../../utils/index.js';
 import './index.scss';
 
 const confirm = Modal.confirm;
@@ -15,18 +16,24 @@ const Inlay2 = '0e77c6ca-4a31-404f-b5ad-18882a2f15d0';
 const OutStock = '8045c89a-c242-4fad-b077-5e65ce78e94b';
 const Ring = '752011f1-b6ff-43c6-9a80-380b95d95546';
 
+
 class Cart extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            totalQuantity: 0
+            totalQuantity: 0,
+            imageProps: {
+                visible : false,
+            }
         }
     }
 
     componentDidMount(){
+        //获取购物车列表数据
         this.props.getCartList();
     }
 
+    //单击选中频道和成色下的商品
     checkAll = (e) =>{
         e.stopPropagation();
         let target = e.currentTarget;
@@ -44,6 +51,7 @@ class Cart extends React.Component{
         }, 0);
     }
 
+    //单击选中商品
     check = (e) => {
         e.stopPropagation();
         let target = e.currentTarget;
@@ -65,6 +73,7 @@ class Cart extends React.Component{
         }, 0);
     }
 
+    //显示或隐藏列表
     toggle = (e) => {
         e.stopPropagation();
         let target = e.currentTarget;
@@ -77,6 +86,7 @@ class Cart extends React.Component{
         }
     }
 
+    //全选购物车商品
     cartCheckAll = (e) => {
         e.stopPropagation();
         let target = e.currentTarget;
@@ -93,15 +103,18 @@ class Cart extends React.Component{
         }, 0);
     }
 
+    //商品数量减少
     quantityRemove = (e) => {
         e.stopPropagation();
         let target = e.currentTarget;
         let $quantity = $(target).next('.quantity');
         let value = parseInt($quantity.val()) - 1;
+        if(value < 1) return 
         $quantity.val(value);
         this.editCart(e)
     }
 
+    //商品数量增加
     quantityAdd = (e) => {
         e.stopPropagation();
         let target = e.currentTarget;
@@ -111,6 +124,7 @@ class Cart extends React.Component{
         this.editCart(e)
     }
 
+    //修改商品备注和数量
     editCart = (e) =>{
         e.stopPropagation();
         let target = e.currentTarget;
@@ -118,12 +132,14 @@ class Cart extends React.Component{
         let cartId = $tr.attr('data-cartid');
         let $message = $tr.find('input[name="message"]');
         let $quantity = $tr.find('input[name="quantity"]');
-
+        let quantity = parseInt($quantity.val());
+        $quantity.val(quantity)
+        if(quantity < 1) return 
         let postDate = {
             "CartId": cartId,
             "cart": {
                 "Message": $message.val(),
-                "Quantity": $quantity.val()
+                "Quantity": quantity
             }
         };
         save({
@@ -139,6 +155,7 @@ class Cart extends React.Component{
         })
     }
 
+    //清空购物车
     removeAll = (e) => {
         e.stopPropagation();
         let selected = $('#cartList').find('input[type="checkbox"]:not(.checkAll):checked').parents('tr');
@@ -160,6 +177,7 @@ class Cart extends React.Component{
         });  
     }
 
+    //单个删除购物车
     removeSingle = (e) => {
         e.stopPropagation();
         let cartId = e.currentTarget.getAttribute('data-cartid');
@@ -177,6 +195,101 @@ class Cart extends React.Component{
                 }
             }
         })
+    }
+
+    //查看图片
+    viewImg = (e) => {
+        e.stopPropagation();
+        let target = e.currentTarget;
+        let $table = $(target).parents("table");
+        let imageProps = {
+            title: "查看图片",
+            width: "600px",
+            height: "600px",
+            imgUrl: $(target).find("img").length > 0 ? $(target).find("img").attr("src").split("?")[0] : '',
+            hideModal: () => {
+                this.setState({
+                    imageProps: Object.assign({}, this.state.imgProps, {
+                        visible: false 
+                    })
+                })
+            }
+        }
+        if($table.hasClass("Gold")){
+            imageProps = Object.assign({}, imageProps, {
+                rect: {
+                    x: $(target).find("img").attr("data-x"),
+                    y: $(target).find("img").attr("data-y"),
+                    w: $(target).find("img").attr("data-w"),
+                    h: $(target).find("img").attr("data-h"),
+                },
+                productImgUrl: $(target).find("img").attr("data-productImgUrl").split("?")[0],
+                markNum: $(target).find("img").attr("data-marknum"),
+                width: "1000px",
+                height: "85%",
+            });
+        }
+        this.setState({
+            imageProps: Object.assign({}, imageProps, {
+                visible: true    
+            })
+        },()=>{
+            console.log(this.state.imageProps)
+        })
+    };
+
+    //去结算
+    addOrder = () => {
+        var selected = $('#cartList').find('input[type="checkbox"]:not(.checkAll):checked').parents('tr');
+        var cartIds = $.map(selected, function (item, index) {
+            return $(item).attr('data-cartId');
+        });
+        checkArray(cartIds) && request({
+            url: '/Cart/ToSetOrder',
+            data: { "text": '', "ids": cartIds.join(',') },
+            callBack: () => {
+                if (cartIds.length > 0) {
+                    this.props.history.push(`/order/addOrder/${cartIds}`);
+                }
+            }
+        })
+        
+    }
+
+    //判断频道
+    switchChnanel = (channelId) => {
+        switch(channelId){
+            case  Gold:
+                return {
+                    channelName: 'Gold'
+                }
+                break;
+            case  Stone:
+                return {
+                    channelName: 'Stone'
+                }
+                break;
+            case  Inlay1:
+                return {
+                    channelName: 'Inlay1'
+                }
+                break;
+            case  Inlay2:
+                return {
+                    channelName: 'Inlay2'
+                }
+                break;
+            case  OutStock:
+                return {
+                    channelName: 'OutStock'
+                }
+                 break;
+            case  Ring:
+                return {
+                    channelName: 'Ring'
+                }
+                 break;
+        }
     }
 
     //计算购物车数量
@@ -197,7 +310,6 @@ class Cart extends React.Component{
     render(){
         let _this = this;
         const cartList = this.props.cartData.cartList;
-          
         return (
             <div className="cart">
                 <header>
@@ -234,6 +346,7 @@ class Cart extends React.Component{
                         {
                             cartList.map(function(item, index){
                                 let cartData = item['CartData'];
+                                var channelName =  _this.switchChnanel(item['ChannelId'])["channelName"]; 
                                 return <li key={`${item['ChannelId']}`.concat(`${item['GoldTypeItemId']}`)} className="cart_item">
                                             <h3 className="title clearfix">
                                                 <span className="fl info_left">
@@ -249,16 +362,21 @@ class Cart extends React.Component{
                                                     </a>
                                                 </span>
                                             </h3>
-                                            <table className="table">
+                                            <table className={`table ${channelName}`}>
                                                 <tbody>
                                                     {
                                                         cartData.length > 0 
                                                             ? cartData.map(function(cart, index){
+                                                                let markCoordinate = cart['MarkCoordinate'] && JSON.parse(cart['MarkCoordinate']);
                                                                 return <tr key={cart['CartId']} data-cartid={cart['CartId']}>
                                                                             <td style={{width:70, textAlign:'center'}}>{cart['EnabledMark'] == 0 ? <span>失效</span>: <div onClick={_this.check} className="checkbox"><input type="checkbox" /><i className="iconfont icon-checkbox"></i></div> }</td>
                                                                             <td style={{width:110, overflow:'hidden'}}>
-                                                                                <a className="viewImg_btn" href="javascript:;" onClick={()=>{}}  >
-                                                                                <img data-marknum={cart.MarkNum} data-productimgurl={cart.ProductImgUrl} data-markcoordinate-x={0} data-markcoordinate-y={0} data-markcoordinate-h={0} data-markcoordinate-w={0} src={cart.ImgUrl} />
+                                                                                <a className="viewImg_btn" href="javascript:;" onClick={_this.viewImg}  >
+                                                                                <img data-marknum={cart.MarkNum} data-productimgurl={cart.ProductImgUrl} src={cart.ImgUrl} 
+                                                                                    data-x={markCoordinate && markCoordinate['x']} 
+                                                                                    data-y={markCoordinate && markCoordinate['y']} 
+                                                                                    data-w={markCoordinate && markCoordinate['w']}
+                                                                                    data-h={markCoordinate && markCoordinate['h']} /> 
                                                                                 </a>
                                                                             </td>
                                                                             <td style={{paddingTop: 10, textAlign:'left'}}>
@@ -316,10 +434,11 @@ class Cart extends React.Component{
                             </a>
                         </div>
                         <div className="fr">
-                            <a href="javascript:;" className="addCart_btn">去结算(<span id="totalQuantity">{this.state.totalQuantity}</span>)</a>
+                            <a href="javascript:;" onClick={this.addOrder} className="addCart_btn">去结算(<span id="totalQuantity">{this.state.totalQuantity}</span>)</a>
                         </div>
                     </div>
                 </footer>   
+                {this.state.imageProps.visible && <ProductImg {...this.state.imageProps}/>}
             </div>
             
         )

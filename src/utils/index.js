@@ -81,3 +81,24 @@ export const save = ({url, data, callBack}) => {
             console.log(err);
         });
 }
+
+export const request = ({url, data, type='get', callBack}) => {
+    if(type == 'get'){
+        axios.get(url)
+        .then(res=>{
+            callBack && callBack(res.data);
+        })
+        .catch(err=>{
+            console.log(err);
+        });
+    }else if(type == 'post'){
+        axios.post(url, data)
+            .then(res=>{
+                callBack && callBack(res.data);
+            })
+            .catch(err=>{
+                console.log(err);
+            });
+    }
+}
+

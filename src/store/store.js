@@ -5,14 +5,16 @@ import { routerReducer } from 'react-router-redux'
 import * as home from './home/reducer.js';
 import * as product from './product/reducer.js';
 import * as cart from './cart/reducer.js';
-import * as manager from './manager/reducer.js';
+import * as order from './order/reducer.js';
+import * as manager from './member/reducer.js';
 
 let store = createStore(
     combineReducers({
         router: routerReducer,
+        ...home,
         ...product,
         ...cart,
-        ...home,
+        ...order,
         ...manager
     }),
     applyMiddleware(thunk)

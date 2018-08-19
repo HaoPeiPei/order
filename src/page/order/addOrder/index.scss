@@ -1,0 +1,267 @@
+.addOrder{
+    background: #ffffff;
+    height: 100%;
+    header{
+      .orderBar_list{
+        .orderBar_item{
+          a{
+            padding: 0;
+            img{
+              width: 25px;
+              vertical-align: middle;
+            }
+            .line{
+              display: inline-block;
+              width: 25px;
+              height: 1px;
+              background: #e7e7e7;
+              vertical-align: middle;
+            }
+            &.active{
+              .line{
+                background: #ff0000;
+              }
+            }
+          }
+        }
+      }
+    }
+    section{
+      width: 1380px;
+      padding-top:65px; 
+      margin: 0 auto;
+      min-height: 100vh;
+      .address{
+        height: 105px;
+        line-height: 105px;
+        position: relative;
+        background: url('../../../assets/images/address_bottom_line.png') no-repeat bottom;
+        background-size: 100%;
+        .address_img{
+          display: inline-block;
+          margin: 0 0 0 20px;
+          vertical-align: middle;
+        }
+        .accept_info{
+          display: inline-block;
+          margin: 0 0 0 15px;
+          vertical-align: middle;
+          p{
+            line-height: 30px;
+          }
+        }
+        .chageAddress{
+          display: inline-block;
+          height: 40px;
+          line-height: 40px;
+          padding: 0 10px;
+          color: #ff0000;
+          vertical-align: middle;
+          top: 50%;
+          margin-top: -20px;
+        }
+      }
+      .orderTitle{
+        width: 1380px;
+        margin: 20px auto 0;
+        > ul{
+          width: 50%;
+          float: left;
+          > li{
+            height: 40px;
+            line-height: 40px;
+            margin-bottom: 15px;
+            .title{
+              width: 50px;
+            }
+            input{
+              width: 420px;
+              height: 34px;
+              line-height: 34px;
+              border-radius: 20px;
+              background: #f1f1f1;
+              padding:  0  0 0 15px;
+              outline: none;
+              display: inline-block;
+              border: none;
+              box-shadow: none;
+            }
+          }
+        }
+      }
+      #orderList{
+        width: 100%;
+        margin: 10px 0 0 0 ;
+        .order_item{
+          margin-bottom: 10px;
+          .title{
+            height: 35px;
+            line-height: 35px;
+            padding: 0 0 0 20px;
+            font-size: 16px;
+            background: #efefef;
+            .info_left{
+              height: 35px;
+              line-height: 35px;            
+              span{
+                vertical-align: middle;
+              }
+            }
+            .info_right{
+              overflow: hidden;
+              span{
+                vertical-align: middle;
+                float: left;
+              }
+              .btn_goods_togger {
+                .arrow{
+                  float: left;
+                  vertical-align: middle;
+                  margin: 0 10px;
+                  font-size: 12px;
+                  &::before{
+                    color: #cbcaca;
+                    content: "\e634";
+                  }
+                }
+                &.open{
+                  .arrow{
+                    &::before{
+                      content: "\e62b";
+                    }
+                  }
+                }
+              }
+            }
+          }
+          table{
+            width: 100%;
+            tbody{
+              tr{
+                height: 120px;
+                line-height: 120px;
+                background: #fafafa;
+                td{
+                  height: 120px;
+                  line-height: 120px;
+                  position: relative;
+                  text-align: center;
+                  padding: 0;
+                  .viewImg_btn{
+                    width:100px;
+                    height: 100px;
+                    line-height: 100px;
+                    text-align: center;
+                    overflow:hidden;
+                    display:block;
+                    margin: 10px 10px 10px 10px;
+                    text-align: center;
+                    img{
+                      display: inline-block;
+                      max-width: 100%;
+                      max-height: 100%;
+                    }
+                  }
+                  p{
+                    line-height: 25px;
+                  }
+                  .desc_box{ 
+                    margin-top: 5px;                 
+                    .desc{
+                      width: 530px;
+                      height: 30px;
+                      line-height: 30px;
+                      border-radius: 15px;
+                      background: #fff;
+                      outline: none;
+                    }
+                  }
+                  
+                  .quantity_box{
+                    display: inline-block;
+                    height: 35px;
+                    line-height: 35px;
+                    background: #eee;
+                    i{
+                      display: inline-block;
+                      width: 16px;
+                      height: 16px;
+                      margin: 0 5px;
+                      line-height: 16px;
+                      vertical-align: middle;
+                    }
+                    .quantity{
+                      text-align: center;
+                      vertical-align: top;
+                      width: 100px;
+                      height: 35px;
+                      line-height: 35px;
+                      background: #eee;
+                      outline: none;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    footer{
+      width: 1380px;
+      margin: 30px auto 0;
+      height: 50px;
+      line-height: 50px;
+      border: 1px solid #f0f0f0;
+      padding: 0 0 0 20px;
+      .ckeckAll{
+          position: relative;
+          display: inline-block;
+          &:hover{
+            cursor: pointer;
+          }
+          input{
+            position: absolute;
+            left: -9999em;
+            & +i{
+                display: inline-block;
+                vertical-align: middle;
+                width: 16px;
+                height: 16px;
+                line-height: 16px;
+                &::before{
+                  content: "\e69e";
+                }
+            }
+            &:checked{
+              & +i{
+                &::before{
+                  color: #ff0000;
+                  content: "\e71e";
+                }
+            }
+          }
+        }
+        span{
+          margin: 0 0 0 10px;
+        }
+      }
+      .remove_btn{
+        display: inline-block;
+        color: #898989;
+        text-decoration: none;
+        padding: 8px 10px;
+        margin: 0 0 0 40px;
+      }
+      .addOrder_btn{
+        display: inline-block;
+        width: 200px;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        color: #fff;
+        background: #ff0000;
+        font-size: 16px;
+      }
+    }
+}

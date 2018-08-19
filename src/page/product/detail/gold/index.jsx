@@ -23,15 +23,7 @@ class Gold extends React.Component{
             }
         }
     }
-
-    loadImg = () => {
-        let img = new Image();
-        img.src = '/Product/MakeImg?imgUrl=' + this.state.productDetail['ImgUrl'];
-        img.width = 1000;
-        img.height = 1000;
-        return img;
-    }
-
+    
     initCanvas = (imgSrc) =>{
         if(!!imgSrc){
             let _this = this;

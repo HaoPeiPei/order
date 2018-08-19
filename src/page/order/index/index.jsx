@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getOrderList } from '../../../store/manager/active.js';
+import { getOrderList } from '../../../store/order/active.js';
 import './index.scss';
 
 
