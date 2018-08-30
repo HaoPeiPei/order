@@ -1,2 +1,9 @@
 //获取订单数据
-export const GETORDERLIST = 'GETORDERLIST';
+export const GETLISTORDER = 'GETLISTORDER';
+
+//获取订单状态名称
+export const GETORDERSTATUSNAMES = 'GETORDERSTATUSNAMES';
+
+//获取订单状态数据
+export const GETCOUNTORDERNUMS = 'GETCOUNTORDERNUMS';
+

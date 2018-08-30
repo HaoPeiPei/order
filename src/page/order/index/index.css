@@ -1,0 +1,210 @@
+p {
+  margin-bottom: 0;
+}
+
+.radio_list {
+  overflow: hidden;
+  padding-left: 15px;
+}
+
+.radio_list > .radio {
+  float: left;
+  font-weight: normal;
+  cursor: pointer;
+  margin: 0;
+}
+
+.orderState_list {
+  height: 60px;
+}
+
+.orderState_list .orderState_item {
+  width: 14.2%;
+  height: 60px;
+  line-height: 60px;
+  float: left;
+}
+
+.orderState_list .orderState_item a {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  color: #000;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.orderState_list .orderState_item a:focus {
+  text-decoration: none;
+}
+
+.orderState_list .orderState_item a:active {
+  text-decoration: none;
+}
+
+.orderState_list .orderState_item a.active {
+  border-bottom: 4px solid #ff0072;
+}
+
+.order_list {
+  width: 1120px;
+  overflow: hidden;
+}
+
+.order_list .order_item {
+  width: 100%;
+  height: 162px;
+  border: 1px solid #e9e8e8;
+  border-radius: 5px;
+  padding: 0 20px;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.order_list .order_item .title {
+  height: 45px;
+  line-height: 45px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.order_list .order_item .title i {
+  display: inline-block;
+  width: 19px;
+  height: 17px;
+  background: url("../../../assets/images/store_icon.png") no-repeat;
+  margin-right: 5px;
+}
+
+.order_list .order_item .title .tel {
+  margin-left: 15px;
+}
+
+.order_list .order_item .title .state {
+  float: right;
+  color: #ff0000;
+}
+
+.order_list .order_item .info_wrap .quantity {
+  display: inline-block;
+  width: 220px;
+  height: 70px;
+  border-radius: 5px;
+  background: #f0e6e0;
+  text-align: center;
+  padding-top: 5px;
+  vertical-align: middle;
+}
+
+.order_list .order_item .info_wrap .info {
+  display: inline-block;
+  vertical-align: middle;
+  height: 70px;
+  width: 852px;
+  padding: 0 0 30px 30px;
+  position: relative;
+}
+
+.order_list .order_item .info_wrap .info p:nth-child(1) span {
+  display: inline-block;
+  margin: 0 120px 10px 0;
+  line-height: 30px;
+  height: 30px;
+}
+
+.order_list .order_item .info_wrap .info .desc_wrap {
+  position: absolute;
+  bottom: 0;
+  left: 30px;
+  width: 100%;
+}
+
+.order_list .order_item .info_wrap .info .desc_wrap .desc {
+  width: 780px;
+  height: 30px;
+  line-height: 30px;
+  border-radius: 15px;
+  background: #f7f7f7;
+  padding: 0 15px;
+  outline: none;
+}
+
+.order_list .order_item .footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 35px;
+  border-top: 1px dashed #f2f1f1;
+  width: 100%;
+}
+
+.order_list .order_item .footer .circle_left {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background: #fff;
+  position: absolute;
+  left: 0;
+  top: 0;
+  transform: translate(-50%, -50%);
+  border-right: 1px solid #f2f1f1;
+  z-index: 999;
+}
+
+.order_list .order_item .footer .circle_right {
+  width: 10px;
+  height: 10px;
+  border-radius: 5px;
+  background: #fff;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translate(50%, -50%);
+  border-left: 1px solid #f2f1f1;
+  z-index: 999;
+}
+
+.order_list .order_item .footer .orderCode {
+  display: inline-block;
+  left: 20px;
+  height: 22px;
+  margin-top: 7px;
+  line-height: 30px;
+  color: #707070;
+}
+
+.order_list .order_item .footer .info {
+  margin-right: 25px;
+  height: 35px;
+}
+
+.order_list .order_item .footer .info .time {
+  display: inline-block;
+  margin: 7px 25px 0 0;
+  height: 22px;
+  vertical-align: middle;
+}
+
+.order_list .order_item .footer .info .btn {
+  display: inline-block;
+  height: 22px;
+  line-height: 22px;
+  padding: 0  8px;
+  border-radius: 11px;
+  background: #ff0000;
+  vertical-align: middle;
+  margin-top: 7px;
+  color: #fff;
+}
+
+.ant-pagination {
+  position: fixed;
+  background-color: #fff;
+  padding: 20px 0;
+  width: 1120px;
+  transform: translate(-50%, 0);
+  left: 50%;
+  bottom: 0;
+  margin-left: 110px;
+}

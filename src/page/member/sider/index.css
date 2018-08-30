@@ -1,0 +1,79 @@
+.managerChana_nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding-top: 90px;
+  width: 240px;
+  background: #f8f7f7;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.managerChana_nav > li {
+  margin-left: 45px;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.managerChana_nav > li > a {
+  display: inline-block;
+  line-height: 40px;
+  color: #000;
+  padding: 0 8px 0 18px;
+  margin: 2px 0;
+  position: relative;
+}
+
+.managerChana_nav > li > a:focus {
+  text-decoration: none;
+}
+
+.managerChana_nav > li > a::before {
+  position: absolute;
+  left: 0;
+  content: '\02022';
+  color: #000;
+  font-size: 20px;
+}
+
+.managerChana_nav > li > a.active {
+  color: #ff0000;
+}
+
+.managerChana_nav > li > a.active::before {
+  color: #ff0000;
+}
+
+> .managerChana_nav > li:not(.order) {
+  height: 60px;
+  line-height: 60px;
+}
+
+> .managerChana_nav > li:not(.order) a {
+  line-height: 40px;
+  color: #000;
+  padding: 0 8px;
+}
+
+.managerChana_nav > li .order_state li {
+  margin-left: 15px;
+  height: 40px;
+  line-height: 40px;
+  list-style: none;
+  font-size: 12px;
+}
+
+.managerChana_nav > li .order_state li.active {
+  color: #ff0000;
+}
+
+.managerChana_nav > li .order_state li.active a {
+  color: #ff0000;
+}
+
+.managerChana_nav > li .order_state li a {
+  display: inline-block;
+  width: 118px;
+  color: #000;
+  padding: 8px;
+}

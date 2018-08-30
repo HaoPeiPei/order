@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { getOrderList } from '../../../store/order/active.js';
+import { getListOrder } from '../../../store/order/active.js';
 import { getAddressList } from '../../../store/member/active.js';
 import './index.scss';
 
@@ -29,7 +29,7 @@ class AddOrder extends React.Component{
         let addressData = {
             AddressId: this.state.address['addressId']
         }
-        this.props.getOrderList(orderData);
+        this.props.getListOrder(orderData);
         this.props.getAddressList(addressData);
     }
 
@@ -246,7 +246,7 @@ export default connect(
         orderData: state.orderData,
         memberData: state.memberData
     }),{
-        getOrderList,
+        getListOrder,
         getAddressList
     }
 )(AddOrder);
