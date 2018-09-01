@@ -1,64 +1,59 @@
 .info_list{
-    padding-left: 15px;
-    li{
-      height: 80px;
-      line-height: 80px;
-      padding: 15px 0;
-      border-bottom: 1px solid #e4e4e4;
-      .title{
-        width: 80px;
-        height: 50px;
-        line-height: 50px;
-        border-right: 1px solid #e4e4e4;
-        float: left;
-      }
-      .img_wrap{
-        float: left;
-        margin-left: 30px;
-        width: 50px;
-        height: 50px;
-        line-height: 50px;
-        border-radius: 25px;
-        display: inline-block;
-        overflow: hidden;
-        img{
-          display: block;
-          width: 50px;
-          height: 50px;
-          border-radius: 25px;
-        }
-      }
-      .changAvatarBtn{
-        position: relative;
-        input[type=file] {
-          position: absolute;
-          opacity: 0;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          z-index: 999;
-        }
-      }
-      .info{
-        float: left;
-        height: 50px;
-        line-height: 50px;
-        margin-left: 30px;
-         input{
-             background: #f8f7f7;
-             outline: none;
-         }
-      }
-      .btn{
-        float: right;
-        height: 30px;
-        line-height: 30px;
-        padding: 0 15px;
-        border-radius: 15px;
-        margin-right: 25px;
-        color: #000;
-        border: 1px solid #cac9c9;
-      }
-    }
-  }
+	padding-left: 15px;
+	li{
+		padding: 15px 0;
+		border-bottom: 1px solid #e4e4e4;
+		display: flex;
+		.title{
+			width: 80px;
+			height: 50px;
+			line-height: 50px;
+			border-right: 1px solid #e4e4e4;
+			float: left;
+		}
+		.img_wrap{
+			margin-left: 30px;
+			width: 50px;
+			height: 50px;
+			line-height: 50px;
+			border-radius: 25px;
+			display: inline-block;
+			overflow: hidden;
+			img{
+				display: block;
+				width: 50px;
+				height: 50px;
+				border-radius: 25px;
+			}
+		}
+		.changAvatarBtn{
+			position: relative;
+			input[type=file] {
+				position: absolute;
+				opacity: 0;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				z-index: 999;
+			}
+		}
+		.info{
+			margin-left: 30px;
+			flex: 1;
+			height: 50px;
+			line-height: 50px;
+			.btn{
+				float: right;
+				height: 30px;
+				line-height: 30px;
+				margin-top: 10px;
+				padding: 0 15px;
+				border-radius: 15px;
+				margin-right: 25px;
+				color: #000;
+				border: 1px solid #cac9c9;
+			}
+		}
+	}
+}

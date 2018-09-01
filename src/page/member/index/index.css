@@ -1,0 +1,234 @@
+.managerIndex {
+  width: 1140px;
+  margin: 10px 0 0 0;
+  top: 80px;
+  overflow: auto;
+}
+
+.managerIndex .notice {
+  height: 20px;
+  line-height: 20px;
+}
+
+.managerIndex .notice img {
+  vertical-align: middle;
+}
+
+.managerIndex .notice .notice_info {
+  vertical-align: middle;
+  margin-left: 5px;
+}
+
+.managerIndex .personal {
+  margin-top: 10px;
+  width: 1130px;
+  height: 166px;
+  line-height: 166px;
+  color: #fff;
+  position: relative;
+  background: url("../../../assets/images/personal_bg.png") no-repeat;
+}
+
+.managerIndex .personal img {
+  display: inline-block;
+  width: 117px;
+  height: 116px;
+  vertical-align: middle;
+}
+
+.managerIndex .personal .personal_info {
+  display: inline-block;
+  line-height: 30px;
+  vertical-align: middle;
+}
+
+.managerIndex .personal .personal_info span {
+  line-height: 30px;
+  font-size: 14px;
+}
+
+.managerIndex .personal .set_personal_info {
+  display: inline-block;
+  color: #fff;
+  height: 26px;
+  line-height: 26px;
+  padding: 0 5px;
+  top: 50%;
+  margin: -13px 20px 0 0;
+}
+
+.managerIndex .orderState_list {
+  height: 100px;
+  overflow: hidden;
+}
+
+.managerIndex .orderState_list .orderState_item {
+  width: 16.6%;
+  height: 100px;
+  line-height: 100px;
+  float: left;
+}
+
+.managerIndex .orderState_list .orderState_item .orderState {
+  display: inline-block;
+  width: 100%;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  color: #000;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.managerIndex .orderState_list .orderState_item .orderState img {
+  vertical-align: middle;
+}
+
+.managerIndex .orderState_list .orderState_item .orderState .text {
+  display: inline-block;
+  border-bottom: 4px solid transparent;
+  vertical-align: middle;
+}
+
+.managerIndex .orderState_list .orderState_item .orderState input[type="radio"] {
+  position: absolute;
+  left: -9999em;
+}
+
+.managerIndex .order_state li {
+  width: 16.6666%;
+  height: 60px;
+  line-height: 60px;
+  background: #f8f7f7;
+  float: left;
+  text-align: center;
+}
+
+.managerIndex .order_state li a {
+  display: inline-block;
+  height: 40px;
+  line-height: 40px;
+  color: #000;
+  font-weight: bold;
+}
+
+.managerIndex .order_state li a img {
+  vertical-align: middle;
+}
+
+.managerIndex .order_state li a span {
+  vertical-align: middle;
+  margin-left: 10px;
+}
+
+.managerIndex .orders_received {
+  margin-top: 40px;
+}
+
+.managerIndex .orders_received .title_wrap .title {
+  margin-left: 12px;
+  font-size: 20px;
+  font-weight: bold;
+  vertical-align: middle;
+}
+
+.managerIndex .orders_received .title_wrap .dayList {
+  margin-left: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 200px;
+  overflow: hidden;
+}
+
+.managerIndex .orders_received .title_wrap .dayList .btn {
+  float: left;
+  width: 25%;
+  height: 28px;
+  line-height: 28px;
+  text-align: center;
+  color: #000;
+  padding: 0;
+  margin: 0;
+  border: 1px solid #e1e0e0;
+  border-radius: none;
+  overflow: hidden;
+}
+
+.managerIndex .orders_received .title_wrap .dayList .btn:first-of-type {
+  border-radius: 6px;
+  border-bottom-right-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.managerIndex .orders_received .title_wrap .dayList .btn:last-of-type {
+  border-radius: 6px;
+  border-bottom-left-radius: 0;
+  border-top-left-radius: 0;
+}
+
+.managerIndex .orders_received .title_wrap .dayList .btn .text {
+  display: inline-block;
+  width: 100%;
+  height: 28px;
+  line-height: 28px;
+  box-sizing: border-box;
+}
+
+.managerIndex .orders_received .title_wrap .dayList .btn input[type="radio"] {
+  position: absolute;
+  left: -999em;
+}
+
+.managerIndex .orders_received .title_wrap .dayList .btn input[type="radio"]:checked ~ .text {
+  background: #ff0000;
+  border: 1px solid #ff0000;
+  color: #fff;
+}
+
+.managerIndex .orders_received .order_info {
+  margin-top: 15px;
+  border-radius: 6px;
+  background: #f8f7f7;
+}
+
+.managerIndex .orders_received .order_info li {
+  width: 20%;
+  height: 30px;
+  line-height: 30px;
+  float: left;
+  text-align-last: left;
+  padding-left: 2%;
+}
+
+.managerIndex .orders_received .order_info li .title {
+  color: #7e7e7e;
+  margin-right: 20px;
+}
+
+.managerIndex .orders_received .order_chart {
+  height: 230px;
+}
+
+.managerIndex .navbar_footer {
+  border-top: 1px solid #e5e5e5;
+}
+
+.managerIndex .navbar_footer li {
+  float: left;
+  width: 50%;
+  text-align: center;
+}
+
+.managerIndex .navbar_footer li a {
+  display: inline-block;
+  margin: 40px;
+  padding: 10px;
+  text-align: center;
+  color: #000;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.managerIndex .navbar_footer li a p {
+  margin-top: 10px;
+}

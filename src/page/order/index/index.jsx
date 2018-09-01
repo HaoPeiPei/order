@@ -44,23 +44,26 @@ class OrderIndex extends React.Component{
         });
     }
 
-    onPageNumberChange = ( ) => {
-        const currentStatus = document.querySelectorAll('.orderState_list a').getAttribute('data-status');  
-        const queryJson = Object.assign({}, JSON.parse(this.state.orderParam.queryJson), {
-            OrderState: currentStatus
-        })
+    onPageNumberChange = (pageNumber, pageSize) => {
         this.setState({
-            currentStatus: currentStatus,
             orderParam: Object.assign({}, this.state.orderParam, {
-                queryJson: JSON.stringify(queryJson)
+                pageNumber: pageNumber,
+                pageSize: pageSize
             })
         },()=>{
             this.props.getListOrder(this.state.orderParam);
         });
     }
 
-    onPageSizeChange = ( ) => {
-
+    onPageSizeChange = (pageNumber, pageSize) => {
+        this.setState({
+            orderParam: Object.assign({}, this.state.orderParam, {
+                pageNumber: pageNumber,
+                pageSize: pageSize
+            })
+        },()=>{
+            this.props.getListOrder(this.state.orderParam);
+        })
     }
 
     //判断频道

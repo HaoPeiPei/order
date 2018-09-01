@@ -1,0 +1,21 @@
+.members_list{
+    .badge{
+        transform: translate(0, -100%);
+        background: #ff0000;
+    }
+    .img_warp{
+        width: 50px;
+        height: 50px;
+        border-radius: 25px;
+        display: inline-block;
+        overflow: hidden;
+    }
+    .ant-table-pagination {
+        position: fixed;
+        background-color: #fff;
+        padding: 20px 0;
+        width: 1120px;
+        bottom: 0;
+        margin: 0;
+    }
+}

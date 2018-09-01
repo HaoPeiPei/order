@@ -123,7 +123,12 @@
   },
   "proxy": "http://xd.zbs6.com/",
   "main": "index.js",
-  "repository": "https://github.com/HaoPeiPei/order.git",
+  "repository": "git+https://github.com/HaoPeiPei/order.git",
   "license": "MIT",
-  "author": "HaoPeiPei <18971573893@163.com>"
+  "author": "HaoPeiPei <18971573893@163.com>",
+  "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
+  "bugs": {
+    "url": "https://github.com/HaoPeiPei/order/issues"
+  },
+  "homepage": "https://github.com/HaoPeiPei/order#readme"
 }

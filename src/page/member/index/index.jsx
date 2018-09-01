@@ -1,13 +1,121 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import IEcharts from 'react-echarts-v3';
+import { getCountOrderGoldTypeList, getCountProduct } from '../../../store/member/active.js';
 
 import './index.scss';
 
+const option = {
+    title: {
+      text: 'ECharts 入门示例'
+    },
+    tooltip: {},
+    xAxis: {
+      data: ["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"]
+    },
+    yAxis: {},
+    series: [{
+      name: '销量',
+      type: 'bar',
+      data: [5, 20, 36, 10, 10, 20]
+    }]
+  };
+
 class ManagerIndex extends React.Component{
     constructor(props){
-        super(props)
+        super(props);
+        this.state = {
+            countOrderGoldTypeParam: {
+                value: 1,
+                type: "month"
+            },
+            countProductOption: {
+                tooltip : {
+                    trigger: 'axis',
+                    position: function (pt) {
+                        return [pt[0], '10%'];
+                    }
+                },
+                toolbox: {
+                    feature: {
+                        dataZoom: {
+                            yAxisIndex: 'none'
+                        },
+                        restore: {}
+                    }
+                },
+                //布局设置，类似于margin
+                grid: {
+                    left: '3%',
+                    right: '2%',
+                    bottom: '10%',
+                    containLabel: true
+                },
+                //X轴数据设置dateArray
+                xAxis : [
+                    {
+                        type : 'category',
+                        boundaryGap : false,
+                        data : []
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                //大面积折线图最下面的伸拉条设置，展示30天数据
+                dataZoom: [
+                    {
+                        type: 'inside',
+                        start: 0,
+                        end: 30
+                    }, {
+                        start: 0,
+                        end: 30, handleSize: '80%',
+                        handleStyle: {
+                            color: '#fff',
+                            shadowBlur: 3,
+                            shadowColor: 'rgba(0, 0, 0, 0.6)',
+                            shadowOffsetX: 2,
+                            shadowOffsetY: 2
+                        }
+                    }
+                ],
+                //折线图图标和线条设置以及Y轴数据设置rateArray
+                series : [
+                    {
+                        name:'转化率',
+                        type:'line',
+                        stack: '总量',
+                        symbol:'star',//节点性状
+                        itemStyle:{
+                            normal:{
+                                color: "#278BDD" //图标颜色
+                            }
+                        },
+                        lineStyle:{
+                            normal:{
+                                width:3,  //连线粗细
+                                color: "#278BDD"  //连线颜色
+                            }
+                        },
+                        data:[]
+                    }
+                ]
+            }
+
+        }
+    }
+
+    componentDidMount(){
+        this.props.getCountOrderGoldTypeList(this.state.countOrderGoldTypeParam);
+        this.props.getCountProduct(this.state.countOrderGoldTypeParam);
     }
 
     render(){
+        const countOrderGoldTypeList = this.props.memberData.countOrderGoldTypeList;
+        //const countProduct = this.props.memberData.countProduct;
         return (
             <div className="managerIndex">
                 <p className="notice">
@@ -73,41 +181,28 @@ class ManagerIndex extends React.Component{
                         </span>
                     </h3>
                     <ul className="order_info clearfix">
-                        <li>
-                            <span className="title">足金999</span>
-                            2544g（25件）
-                        </li>
-                        <li>
-                            <span className="title">足金999.9</span>
-                            2544g（25件）
-                        </li>
-                        <li>
-                            <span className="title">足金999.99</span>
-                            2544g（25件）
-                        </li>
-                        <li>
-                            <span className="title">18K金</span>
-                            2544g（25件）
-                        </li>
+                        {countOrderGoldTypeList.map((countOrderGoldType, index) => {
+                            return <li key={countOrderGoldType['GoldTypeItemId']}>
+                                <span className="title">{countOrderGoldType['GoldTypeItemName'] || ''}</span>
+                                <span className="title">{countOrderGoldType['GoldWeight'] }g（{countOrderGoldType['Num']} 件）</span>
+                            </li>
+                        })}
                     </ul>
-                    <div className="chart"></div>
+                    <div className="chart">
+                        <IEcharts option={option}/>
+                        {/* <IEcharts option={this.state.countProductOption}/> */}
+                    </div>
                 </div>
                 <ul className="navbar_footer clearfix">
                     <li>
                         <a href="">
-                            <img src="../../../assets/images/clerkManager_icon.png" alt="" />
+                            <img src={require("../../../assets/images/clerkManager_icon.png")} alt="" />
                             <p>店员管理</p>
                         </a>
                     </li>
                     <li>
                         <a href="">
-                            <img src="../../../assets/images/clerkManager_icon.png" alt="" />
-                            <p>我的关注</p>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="">
-                            <img src="../../../assets/images/clerkManager_icon.png" alt="" />
+                            <img src={require("../../../assets/images/helpCenter_icon.png")} alt="" />
                             <p>帮助中心</p>
                         </a>
                     </li>
@@ -117,4 +212,11 @@ class ManagerIndex extends React.Component{
     }
 }
 
-export default ManagerIndex;
+export default connect(
+    state => ({
+        memberData: state.memberData
+    }),{
+        getCountOrderGoldTypeList,
+        getCountProduct
+    }
+)(ManagerIndex);
