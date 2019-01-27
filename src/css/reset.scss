@@ -25,6 +25,7 @@ body {
     font-weight: 400;
     color: #333;
     height: 100%;
+    font-size: 14px;
 }
 
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, textarea, p, blockquote, th, td, hr, button, article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, sumary ,label{
@@ -137,9 +138,10 @@ header{
       transform: translate(0,-50%);
       z-index: 999;
       overflow: hidden;
-      padding: 5px 0;
+      padding: 5px 0; 
       img{
-        width: 100%;
+        max-width: 100%;
+        height: 55px;
         vertical-align: 0;
       }
     }
@@ -153,6 +155,42 @@ header{
           float: left;
           height: 65px;
           line-height: 65px;
+          .cartNums_wrap{
+            position: relative;
+            .badge{
+              position: absolute;
+              top: 15px;
+              left: 38px;
+              background: #ff0000;
+            }
+          }
+          .searchStr_box{
+            width: 220px;
+            height: 30px;
+            line-height: 30px;
+            margin-top: 17px;
+            margin-right: 20px;
+            position: relative;
+            .search_text {
+              width: 100%;
+              background: #f1f1f1;
+              border-radius: 15px;
+              height: 30px;
+              line-height: 30px;
+              padding: 5px 40px 5px 10px;
+              outline: none;
+              font-size: 12px;
+            }
+            .search_btn{
+              position: absolute;
+              right: 0;
+              top: 0;
+              padding: 5px 10px;
+              border-top-right-radius: 15px;
+              border-bottom-right-radius: 15px;
+              cursor: pointer;
+            }
+          }
           a{
             display: block;
             height: 65px;

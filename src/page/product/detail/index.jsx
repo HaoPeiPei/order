@@ -23,7 +23,7 @@ class Detail extends React.Component{
         const modalName = this.props.modalName;
         if(modalName == 'Gold'){
             return (
-                <Gold  {...this.props}/>    
+                <Gold  {...this.props}/>   
             )
         }else if(modalName == 'OutStock'){
             return (

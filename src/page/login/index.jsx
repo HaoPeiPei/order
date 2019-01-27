@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import { login } from '../../utils/index.js';
  
 import './index.scss';
 
@@ -41,21 +41,18 @@ class Login extends React.Component{
         } else if (verifycode == "") {
             this.formMessage('请输入验证码。');
             return false;
-        }
-
-        axios.post("Login/CheckLogin", {
+        };
+        var postData = {
             username: username, 
             password: password,
-           verifycode: verifycode
-        })
-        .then(res=>{
-            if(res.data.success){
+            verifycode: verifycode
+        }
+        
+        login(postData, (data)=>{
+            if(data.success){
                 this.props.history.push('/');
             }
-        }).catch(err=>{
-
         })
-        
     }
     componentWillMount(){
         document.title = '登录'

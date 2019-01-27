@@ -1,15 +1,18 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { List, Pagination } from 'antd';
-import { getListOrder, getOrderStatusNames, getCountOrderNums } from '../../../store/order/active.js';
+import { getListOrder, getCountOrderNums, getOrderStatusNames } from '../../../store/order/active.js';
+import Detail from '../detail/index.jsx';
+
 import './index.scss';
 
 
 class OrderIndex extends React.Component{
     constructor(props){
         super(props);
+        const orderState = this.props.match.params.orderState;
         this.state = {
-            currentStatus: '',
+            currentStatus: orderState,
             OrderList:[],
             orderParam:{
                 pageNumber: 1,
@@ -18,15 +21,30 @@ class OrderIndex extends React.Component{
                 order: "desc",
                 queryJson: JSON.stringify({
                     SearchString: "",
-                    OrderState: ''
+                    OrderState: orderState
                 })
+            },
+            detailProps: {
+                orderId: '',
+                orderParam: {},
+                orderDetail: this.props.orderData.orderDetail,
+                width: 1070,
+                visible: false,
+                footer: null,
+                onCancel: () => {
+                    this.setState({
+                        detailProps: Object.assign({}, this.state.detailProps, { visible: false })
+                    })
+                },
             }
+
         }
     }
 
     componentDidMount(){
         this.props.getListOrder(this.state.orderParam);
         this.props.getCountOrderNums();
+        this.props.getOrderStatusNames();
     }
 
     changeOrderState = (e) => {
@@ -39,9 +57,10 @@ class OrderIndex extends React.Component{
             orderParam: Object.assign({}, this.state.orderParam, {
                 queryJson: JSON.stringify(queryJson)
             })
-        },()=>{
-            this.props.getListOrder(this.state.orderParam);
-        });
+            },() =>{
+                this.props.getListOrder(this.state.orderParam);
+            }
+        );
     }
 
     onPageNumberChange = (pageNumber, pageSize) => {
@@ -64,6 +83,18 @@ class OrderIndex extends React.Component{
         },()=>{
             this.props.getListOrder(this.state.orderParam);
         })
+    }
+
+    showOrderDetail = (e) =>{
+        const orderId = e.target.getAttribute("data-orderid");
+        this.setState({
+            detailProps: Object.assign({}, this.state.detailProps, { 
+                visible: true,
+                orderId: orderId,
+                orderParam: this.state.orderParam
+             })
+        })
+
     }
 
     //判断频道
@@ -104,6 +135,7 @@ class OrderIndex extends React.Component{
         const orderList = this.props.orderData.orderList;
         const total = this.props.orderData.total;
         const orderCountNums = this.props.orderData.orderCountNums;
+        const orderStatusNames = this.props.orderData.orderStatusNames;
         const Tab = orderCountNums.map((item,index)=>{ 
             var activeName = item['OrderState'] == _this.state.currentStatus ? 'active' : '';
             var statusName = _this.switStatusName(item["OrderState"]);
@@ -123,12 +155,14 @@ class OrderIndex extends React.Component{
                 <ul className="order_list">
                     {
                         orderList.map((order, index) => {
+                            let orderState = order["OrderState"];
                             return (
                                 <li className="order_item" key={order['OrderId']}>
                                     <h3 className="title clearfix">
                                         <i></i>
                                         <span>{order["CustomerCName"]}&nbsp;&nbsp;&nbsp;&nbsp;{order["sellerName"]}</span>
-                                        <span className="tel">下单号码：{order["sellerTelphone"]}</span>
+                                        <span className="tel">下单号码：{order["SellerTelphone"]}</span>
+                                        <span className="state">{orderStatusNames[orderState]}</span>
                                     </h3>
                                     <div className="info_wrap">
                                         <div className="quantity">
@@ -153,7 +187,7 @@ class OrderIndex extends React.Component{
                                         <span className="orderCode pl">订单号：{order["OrderCode"]}</span>
                                         <div className="pr info">
                                             <span className="time">{order["CreateDate"]}</span>
-                                            <a href="javascript:;" data-orderid={order["OrderId"]} className="btn view_btn">查看订单</a>
+                                            <a href="javascript:;" data-orderid={order["OrderId"]} className="btn view_btn" onClick={this.showOrderDetail}>查看订单</a>
                                         </div>
                                     </div>
                                 </li>
@@ -175,6 +209,7 @@ class OrderIndex extends React.Component{
                         />
                         : null
                 }
+                {this.state.detailProps.visible && <Detail {...this.state.detailProps}/>}
             </div>
             
         )
@@ -186,7 +221,7 @@ export default connect(
         orderData: state.orderData,
     }),{
         getListOrder,
-        getOrderStatusNames,
-        getCountOrderNums
+        getCountOrderNums,
+        getOrderStatusNames
     }
 )(OrderIndex);

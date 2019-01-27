@@ -27,7 +27,7 @@ class Home extends React.Component{
         return (
             <div id="index">
                 <header >
-                    <img src={brandData['LogoImg']||require('./images/index_header.png')} className="logo" alt="" />
+                    <img src={brandData['LogoImg']||require('./../../assets/images/index_header.png')} className="logo" alt="" />
                 </header>
                 <section>
                     <ul className="proChannel_box" id="proChannel_box">
@@ -37,7 +37,7 @@ class Home extends React.Component{
                                     return(
                                         <li className="productChnanel_item" key={channel['ChannelId']}>
                                             <Link to={`/product/Gold`} className="proChannel_btn">
-                                                <img src={channel['ImgUrlWeb'] || require(`./images/素金现货@2x.png`)} alt="" />
+                                                <img src={channel['ImgUrlWeb'] || require(`./../../assets/images/shujin.png`)} alt="" />
                                             </Link>
                                         </li>
                                     )
@@ -45,7 +45,7 @@ class Home extends React.Component{
                                     return(
                                         <li className="productChnanel_item" key={channel['ChannelId']}>
                                             <Link to={`/product/OutStock`} className="proChannel_btn">
-                                                <img src={channel['ImgUrlWeb'] || require(`./images/看图订货@2x.png`)} alt="" />
+                                                <img src={channel['ImgUrlWeb'] || require(`./../../assets/images/kantu.png`)} alt="" />
                                             </Link>
                                         </li>
                                     )
@@ -53,7 +53,7 @@ class Home extends React.Component{
                                     return(
                                         <li className="productChnanel_item" key={channel['ChannelId']}>
                                             <Link to={`/product/Inlay1`} className="proChannel_btn">
-                                                <img src={channel['ImgUrlWeb'] || require(`./images/镶嵌现货@2x.png`)} alt="" />
+                                                <img src={channel['ImgUrlWeb'] || require(`./../../assets/images/xiangqian.png`)} alt="" />
                                             </Link>
                                         </li>
                                     )
@@ -61,7 +61,7 @@ class Home extends React.Component{
                                     return(
                                         <li className="productChnanel_item" key={channel['ChannelId']}>
                                             <Link to={`/product/Inlay2`} className="proChannel_btn">
-                                                <img src={channel['ImgUrlWeb'] || require(`./images/镶嵌现货@2x.png`)} alt="" />
+                                                <img src={channel['ImgUrlWeb'] || require(`./../../assets/images/xiangqian.png`)} alt="" />
                                             </Link>
                                         </li>
                                     )
@@ -75,13 +75,13 @@ class Home extends React.Component{
                     <ul className="memberChnanel_list">
                         <li className="memberChnanel_item">
                             <Link to="/cart/index">
-                                <img src={require('./images/home_cart_n@2x.png')} alt="" />
+                                <img src={require('./../../assets/images/home_cart_n@2x.png')} alt="" />
                                 <p>购物车</p>
                             </Link>
                         </li>
                         <li className="memberChnanel_item">
                             <Link to="/member/index">
-                                <img src={require('./images/home_member_n@2x.png')} alt="" />
+                                <img src={require('./../../assets/images/home_member_n@2x.png')} alt="" />
                                 <p>管理</p>
                             </Link>
                         </li>

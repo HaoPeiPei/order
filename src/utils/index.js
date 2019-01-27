@@ -102,3 +102,36 @@ export const request = ({url, data, type='get', callBack}) => {
     }
 }
 
+export const logout= (callBack) => {
+    Modal.confirm({
+        title: '提示',
+        okText: '确认',
+        content: '注：您确定要安全退出本次登录吗？',
+        okType: 'danger',
+        cancelText: '取消',
+        onOk() {
+            axios.post(`/Login/Logout`)
+                .then(res=>{
+                    if (res.status == 200 && res.data.success) {
+                        callBack && callBack(res.data);
+                    }
+                })
+                .catch(err=>{
+                    console.log(err);
+                });
+        }
+    })
+}
+
+export const login= (data ,callBack) => {
+    axios.post(`/Login/CheckLogin`, data)
+        .then(res=>{
+            debugger
+            if (res.status == 200 && res.data.success) {
+                callBack && callBack(res.data);
+            }
+        })
+        .catch(err=>{
+            console.log(err);
+        });
+}

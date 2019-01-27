@@ -3,7 +3,8 @@ import Immutable from 'immutable';
 
 let defauleState = {
     orderList : [],
-    orderStatusNames: [],
+    orderDetail: {},
+    orderStatusNames: {},
     orderCountNums: [],
     total: 0
 }
@@ -11,6 +12,8 @@ let defauleState = {
 export const orderData = (state = defauleState , action) => {
     switch(action.type){
         case order.GETLISTORDER:
+            return { ...state, ...action }
+        case order.GETORDERDETAIL:
             return { ...state, ...action }
         case order.GETORDERSTATUSNAMES:
             return { ...state, ...action }

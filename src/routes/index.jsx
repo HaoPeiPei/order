@@ -1,7 +1,6 @@
 import React from 'react';
-import {Route, Switch, BrowserRouter as Router } from 'react-router-dom';
+import {Route, Switch, Redirect, withRouter, BrowserRouter as Router } from 'react-router-dom';
 import Loadable from 'react-loadable';
-
 import Loading from '../component/loading/index.jsx';
 import Member from '../page/member/index.jsx';
 import '../css/font/iconfont.css';
@@ -18,29 +17,28 @@ const asyncAddOrder = Loadable({loader: () => import('../page/order/addOrder/ind
 const asyncInfo = Loadable({loader: () => import('../page/member/info/index.jsx'), loading: Loading});
 const asyncMembers = Loadable({loader: () => import('../page/member/members/index.jsx'), loading: Loading});
 
+ const MemberRouter =() => (
+    <Member>
+        <Switch>
+            <Route path={`/member/index`} component={asyncManagerIndex} />
+            <Route path={`/order/index/:orderState?`} component={asyncOrderIndex} />
+            <Route path={`/member/info`} component={asyncInfo} />
+            <Route path={`/member/members`} component={asyncMembers} />
+        </Switch>
+    </Member>
+) 
 
-class Routes extends React.Component{
-    render(){
-        return(
-            <Router>
-                <Switch>
-                    <Route exact path='/' component={asyncHome}  />
-                    <Route exact path="/login"  component={asyncLogin} />
-                    <Route path='/product/:channelName' component={asyncProduct} />
-                    <Route path='/cart/index' component={asyncCart} />
-                    <Route path='/order/addOrder/:cartIds' component={asyncAddOrder} />
-                    <Member>
-                        <Switch>
-                            <Route path="/member/index" component={asyncManagerIndex} />
-                            <Route path="/order/index" component={asyncOrderIndex} />
-                            <Route path="/member/info" component={asyncInfo} />
-                            <Route path="/member/members" component={asyncMembers} />
-                        </Switch>
-                    </Member>
-                </Switch>
-            </Router>
-        )
-    }
-}
+const Routes = () => (
+    <Router>
+        <Switch>
+            <Route path={`/`} exact component={asyncHome} />
+            <Route path={`/login/index`} component={asyncLogin} /> 
+            <Route path={`/product/:channelName`} component={asyncProduct} />
+            <Route path={`/cart/index`} component={asyncCart} />
+            <Route path={`/order/addOrder/:cartIds`} component={asyncAddOrder} />
+            <MemberRouter />
+        </Switch>
+    </Router>
+)
 
 export default Routes;

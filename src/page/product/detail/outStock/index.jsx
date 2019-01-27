@@ -3,7 +3,7 @@ import { Form, Input, InputNumber, Radio, Modal, Cascader, Checkbox } from 'antd
 import  { connect } from 'react-redux';
 import ImageGallery from 'react-image-gallery';
 import { getProductDetailData } from '../../../../store/product/action.js';
-import "react-image-gallery/styles/scss/image-gallery.scss";
+//import "react-image-gallery/styles/scss/image-gallery.scss";
 
 class OutStock extends React.Component{
     constructor(props){

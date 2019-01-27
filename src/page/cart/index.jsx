@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import $ from 'jquery';
 import { message, Modal } from 'antd';
+import jQuery from 'jquery';
 import ProductImg from '../../component/productImg/index.jsx';
 import { getCartList, removeCart } from '../../store/cart/active.js';
 import { checkArray, remove, save, request } from'../../utils/index.js';
@@ -38,12 +38,12 @@ class Cart extends React.Component{
         e.stopPropagation();
         let target = e.currentTarget;
         setTimeout(() => {
-            let $input = $(target).find('input[type="checkbox"]');
-            let $table = $(target).parents('.title').next('table');
+            let $input = jQuery(target).find('input[type="checkbox"]');
+            let $table = jQuery(target).parents('.title').next('table');
             $input.prop('checked', !$input.prop('checked'));
             let checked = $input.prop('checked') ? true : false;
-            $.each($table.find('input[type="checkbox"]'), function (index, item) {
-                $(item).prop('checked', checked);
+            jQuery.each($table.find('input[type="checkbox"]'), function (index, item) {
+                jQuery(item).prop('checked', checked);
             });
             this.setState({
                 totalQuantity: this.computeQuantity()
@@ -56,9 +56,9 @@ class Cart extends React.Component{
         e.stopPropagation();
         let target = e.currentTarget;
         setTimeout(() => {
-            let $table = $(target).parents('table');
+            let $table = jQuery(target).parents('table');
             let $checkAll = $table.prev('.title').find('input[type="checkbox"]');
-            let $input = $(target).find('input[type="checkbox"]');
+            let $input = jQuery(target).find('input[type="checkbox"]');
             $input.prop('checked', !$input.prop('checked'));
             if ($table.find('tr').length == $table.find('input[type="checkbox"]:checked').length) {
                 $checkAll.prop('checked', true);
@@ -77,12 +77,12 @@ class Cart extends React.Component{
     toggle = (e) => {
         e.stopPropagation();
         let target = e.currentTarget;
-        if ($(target).hasClass("open")) {
-            $(target).parents(".title").next().show();
-            $(target).removeClass("open");
+        if (jQuery(target).hasClass("open")) {
+            jQuery(target).parents(".title").next().show();
+            jQuery(target).removeClass("open");
         } else {
-            $(target).parents(".title").next().hide();
-            $(target).addClass("open");
+            jQuery(target).parents(".title").next().hide();
+            jQuery(target).addClass("open");
         }
     }
 
@@ -91,11 +91,11 @@ class Cart extends React.Component{
         e.stopPropagation();
         let target = e.currentTarget;
         setTimeout(() => {
-            let $input = $(target).find('input[type="checkbox"]');
+            let $input = jQuery(target).find('input[type="checkbox"]');
             $input.prop('checked', !$input.prop('checked'));
             let checked = $input.prop('checked') ? true : false;
-            $.each($('#cartList').find('input[type="checkbox"]'), function (index, item) {
-                $(item).prop('checked', checked);
+            jQuery.each(jQuery('#cartList').find('input[type="checkbox"]'), function (index, item) {
+                jQuery(item).prop('checked', checked);
             });
             this.setState({
                 totalQuantity: this.computeQuantity()
@@ -107,7 +107,7 @@ class Cart extends React.Component{
     quantityRemove = (e) => {
         e.stopPropagation();
         let target = e.currentTarget;
-        let $quantity = $(target).next('.quantity');
+        let $quantity = jQuery(target).next('.quantity');
         let value = parseInt($quantity.val()) - 1;
         if(value < 1) return 
         $quantity.val(value);
@@ -118,7 +118,7 @@ class Cart extends React.Component{
     quantityAdd = (e) => {
         e.stopPropagation();
         let target = e.currentTarget;
-        let $quantity = $(target).prev('.quantity');
+        let $quantity = jQuery(target).prev('.quantity');
         let value = parseInt($quantity.val()) + 1;
         $quantity.val(value);
         this.editCart(e)
@@ -128,7 +128,7 @@ class Cart extends React.Component{
     editCart = (e) =>{
         e.stopPropagation();
         let target = e.currentTarget;
-        let $tr = $(target).parents('tr');
+        let $tr = jQuery(target).parents('tr');
         let cartId = $tr.attr('data-cartid');
         let $message = $tr.find('input[name="message"]');
         let $quantity = $tr.find('input[name="quantity"]');
@@ -158,9 +158,9 @@ class Cart extends React.Component{
     //清空购物车
     removeAll = (e) => {
         e.stopPropagation();
-        let selected = $('#cartList').find('input[type="checkbox"]:not(.checkAll):checked').parents('tr');
-        let cartIds = $.map(selected, function (item, index) {
-            return $(item).attr('data-cartid');
+        let selected = jQuery('#cartList').find('input[type="checkbox"]:not(.checkAll):checked').parents('tr');
+        let cartIds = jQuery.map(selected, function (item, index) {
+            return jQuery(item).attr('data-cartid');
         });
         checkArray(cartIds) &&  remove({
             utl: `/Cart/BatchDeleteCart`,
@@ -201,12 +201,12 @@ class Cart extends React.Component{
     viewImg = (e) => {
         e.stopPropagation();
         let target = e.currentTarget;
-        let $table = $(target).parents("table");
+        let $table = jQuery(target).parents("table");
         let imageProps = {
             title: "查看图片",
             width: "600px",
             height: "600px",
-            imgUrl: $(target).find("img").length > 0 ? $(target).find("img").attr("src").split("?")[0] : '',
+            imgUrl: jQuery(target).find("img").length > 0 ? jQuery(target).find("img").attr("src").split("?")[0] : '',
             hideModal: () => {
                 this.setState({
                     imageProps: Object.assign({}, this.state.imgProps, {
@@ -218,13 +218,13 @@ class Cart extends React.Component{
         if($table.hasClass("Gold")){
             imageProps = Object.assign({}, imageProps, {
                 rect: {
-                    x: $(target).find("img").attr("data-x"),
-                    y: $(target).find("img").attr("data-y"),
-                    w: $(target).find("img").attr("data-w"),
-                    h: $(target).find("img").attr("data-h"),
+                    x: jQuery(target).find("img").attr("data-x"),
+                    y: jQuery(target).find("img").attr("data-y"),
+                    w: jQuery(target).find("img").attr("data-w"),
+                    h: jQuery(target).find("img").attr("data-h"),
                 },
-                productImgUrl: $(target).find("img").attr("data-productImgUrl").split("?")[0],
-                markNum: $(target).find("img").attr("data-marknum"),
+                productImgUrl: jQuery(target).find("img").attr("data-productImgUrl").split("?")[0],
+                markNum: jQuery(target).find("img").attr("data-marknum"),
                 width: "1000px",
                 height: "85%",
             });
@@ -240,9 +240,9 @@ class Cart extends React.Component{
 
     //去结算
     addOrder = () => {
-        var selected = $('#cartList').find('input[type="checkbox"]:not(.checkAll):checked').parents('tr');
-        var cartIds = $.map(selected, function (item, index) {
-            return $(item).attr('data-cartId');
+        var selected = jQuery('#cartList').find('input[type="checkbox"]:not(.checkAll):checked').parents('tr');
+        var cartIds = jQuery.map(selected, function (item, index) {
+            return jQuery(item).attr('data-cartId');
         });
         checkArray(cartIds) && request({
             url: '/Cart/ToSetOrder',
@@ -295,9 +295,9 @@ class Cart extends React.Component{
     //计算购物车数量
     computeQuantity = () => {
         var totalQuantity = 0;
-        var $checked = $('#cartList table').find('input[type="checkbox"]:checked');
-        $.each($checked, function (index, item) {
-            var value = $(item).parents('tr').find('input[name="quantity"]').val();
+        var $checked = jQuery('#cartList table').find('input[type="checkbox"]:checked');
+        jQuery.each($checked, function (index, item) {
+            var value = jQuery(item).parents('tr').find('input[name="quantity"]').val();
             if (!!value) {
                 totalQuantity += parseInt(value);
             }
@@ -319,23 +319,23 @@ class Cart extends React.Component{
                         <Link to="/" className="logo">
                             <img src={require('../../assets/images/proList_logo.png')} alt="" />
                         </Link>
-                        <ul className="navbar_right">
-                            <li>
-                                <a href="javascript:;">清空搜索条件</a>
+                        <ul className="navbar_right cartBar_list">
+                            <li className="cartBar_item">
+                                <Link to="/Cart/Index" className="active">
+                                    <img src={require('../../assets/images/cart_icon.png')} alt="" />
+                                    <span className="line"></span>
+                                </Link>
                             </li>
-                            <li>
+                            <li className="cartBar_item">
                                 <a href="javascript:;">
-                                    <img src={require('../../assets/images/proSearch_icon.jpg')} alt="" />
+                                    <img src={require('../../assets/images/unEdit_icon.png')} alt="" />
+                                    <span className="line"></span>
                                 </a>
                             </li>
-                            <li>
+                            <li className="cartBar_item">
                                 <a href="javascript:;">
-                                    <img src={require('../../assets/images/proCart_icon.jpg')} alt="" />
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <img src={require('../../assets/images/proCollect_icon.jpg')} alt="" />
+                                    <img src={require('../../assets/images/ok_icon.png')} alt="" />
+                                    <span className="line"></span>
                                 </a>
                             </li>
                         </ul>
@@ -355,14 +355,14 @@ class Cart extends React.Component{
                                                 </span>
                                                 <span className="fr info_right">
                                                     <span style={{marginRight: 5}}>{item.GoldTypeItemName || ''}</span>
-                                                    <span style={{color: '#ffa500',marginRight: 5}}>{`（${item.Quantity}件）`}</span>
+                                                    <span style={{color: '#ffa500',marginRight: 5}}>{`${item.Quantity}件）`}</span>
                                                     {item['ChannelId'] == Gold ? <span>总重 {item.GoldWeight}g-{item.GoldWeightB}g</span> : null}
                                                     <a href="javascript:;" onClick={_this.toggle} className="btn_goods_togger">
                                                         <i className="iconfont arrow "></i>
                                                     </a>
                                                 </span>
                                             </h3>
-                                            <table className={`table ${channelName}`}>
+                                            <table className={`table jQuery{channelName}`}>
                                                 <tbody>
                                                     {
                                                         cartData.length > 0 

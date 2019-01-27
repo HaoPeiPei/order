@@ -2,7 +2,7 @@ import React from 'react';
 import  { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Pagination } from 'antd';
-import $ from 'jquery';
+import jQuery from 'jquery';
 
 import { getProductData, getProductSearch } from '../../store/product/action.js';
 import Filter from './filter/index.jsx';
@@ -115,22 +115,22 @@ class Product extends React.Component{
 
     //获取通用商品数据请求参数
     getProductParam = () => {
-        const factoryId = $.map($('input[name="factory"]:checked'), function (item, index) {
-            return $(item).val();
+        const factoryId = jQuery.map(jQuery('input[name="factory"]:checked'), function (item, index) {
+            return jQuery(item).val();
         });
 
-        const categoryId = $.map($('input[name="category"]:checked'), function (item, index) {
-            return $(item).val();
+        const categoryId = jQuery.map(jQuery('input[name="category"]:checked'), function (item, index) {
+            return jQuery(item).val();
         });
 
-        const goldTypeItemId = $.map($('input[name="goldTypeItem"]:checked'), function (item, index) {
-            return $(item).val();
+        const goldTypeItemId = jQuery.map(jQuery('input[name="goldTypeItem"]:checked'), function (item, index) {
+            return jQuery(item).val();
         });
 
-        const tag = $.map($('.other input:checked, .other select'), function (item, index) {
-            if (!!$(item).val()) {
-                const TagId = $(item).parents('.item').find('.title').attr('data-TagId');
-                const TagItemId = $(item).val();
+        const tag = jQuery.map(jQuery('.other input:checked, .other select'), function (item, index) {
+            if (!!jQuery(item).val()) {
+                const TagId = jQuery(item).parents('.item').find('.title').attr('data-TagId');
+                const TagItemId = jQuery(item).val();
                 return {
                     "TagId": TagId,
                     "TagItemId": TagItemId
@@ -138,11 +138,11 @@ class Product extends React.Component{
             }
         });
 
-        const newMark = $('input[name="newMark"]:checked').length > 0 ? 1 : 0;
+        const newMark = jQuery('input[name="newMark"]:checked').length > 0 ? 1 : 0;
 
-        const fineMark = $('input[name="fineMark"]:checked').length > 0 ? 1 : 0;
+        const fineMark = jQuery('input[name="fineMark"]:checked').length > 0 ? 1 : 0;
 
-        const searchString = $('#searchStr').val();
+        const searchString = jQuery('#searchStr').val();
         
         return {
             FactoryId: factoryId,
@@ -197,21 +197,19 @@ class Product extends React.Component{
                         </Link>
                         <ul className="navbar_right">
                             <li>
-                                <a href="javascript:;">清空搜索条件</a>
+                                <div className="searchStr_box" id="searchStr_box">
+                                    <input type="text" className="search_text" id="searchStr" placeholder="请输入你要搜索的内容" />
+                                    <img src="/Content//images/proSearch_icon.png" alt="" className="search_btn" />
+                                </div>
                             </li>
                             <li>
                                 <a href="javascript:;">
-                                    <img src={require('./images/proSearch_icon.jpg')} alt="" />
+                                    <img src={require('../../assets/images/managercart_icon.png')} alt="" />
                                 </a>
                             </li>
                             <li>
                                 <a href="javascript:;">
-                                    <img src={require('./images/proCart_icon.jpg')} alt="" />
-                                </a>
-                            </li>
-                            <li>
-                                <a href="javascript:;">
-                                    <img src={require('./images/proCollect_icon.jpg')} alt="" />
+                                    <img src={require('../../assets/images/member_iocn.png')} alt="" />
                                 </a>
                             </li>
                         </ul>

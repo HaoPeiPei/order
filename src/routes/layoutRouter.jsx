@@ -1,34 +1,40 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import {Route, Switch, Redirect, withRouter, BrowserRouter as Router } from 'react-router-dom';
+import Loadable from 'react-loadable';
+import Loading from '../component/loading/index.jsx';
+import Member from '../page/member/index.jsx';
 
-import navTop from '../component/navTop/index.jsx';
-import Home from '../page/home/index.jsx';
-import Product from '../page/product/index.jsx';
-import Manager from '../page/member/index.jsx';
-import '../css/font/iconfont.css';
-import '../css/reset.scss';
-import '../css/theme.css';
+const asyncHome = Loadable({loader: () => import('../page/home/index.jsx'), loading: Loading});
+const asyncLogin = Loadable({loader: () => import('../page/login/index.jsx'), loading: Loading});
+const asyncProduct = Loadable({loader: () => import('../page/product/index.jsx'), loading: Loading})
+const asyncCart = Loadable({loader: () => import('../page/cart/index.jsx'), loading: Loading})
+const asyncManagerIndex = Loadable({loader: () => import('../page/member/index/index.jsx'), loading: Loading});
+const asyncOrderIndex = Loadable({loader: () => import('../page/order/index/index.jsx'), loading: Loading});
+const asyncAddOrder = Loadable({loader: () => import('../page/order/addOrder/index.jsx'), loading: Loading});
+const asyncInfo = Loadable({loader: () => import('../page/member/info/index.jsx'), loading: Loading});
+const asyncMembers = Loadable({loader: () => import('../page/member/members/index.jsx'), loading: Loading});
 
-class LayoutRouter extends React.Component{
-    constructor(props){
-        super(props);
-    }
-    render(){
-        return (
-            <Router>
-                <React.Fragment>
-                    <main id="wrapper">
-                        <Switch>
-                            <Route exact path='/' component={ Home } />
-                            <Route path='/product/:channelName' component={ Product } />
-                            <Route path='/member' component={ Manager } />
-                        </Switch>
-                    </main>
-                </React.Fragment>
-            </Router> 
-        )
-    }
-}
+ const MemberRouter =(match) => (
+    <Member>
+        <Switch>
+            <Route path={`/member/index`} component={asyncManagerIndex} />
+            <Route path={`/order/index/:orderState?`} component={asyncOrderIndex} />
+            <Route path={`/member/info`} component={asyncInfo} />
+            <Route path={`/member/members`} component={asyncMembers} />
+        </Switch>
+    </Member>
+) 
 
+const LayoutRouter = ({ match }) => (
+    <Switch>
+        <Route path={`/login/index`} component={asyncLogin} /> 
+        <Route path={`/`} exact component={asyncHome} />
+        <Route path={`/login/index`} component={asyncLogin} />
+        <Route path={`/product/:channelName`} component={asyncProduct} />
+        <Route path={`/cart/index`} component={asyncCart} />
+        <Route path={`/order/addOrder/:cartIds`} component={asyncAddOrder} />
+        <MemberRouter />
+    </Switch>
+) 
 
 export default LayoutRouter;

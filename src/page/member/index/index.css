@@ -69,56 +69,13 @@
   float: left;
 }
 
-.managerIndex .orderState_list .orderState_item .orderState {
-  display: inline-block;
-  width: 100%;
-  height: 40px;
-  line-height: 40px;
-  text-align: center;
-  color: #000;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.managerIndex .orderState_list .orderState_item .orderState img {
-  vertical-align: middle;
-}
-
-.managerIndex .orderState_list .orderState_item .orderState .text {
-  display: inline-block;
-  border-bottom: 4px solid transparent;
-  vertical-align: middle;
-}
-
-.managerIndex .orderState_list .orderState_item .orderState input[type="radio"] {
-  position: absolute;
-  left: -9999em;
-}
-
-.managerIndex .order_state li {
-  width: 16.6666%;
-  height: 60px;
-  line-height: 60px;
-  background: #f8f7f7;
-  float: left;
-  text-align: center;
-}
-
-.managerIndex .order_state li a {
+.managerIndex .orderState_list .orderState_item .text {
   display: inline-block;
   height: 40px;
   line-height: 40px;
   color: #000;
   font-weight: bold;
-}
-
-.managerIndex .order_state li a img {
-  vertical-align: middle;
-}
-
-.managerIndex .order_state li a span {
-  vertical-align: middle;
-  margin-left: 10px;
+  margin-left: 5px;
 }
 
 .managerIndex .orders_received {
@@ -174,12 +131,7 @@
   box-sizing: border-box;
 }
 
-.managerIndex .orders_received .title_wrap .dayList .btn input[type="radio"] {
-  position: absolute;
-  left: -999em;
-}
-
-.managerIndex .orders_received .title_wrap .dayList .btn input[type="radio"]:checked ~ .text {
+.managerIndex .orders_received .title_wrap .dayList .btn.active {
   background: #ff0000;
   border: 1px solid #ff0000;
   color: #fff;

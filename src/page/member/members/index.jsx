@@ -25,7 +25,7 @@ class Members extends React.Component{
 				render: (text ,record) => {
 					return <div>
 						<span>{text}</span>
-						{record["IsSys"] == 1 ? <span class="badge">系统</span> :  null}
+						{record["IsSys"] == 1 ? <span className="badge">系统</span> :  null}
 					</div>			
 				}
 			}, {
